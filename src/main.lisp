@@ -10,10 +10,12 @@
     (format *error-output* "Please, provide a system name.~%")
     (uiop:quit 1))
 
-  (log:config :debug :stream *error-output*)
+  (log:config :debug
+              :sane2
+              :stream *error-output*)
 
   (let* ((system-name (first argv)))
-    (log:info "Quickloading system ~S" system-name)
+    (log:info "Quickloading system2 ~S" system-name)
     (ql:quickload system-name
                   :silent t)
 
