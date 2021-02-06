@@ -13,7 +13,7 @@
 
   (let ((*trace-output* *error-output*)
         (*terminal-io* *error-output*))
-    (log:config :debug)
+    (log:config :debug :sane)
 
     (let* ((system-name (first argv)))
       (log:info "Quickloading system ~S" system-name)
