@@ -45,6 +45,10 @@
       (main-section
        (log:info "Building docs in \"~A\" dir"
                  target-dir)
+
+       (mgl-pax:update-asdf-system-readmes main-section
+                                           system)
+       
        (mgl-pax:update-asdf-system-html-docs
         main-section
         system
