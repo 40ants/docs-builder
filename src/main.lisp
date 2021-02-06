@@ -24,12 +24,14 @@
              (output-dir
                (docs-builder/api:build builder
                                        system-name)))
+        (unless output-dir
+          (log:error "Unable to build docs")
+          (uiop:quit 1))
 
-        (when output-dir
-          (let ((output-filename (second argv)))
-            (when output-filename
-              (alexandria:with-output-to-file (s output-filename
-                                                 :if-does-not-exist :create
-                                                 :if-exists :supersede)
-                (format s "~A~%"
-                        output-dir)))))))))
+        (let ((output-filename (second argv)))
+          (when output-filename
+            (alexandria:with-output-to-file (s output-filename
+                                               :if-does-not-exist :create
+                                               :if-exists :supersede)
+              (format s "~A~%"
+                      output-dir))))))))
