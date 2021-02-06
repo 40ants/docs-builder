@@ -1,7 +1,8 @@
 (defpackage #:docs-builder/main
   (:use #:cl)
   (:import-from #:docs-builder/api)
-  (:import-from #:log4cl))
+  (:import-from #:log4cl)
+  (:import-from #:alexandria))
 (in-package docs-builder/main)
 
 
@@ -25,5 +26,10 @@
                                        system-name)))
 
         (when output-dir
-          (format t "~A~%"
-                  output-dir))))))
+          (let ((output-filename (second argv)))
+            (when output-filename
+              (alexandria:with-output-to-file (s output-filename
+                                                 :if-does-not-exist :create
+                                                 :if-exists :supersede)
+                (format s "~A~%"
+                        output-dir)))))))))
