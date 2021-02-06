@@ -14,6 +14,12 @@
               :sane2
               :stream *error-output*)
 
+  (log:info "Checking if error and stdout are the same"
+            *error-output*
+            *standard-output*
+            (eql             *error-output*
+                             *standard-output*))
+
   (let* ((system-name (first argv)))
     (log:info "Quickloading system2 ~S" system-name)
     (ql:quickload system-name
