@@ -16,5 +16,4 @@ exec ros -Q -- $0 "$@"
                 #:main))
 (in-package :ros.script.build-docs)
 
-
 ;;; vim: set ft=lisp lisp:

@@ -10,26 +10,20 @@
     (format *error-output* "Please, provide a system name.~%")
     (uiop:quit 1))
 
-  (log:config :debug
-              :sane2
-              :stream *error-output*)
+  (let ((*trace-output* *error-output*)
+        (*terminal-io* *error-output*))
+    (log:config :debug)
 
-  (log:info "Checking if error and stdout are the same"
-            *error-output*
-            *standard-output*
-            (eql             *error-output*
-                             *standard-output*))
+    (let* ((system-name (first argv)))
+      (log:info "Quickloading system ~S" system-name)
+      (ql:quickload system-name
+                    :silent t)
 
-  (let* ((system-name (first argv)))
-    (log:info "Quickloading system2 ~S" system-name)
-    (ql:quickload system-name
-                  :silent t)
+      (let* ((builder (docs-builder/api:make-builder system-name))
+             (output-dir
+               (docs-builder/api:build builder
+                                       system-name)))
 
-    (let* ((builder (docs-builder/api:make-builder system-name))
-           (output-dir
-             (docs-builder/api:build builder
-                                     system-name)))
-
-      (when output-dir
-        (format t "~A~%"
-                output-dir)))))
+        (when output-dir
+          (format t "~A~%"
+                  output-dir))))))
