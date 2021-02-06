@@ -1,0 +1,20 @@
+#!/bin/sh
+#|-*- mode:lisp -*-|#
+#|
+exec ros -Q -- $0 "$@"
+|#
+(progn ;;init forms
+  (ros:ensure-asdf)
+  #+quicklisp
+  (ql:quickload '(:docs-builder
+                  :docs-builder/main)
+                :silent t))
+
+(defpackage :ros.script.build-docs
+  (:use :cl)
+  (:import-from #:docs-builder/main
+                #:main))
+(in-package :ros.script.build-docs)
+
+
+;;; vim: set ft=lisp lisp:
