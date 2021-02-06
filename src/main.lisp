@@ -6,19 +6,27 @@
 
 
 (defun main (&rest argv)
-  (unless argv
-    (format *error-output* "Please, provide a system name.~%")
-    (uiop:quit 1))
-  
-  (let* ((system-name (first argv)))
-    (log:info "Quickloading system ~S" system-name)
-    (ql:quickload system-name
-                  :silent t)
+  (let ((*terminal-io323* *error-output*))
+    (unless argv
+      (format *error-output* "Please, provide a system name.~%")
+      (uiop:quit 1))
 
-    (let* ((builder (docs-builder/api:make-builder system-name))
-           (output-dir
-             (docs-builder/api:build builder
-                                     system-name)))
-      (when output-dir
-        (format t "~A~%"
-                output-dir)))))
+    (log:config :debug :sane2)
+
+    (let* ((system-name (first argv)))
+      (log:info "Quickloading system ~S" system-name)
+      (ql:quickload system-name
+                    :silent t)
+
+      (let* ((builder (docs-builder/api:make-builder system-name))
+             (output-dir
+               (docs-builder/api:build builder
+                                       system-name)))
+
+        (when output-dir
+          (format t "~A~%"
+                  output-dir)
+          ;; (when (>= (length argv)
+          ;;           2)
+          ;;   )
+          )))))
