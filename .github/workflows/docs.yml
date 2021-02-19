@@ -1,39 +1,30 @@
-name: 'Build Docs'
+name: 'Docs'
 
 on:
+  # This will run tests on pushes
+  # to master branch and every monday:
   push:
     branches:
       - 'main'
       - 'master'
   schedule:
-    # rebuild docs at 10 AM every Monday
     - cron:  '0 10 * * 1'
 
 jobs:
-  build_docs:
+  build-docs:
     runs-on: ubuntu-latest
+    
+    env:
+      LISP: sbcl-bin
+
     steps:
       - uses: actions/checkout@v1
-      - name: Show env
-        run: 'env | sort -u'
-      - name: Install Roswell
-        env:
-          LISP: sbcl-bin
-        run: |
-          curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
-          echo /home/runner/.roswell/bin >> $GITHUB_PATH
-      - name: Check CL Version
-        run: |
-          ros install 40ants/cl-info
-          cl-info
-      - name: Install Qlot
-        run: ros install qlot
-      - name: Install Dependencies
-        run: qlot install
-      - name: Build docs
-        run: qlot exec docs/scripts/build.ros
-        env:
-          # This token is automaticall added to the secrets
-          # by GitHub. Read more here:
-          # https://docs.github.com/en/free-pro-team@latest/actions/reference/authentication-in-a-workflow
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: 40ants/setup-lisp@v1
+        with:
+          asdf-system: docs-builder
+          qlfile-template: |
+            github mgl-pax svetlyak40wt/mgl-pax :branch mgl-pax-minimal
+      
+      - uses: 40ants/build-docs@v1
+        with:
+          asdf-system: docs-builder
