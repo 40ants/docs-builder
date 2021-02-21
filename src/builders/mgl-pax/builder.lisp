@@ -57,5 +57,5 @@
        
        (values target-dir))
       (t
-       (log:error "Unable to find @index section in the \"~S\" system"
-                  system)))))
+       (error "Unable to find @INDEX section in the ~S package"
+              (asdf:component-name system))))))
