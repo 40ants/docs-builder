@@ -73,10 +73,7 @@ Then it will pass the builder object and `ASDF` system to the [`DOCS-BUILDER/BUI
 Here is an example how to build documentation for `:docs-builder` `ASDF` system:
 
 ```lisp
-CL-USER> (docs-builder:make-builder :docs-builder)
-#<DOCS-BUILDER/BUILDERS/MGL-PAX/BUILDER::BUILDER {1006652DB3}>
-
-CL-USER> (docs-builder:build * :docs-builder)
+CL-USER> (docs-builder:build :docs-builder)
  <INFO> [02:12:00] docs-builder/core core.lisp (build :before system) -
   Building docs for system #<PACKAGE-INFERRED-SYSTEM "docs-builder"> found at /Users/art/projects/docs-builder/
  <INFO> [02:12:00] docs-builder/builders/mgl-pax/builder builder.lisp (build builder system) -
@@ -280,11 +277,8 @@ documentation and return a path to the folder.
 Finally, we can build our documentation:
 
 ```
-CL-USER> (docs-builder:make-builder :example)
-#<DOCS-BUILDER/BUILDERS/GENEVA/BUILDER::BUILDER {1001F86FE3}>
-
-CL-USER> (docs-builder:build * :example)
- <INFO> [02:28:07] docs-builder/core slimeBOCrG2 (build :around system) -
+CL-USER> (docs-builder:build :example)
+ <INFO> [23:53:48] docs-builder/builder builder.lisp (build :around system) -
   Building docs for system #<PACKAGE-INFERRED-SYSTEM "example"> found at /Users/art/cl-doc-systems/geneva/
 #P"/Users/art/cl-doc-systems/geneva/docs/build/"
 ```
@@ -308,6 +302,9 @@ will be used to build documentation.
 During the `BUILD` phase, the builder will try to find `THE-PACKAGE:@INDEX` symbol in a
 package with the same name as the system's name. It should be a section, defined
 with `MGL-PAX-MINIMAL:DEFSECTION` macro.
+
+*Note*, that this builder not only renders HTML documentation, but also updates
+README files in the system's root directory.
 
 <a id='x-28DOCS-BUILDER-2FBUILDERS-2FMGL-PAX-2FGUESSER-3A-40TODO-20MGL-PAX-MINIMAL-3ASECTION-29'></a>
 
