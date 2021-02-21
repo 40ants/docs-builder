@@ -44,29 +44,31 @@ using the [GitHub action](https://40ants.com/build-docs).
 
 ### 1.1 REPL
 
-From the REPL, you need first to create a builder for the system using this generic function:
+From the REPL, you need first to call a BUILD fuction:
 
-<a id='x-28DOCS-BUILDER-3AMAKE-BUILDER-20GENERIC-FUNCTION-29'></a>
+<a id='x-28DOCS-BUILDER-3ABUILD-20FUNCTION-29'></a>
 
-- [generic-function] **DOCS-BUILDER:MAKE-BUILDER** *SYSTEM*
+- [function] **DOCS-BUILDER:BUILD** *SYSTEM*
 
-    Returns a builder object which can be passed to the BUILD method along with system.
-    
-    The builder type is guessed using different euristics which depends on a documentation system.
-    
-    If you want to add support for a new documentation generator, use DEF-DOCBUILDER-GUESSER macro.
+Inside, it will try to guess which documentation builder should be used:
 
-Then you need to pass the object returned by `MAKE-BUILDER` to the BUILD function:
+<a id='x-28DOCS-BUILDER-2FGUESSER-3AGUESS-BUILDER-20GENERIC-FUNCTION-29'></a>
 
-<a id='x-28DOCS-BUILDER-3AMAKE-BUILDER-20GENERIC-FUNCTION-29'></a>
-
-- [generic-function] **DOCS-BUILDER:MAKE-BUILDER** *SYSTEM*
+- [generic-function] **DOCS-BUILDER/GUESSER:GUESS-BUILDER** *SYSTEM*
 
     Returns a builder object which can be passed to the BUILD method along with system.
     
     The builder type is guessed using different euristics which depends on a documentation system.
     
-    If you want to add support for a new documentation generator, use DEF-DOCBUILDER-GUESSER macro.
+    If you want to add support for a new documentation generator, use DEFGUESSER macro.
+
+Then it will pass the builder object and `ASDF` system to the [`DOCS-BUILDER/BUILDER:BUILD`][0169] function:
+
+<a id='x-28DOCS-BUILDER-2FBUILDER-3ABUILD-20GENERIC-FUNCTION-29'></a>
+
+- [generic-function] **DOCS-BUILDER/BUILDER:BUILD** *BUILDER SYSTEM*
+
+    Builds HTML documentation for `ASDF` system and returns absolute path to the dir with docs.
 
 Here is an example how to build documentation for `:docs-builder` `ASDF` system:
 
@@ -195,14 +197,14 @@ to be used for documentation generation. Euristics are incapulated in
 and define a simple guesser, which will return the `builder` class defined
 in the previous section if a file `docs/sources/index.mk2` exists.
 
-To define a guesser, we'll be using [`DOCS-BUILDER/API:DEF-DOCBUILDER-GUESSER`][a1ad] macro:
+To define a guesser, we'll be using [`DOCS-BUILDER/GUESSER:DEFGUESSER`][3656] macro:
 
-<a id='x-28DOCS-BUILDER-3ADEF-DOCBUILDER-GUESSER-20-28MGL-PAX-MINIMAL-3AMACRO-29-29'></a>
+<a id='x-28DOCS-BUILDER-2FGUESSER-3ADEFGUESSER-20-28MGL-PAX-MINIMAL-3AMACRO-29-29'></a>
 
-- [macro] **DOCS-BUILDER:DEF-DOCBUILDER-GUESSER** *NAME (SYSTEM) &BODY BODY*
+- [macro] **DOCS-BUILDER/GUESSER:DEFGUESSER** *NAME (SYSTEM) &BODY BODY*
 
 ```
-(docs-builder/api:def-docbuilder-guesser geneva (system)
+(docs-builder/guesser:defguesser geneva (system)
   (when (probe-file
          (asdf:system-relative-pathname system
                                         "docs/source/index.mk2"))
@@ -233,7 +235,7 @@ This way, it will be loaded along with the primary system while
 `geneva/builder` and it's dependencies will be loaded only
 if the system we are building documentation for is using Geneva.
 
-Now we can call `MAKE-BUILDER` to create a builder for example
+Now we can call MAKE-BUILDER to create a builder for example
 system:
 
 ```
@@ -247,11 +249,11 @@ CL-USER> (docs-builder:make-builder :example)
 #### 1.4.3 Add a Build Method
 
 Now open a `src/builders/geneva/builder.lisp` file again and
-add `DOCS-BUILDER/API:BUILD` method. The method should build HTML
+add [`DOCS-BUILDER/BUILDER:BUILD`][0169] method. The method should build HTML
 documentation and return a path to the folder.
 
 ```
-(defmethod docs-builder/api:build ((builder builder) (system asdf:system))
+(defmethod docs-builder/builder:build ((builder builder) (system asdf:system))
   (let* ((docs-source-dir
            (asdf:system-relative-pathname system
                                           "docs/source/"))
@@ -300,7 +302,8 @@ and build API reference for the primary system and all package inferred subsyste
 
 ###### \[in package DOCS-BUILDER/BUILDERS/MGL-PAX/GUESSER\]
 This guesser tries to find if your system depends on `MGL-PAX-MINIMAL` system.
-If it is, then the `MGL-PAX` will be used to build documentation.
+If it is, then the [MGL-PAX](https://github.com/melisgl/mgl-pax)
+will be used to build documentation.
 
 During the `BUILD` phase, the builder will try to find `THE-PACKAGE:@INDEX` symbol in a
 package with the same name as the system's name. It should be a section, defined
@@ -321,14 +324,14 @@ with `MGL-PAX-MINIMAL:DEFSECTION` macro.
 ### 2.2 Geneva
 
 ###### \[in package DOCS-BUILDER/BUILDERS/GENEVA/GUESSER\]
-This guesser tries to find a file "docs/sources/index.mk2" and if it exists
+This guesser tries to find a file `docs/sources/index.mk2` and if it exists
 then [Geneva](https://github.com/eugeneia/geneva) documentation generator will be used.
 
 <a id='x-28DOCS-BUILDER-2FBUILDERS-2FGENEVA-2FGUESSER-3A-40TODO-20MGL-PAX-MINIMAL-3ASECTION-29'></a>
 
 #### 2.2.1 What is next
 
-- make builder to process all `*.mk2` files in the "docs/sources/" dir.
+- make builder to process all `*.mk2` files in the `docs/sources/` dir.
 
 - build API reference pages for all packages created by the system.
 
@@ -345,15 +348,16 @@ then [Geneva](https://github.com/eugeneia/geneva) documentation generator will b
 - Add ability to put a configuration file into the reporitory, for fine-tunning the builder.
 
 
+  [0169]: #x-28DOCS-BUILDER-2FBUILDER-3ABUILD-20GENERIC-FUNCTION-29 "(DOCS-BUILDER/BUILDER:BUILD GENERIC-FUNCTION)"
   [0ad6]: #x-28DOCS-BUILDER-2FDOCS-3A-40SUPPORTED-BUILDERS-20MGL-PAX-MINIMAL-3ASECTION-29 "Supported Docs Generators"
   [20a2]: #x-28DOCS-BUILDER-2FDOCS-3A-40EXTENDING-20MGL-PAX-MINIMAL-3ASECTION-29 "Extending"
   [2782]: #x-28DOCS-BUILDER-2FDOCS-3A-40ADDING-A-GUESSER-20MGL-PAX-MINIMAL-3ASECTION-29 "Guessing a Doc Generator"
+  [3656]: #x-28DOCS-BUILDER-2FGUESSER-3ADEFGUESSER-20-28MGL-PAX-MINIMAL-3AMACRO-29-29 "(DOCS-BUILDER/GUESSER:DEFGUESSER (MGL-PAX-MINIMAL:MACRO))"
   [5697]: #x-28DOCS-BUILDER-2FDOCS-3A-40GITHUB-ACTION-USAGE-20MGL-PAX-MINIMAL-3ASECTION-29 "GitHub Action"
   [701a]: #x-28DOCS-BUILDER-2FBUILDERS-2FGENEVA-2FGUESSER-3A-40TODO-20MGL-PAX-MINIMAL-3ASECTION-29 "What is next"
   [87ec]: #x-28DOCS-BUILDER-2FDOCS-3A-40ROADMAP-20MGL-PAX-MINIMAL-3ASECTION-29 "Roadmap"
   [8960]: #x-28DOCS-BUILDER-2FDOCS-3A-40USAGE-20MGL-PAX-MINIMAL-3ASECTION-29 "Usage"
   [9b0c]: #x-28DOCS-BUILDER-2FBUILDERS-2FMGL-PAX-2FGUESSER-3A-40INDEX-20MGL-PAX-MINIMAL-3ASECTION-29 "MGL-PAX"
-  [a1ad]: #x-28DOCS-BUILDER-3ADEF-DOCBUILDER-GUESSER-20-28MGL-PAX-MINIMAL-3AMACRO-29-29 "(DOCS-BUILDER:DEF-DOCBUILDER-GUESSER (MGL-PAX-MINIMAL:MACRO))"
   [b5c9]: #x-28DOCS-BUILDER-2FDOCS-3A-40COMMAND-LINE-USAGE-20MGL-PAX-MINIMAL-3ASECTION-29 "Command-line"
   [ba39]: #x-28DOCS-BUILDER-2FDOCS-3A-40ADDING-A-BUILDER-CLASS-20MGL-PAX-MINIMAL-3ASECTION-29 "Add a Builder Class"
   [d527]: #x-28DOCS-BUILDER-2FDOCS-3A-40ADDING-A-BUILD-METHOD-20MGL-PAX-MINIMAL-3ASECTION-29 "Add a Build Method"

@@ -40,22 +40,23 @@ using the [GitHub action](https://40ants.com/build-docs)."
 
 
 (defsection @repl-usage (:title "REPL")
-  "From the REPL, you need first to create a builder for the system using this generic function:"
+  "From the REPL, you need first to call a BUILD fuction:"
+  
+  (docs-builder:build function)
 
-  (docs-builder/api:make-builder generic-function)
+  "Inside, it will try to guess which documentation builder should be used:"
+  
+  (docs-builder/guesser:guess-builder generic-function)
 
   "
-Then you need to pass the object returned by MAKE-BUILDER to the BUILD function:"
+Then it will pass the builder object and ASDF system to the DOCS-BUILDER/BUILDER:BUILD function:"
 
-  (docs-builder/api:make-builder generic-function)
+  (docs-builder/builder:build generic-function)
 
   "Here is an example how to build documentation for `:docs-builder` ASDF system:
 
 ```lisp
-CL-USER> (docs-builder:make-builder :docs-builder)
-#<DOCS-BUILDER/BUILDERS/MGL-PAX/BUILDER::BUILDER {1006652DB3}>
-
-CL-USER> (docs-builder:build * :docs-builder)
+CL-USER> (docs-builder:build :docs-builder)
  <INFO> [02:12:00] docs-builder/core core.lisp (build :before system) -
   Building docs for system #<PACKAGE-INFERRED-SYSTEM \"docs-builder\"> found at /Users/art/projects/docs-builder/
  <INFO> [02:12:00] docs-builder/builders/mgl-pax/builder builder.lisp (build builder system) -
@@ -183,14 +184,14 @@ to be used for documentation generation. Euristics are incapulated in
 and define a simple guesser, which will return the `builder` class defined
 in the previous section if a file `docs/sources/index.mk2` exists.
 
-To define a guesser, we'll be using DOCS-BUILDER/API:DEF-DOCBUILDER-GUESSER macro:
+To define a guesser, we'll be using DOCS-BUILDER/GUESSER:DEFGUESSER macro:
 
 "
-  (docs-builder/api:def-docbuilder-guesser macro)
+  (docs-builder/guesser:defguesser macro)
 
   "
 ```
-(docs-builder/api:def-docbuilder-guesser geneva (system)
+(docs-builder/guesser:defguesser geneva (system)
   (when (probe-file
          (asdf:system-relative-pathname system
                                         \"docs/source/index.mk2\"))
@@ -234,11 +235,11 @@ CL-USER> (docs-builder:make-builder :example)
 (defsection @adding-a-build-method (:title "Add a Build Method")
   "
 Now open a `src/builders/geneva/builder.lisp` file again and
-add DOCS-BUILDER/API:BUILD method. The method should build HTML
+add DOCS-BUILDER/BUILDER:BUILD method. The method should build HTML
 documentation and return a path to the folder.
 
 ```
-(defmethod docs-builder/api:build ((builder builder) (system asdf:system))
+(defmethod docs-builder/builder:build ((builder builder) (system asdf:system))
   (let* ((docs-source-dir
            (asdf:system-relative-pathname system
                                           \"docs/source/\"))
@@ -265,11 +266,8 @@ documentation and return a path to the folder.
 Finally, we can build our documentation:
 
 ```
-CL-USER> (docs-builder:make-builder :example)
-#<DOCS-BUILDER/BUILDERS/GENEVA/BUILDER::BUILDER {1001F86FE3}>
-
-CL-USER> (docs-builder:build * :example)
- <INFO> [02:28:07] docs-builder/core slimeBOCrG2 (build :around system) -
+CL-USER> (docs-builder:build :example)
+ <INFO> [23:53:48] docs-builder/builder builder.lisp (build :around system) -
   Building docs for system #<PACKAGE-INFERRED-SYSTEM \"example\"> found at /Users/art/cl-doc-systems/geneva/
 #P\"/Users/art/cl-doc-systems/geneva/docs/build/\"
 ```

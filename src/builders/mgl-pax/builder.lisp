@@ -38,7 +38,7 @@
               :source-uri-fn (make-github-source-uri-fn system))))
 
 
-(defmethod docs-builder:build ((builder builder) (system asdf:system))
+(defmethod docs-builder/builder:build ((builder builder) (system asdf:system))
   (let ((main-section (find-main-section system))
         (target-dir (uiop:merge-pathnames* #P"docs/build/")))
     (cond

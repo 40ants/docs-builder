@@ -1,6 +1,6 @@
 (defpackage #:docs-builder/main
   (:use #:cl)
-  (:import-from #:docs-builder/api)
+  (:import-from #:docs-builder/core)
   (:import-from #:log4cl)
   (:import-from #:alexandria))
 (in-package docs-builder/main)
@@ -20,10 +20,8 @@
       (ql:quickload system-name
                     :silent t)
 
-      (let* ((builder (docs-builder/api:make-builder system-name))
-             (output-dir
-               (docs-builder/api:build builder
-                                       system-name)))
+      (let* ((output-dir (ignore-errors
+                          (docs-builder/core:build system-name))))
         (unless output-dir
           (log:error "Unable to build docs")
           (uiop:quit 1))

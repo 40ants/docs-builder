@@ -2,7 +2,7 @@
   (:use #:cl)
   (:import-from #:geneva.html)
   (:import-from #:geneva.mk2)
-  (:import-from #:docs-builder/api))
+  (:import-from #:docs-builder/builder))
 (in-package docs-builder/builders/geneva/builder)
 
 
@@ -10,7 +10,7 @@
   ())
 
 
-(defmethod docs-builder/api:build ((builder builder) (system asdf:system))
+(defmethod docs-builder/builder:build ((builder builder) (system asdf:system))
   (let* ((docs-source-dir
            (asdf:system-relative-pathname system
                                           "docs/source/"))

@@ -1,6 +1,6 @@
 (defpackage #:docs-builder/builders/geneva/guesser
   (:use #:cl)
-  (:import-from #:docs-builder/api)
+  (:import-from #:docs-builder/guesser)
   (:import-from #:mgl-pax-minimal
                 #:defsection
                 #:section
@@ -21,7 +21,7 @@ then [Geneva](https://github.com/eugeneia/geneva) documentation generator will b
 - build API reference pages for all packages created by the system.")
 
 
-(docs-builder/api:def-docbuilder-guesser geneva (system)
+(docs-builder/guesser:defguesser geneva (system)
   (when (probe-file
          (asdf:system-relative-pathname system
                                         "docs/source/index.mk2"))
