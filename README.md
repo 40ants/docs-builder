@@ -116,7 +116,7 @@ would be to use [Github Pages](https://pages.github.com/).
 
 To build docs and update the site, create a file `.github/workflows/docs.yml` with a content like this:
 
-```yml
+```yaml
 name: 'Docs'
 
 on:
