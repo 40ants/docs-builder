@@ -1,6 +1,6 @@
 # Docs Builder
 
-###### \[in package DOCS-BUILDER with nicknames DOCS-BUILDER/API\]
+###### \[in package DOCS-BUILDER/DOCS\]
 This system is a generic documentation builder for Common Lisp Systems.
 It able to generate HTML documentation for specified ASDF system.
 
@@ -23,7 +23,7 @@ using the [GitHub action](https://40ants.com/build-docs).
 
 From the REPL, you need first to create a builder for the system using this generic function:
 
-- [generic-function] MAKE-BUILDER SYSTEM
+- [generic-function] DOCS-BUILDER:MAKE-BUILDER SYSTEM
 
     Returns a builder object which can be passed to the BUILD method along with system.
     
@@ -33,7 +33,7 @@ From the REPL, you need first to create a builder for the system using this gene
 
 Then you need to pass the object returned by MAKE-BUILDER to the BUILD function:
 
-- [generic-function] MAKE-BUILDER SYSTEM
+- [generic-function] DOCS-BUILDER:MAKE-BUILDER SYSTEM
 
     Returns a builder object which can be passed to the BUILD method along with system.
     
@@ -124,6 +124,163 @@ jobs:
 ```
 
 You'll find more info in [the action's documentation](https://40ants.com/build-docs).
+
+### Extending
+
+Docs builder was made to be extensible and here we see how to add support for a new
+documentation generator. A documentation builder we'll use is a [Geneva](https://inters.co/geneva/open-geneva.html).
+
+Some time ago I've wrote [a template system](https://github.com/cl-doc-systems/geneva) to demonstrate how to
+document ASDF system using Geneva. Lets try to automate docs building and add Geneva support to the DOCS-BUILDER!
+
+First, we need a way to detect if the system uses the Geneva. This is done using "guesser".
+Let's define a guesser which will consider we are working with Geneva, if there is a `docs/source/index.mk2`
+file. Files with `*.mk2` extensions are special markup used by Geneva.
+
+#### Add a Builder Class
+
+First thing we need to do is to create a builder class.
+
+Create a `src/builders/geneva/builder.lisp` file with
+following content:
+
+```
+(defclass builder ()
+  ())
+```
+
+
+#### Guessing a Doc Generator
+
+DOCS-BUILDER uses a number of euristics to determine the CLOS class
+to be used for documentation generation. Euristics are incapulated in
+"guessers". Let's create a `src/builders/geneva/guesser.lisp` file
+and define a simple guesser, which will return the `builder` class defined
+in the previous section if a file `docs/sources/index.mk2` exists.
+
+To define a guesser, we'll be using DOCS-BUILDER/API:DEF-DOCBUILDER-GUESSER macro:
+
+- [macro] DOCS-BUILDER:DEF-DOCBUILDER-GUESSER NAME (SYSTEM) &BODY BODY
+
+```
+(docs-builder/api:def-docbuilder-guesser geneva (system)
+  (when (probe-file
+         (asdf:system-relative-pathname system
+                                        "docs/source/index.mk2"))
+    (ql:quickload :docs-builder/builders/geneva/builder
+                  :silent t)
+    (make-instance (intern "BUILDER" "DOCS-BUILDER/BUILDERS/GENEVA/BUILDER"))))
+```
+
+When all rules matched, guesser loads the builder package and all its dependencies.
+In our case, `Geneva` system will be loaded.
+
+Add this guesser file to the `docs-builder.asd` file:
+
+```
+(defsystem "docs-builder" 
+  :class :package-inferred-system
+  :author "Alexander Artemenko"
+  :license "Unlicense"
+  :pathname "src"
+  :description ""
+  :defsystem-depends-on ("mgl-pax-minimal")
+  :depends-on ("docs-builder/core"
+               "docs-builder/builders/mgl-pax/guesser"
+               "docs-builder/builders/geneva/guesser"))
+```
+
+This way, it will be loaded along with the primary system while
+`geneva/builder` and it's dependencies will be loaded only
+if the system we are building documentation for is using Geneva.
+
+Now we can call MAKE-BUILDER to create a builder for example
+system:
+
+```
+CL-USER> (docs-builder:make-builder :example)
+#<DOCS-BUILDER/BUILDERS/GENEVA/BUILDER::BUILDER {1003D89313}>
+```
+
+
+#### Add a Build Method
+
+Now open a `src/builders/geneva/builder.lisp` file again and
+add DOCS-BUILDER/API:BUILD method. The method should build HTML
+documentation and return a path to the folder.
+
+```
+(defmethod docs-builder/api:build ((builder builder) (system asdf:system))
+  (let* ((docs-source-dir
+           (asdf:system-relative-pathname system
+                                          "docs/source/"))
+         (docs-output-dir
+           (asdf:system-relative-pathname system
+                                          "docs/build/"))
+         (index-input-filename
+           (uiop:merge-pathnames* docs-source-dir
+                                  "index.mk2"))
+         (index-output-filename
+           (uiop:merge-pathnames* docs-output-dir
+                                  "index.html"))
+         (document (with-open-file (s index-input-filename)
+                     (geneva.mk2:read-mk2 s))))
+    (ensure-directories-exist docs-output-dir)
+    
+    (uiop:with-output-file (s index-output-filename
+                              :if-exists :supersede)
+      (geneva.html:render-html document :stream s)
+      ;; Return a directory with resulting docs:
+      docs-output-dir)))
+```
+
+Finally, we can build our documentation:
+
+```
+CL-USER> (docs-builder:make-builder :example)
+#<DOCS-BUILDER/BUILDERS/GENEVA/BUILDER::BUILDER {1001F86FE3}>
+
+CL-USER> (docs-builder:build * :example)
+ <INFO> [02:28:07] docs-builder/core slimeBOCrG2 (build :around system) -
+  Building docs for system #<PACKAGE-INFERRED-SYSTEM "example"> found at /Users/art/cl-doc-systems/geneva/
+#P"/Users/art/cl-doc-systems/geneva/docs/build/"
+```
+
+Of cause, in reality this method could be a more complex. It should process all `*.mk2` files
+and build API reference for the primary system and all package inferred subsystems.
+
+## Supported Docs Generators
+
+### MGL-PAX
+
+###### \[in package DOCS-BUILDER/BUILDERS/MGL-PAX/GUESSER\]
+This guesser tries to find if your system depends on MGL-PAX-MINIMAL system.
+If it is, then the MGL-PAX will be used to build documentation.
+
+During the `BUILD` phase, the builder will try to find `THE-PACKAGE:@INDEX` symbol in a
+package with the same name as the system's name. It should be a section, defined
+with MGL-PAX-MINIMAL:DEFSECTION macro.
+
+#### What is next
+
+- collect all sections from the system's packages and build pages
+  for all root sections.
+
+- build a ChangeLog.md out of changelog.lisp, if it is exists
+
+
+### Geneva
+
+###### \[in package DOCS-BUILDER/BUILDERS/GENEVA/GUESSER\]
+This guesser tries to find a file "docs/sources/index.mk2" and if it exists
+then [Geneva](https://github.com/eugeneia/geneva) documentation generator will be used.
+
+#### What is next
+
+- make builder to process all `*.mk2` files in the "docs/sources/" dir.
+
+- build API reference pages for all packages created by the system.
+
 
 ## Roadmap
 

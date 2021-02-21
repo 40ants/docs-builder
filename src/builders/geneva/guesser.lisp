@@ -1,7 +1,24 @@
 (defpackage #:docs-builder/builders/geneva/guesser
   (:use #:cl)
-  (:import-from #:docs-builder/api))
+  (:import-from #:docs-builder/api)
+  (:import-from #:mgl-pax-minimal
+                #:defsection
+                #:section
+                #:macro))
 (in-package docs-builder/builders/geneva/guesser)
+
+
+(defsection @index (:title "Geneva")
+  "This guesser tries to find a file `docs/sources/index.mk2` and if it exists
+then [Geneva](https://github.com/eugeneia/geneva) documentation generator will be used.
+"
+  (@todo section))
+
+
+(defsection @todo (:title "What is next")
+  "
+- make builder to process all `*.mk2` files in the `docs/sources/` dir.
+- build API reference pages for all packages created by the system.")
 
 
 (docs-builder/api:def-docbuilder-guesser geneva (system)

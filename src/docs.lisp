@@ -3,7 +3,9 @@
   (:import-from #:mgl-pax-minimal
                 #:defsection
                 #:section
-                #:macro))
+                #:macro)
+  (:import-from #:docs-builder/builders/mgl-pax/guesser)
+  (:import-from #:docs-builder/builders/geneva/guesser))
 (in-package docs-builder/docs)
 
 
@@ -23,6 +25,7 @@ can be extended to support other documentation builders, covered by examples in 
 [cl-doc-systems.github.io](https://cl-doc-systems.github.io/)."
 
   (@usage section)
+  (@supported-builders section)
   (@roadmap section))
 
 
@@ -275,3 +278,8 @@ Of cause, in reality this method could be a more complex. It should process all 
 and build API reference for the primary system and all package inferred subsystems.
 
 ")
+
+
+(defsection @supported-builders (:title "Supported Docs Generators")
+  (docs-builder/builders/mgl-pax/guesser:@index section)
+  (docs-builder/builders/geneva/guesser:@index section))
