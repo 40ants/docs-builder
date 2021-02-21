@@ -31,7 +31,13 @@
   (build builder (asdf:find-system system)))
 
 
-(defmethod build :before ((builder t) (system asdf:system))
+(defmethod build :around ((builder t) (system asdf:system))
   (log:info "Building docs for system ~A found at ~A"
             system
-            (asdf:system-relative-pathname system "")))
+            (asdf:system-relative-pathname system ""))
+  (let ((result (call-next-method)))
+    (when (or (null result)
+              (not (uiop:directory-exists-p result)))
+      (error "BUILD method of (~S ~S) should return a pathname to a directory with HTML docs."
+             builder system))
+    result))
