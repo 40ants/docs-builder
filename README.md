@@ -1,6 +1,6 @@
 <a id='x-28DOCS-BUILDER-3A-40INDEX-20MGL-PAX-MINIMAL-3ASECTION-29'></a>
 
-# Docs Builder
+# Common Lisp Docs Builder
 
 ## Table of Contents
 
@@ -314,9 +314,6 @@ README files in the system's root directory.
 <a id='x-28DOCS-BUILDER-2FBUILDERS-2FMGL-PAX-2FGUESSER-3A-40TODO-20MGL-PAX-MINIMAL-3ASECTION-29'></a>
 
 #### 2.1.1 What is next
-
-- collect all sections from the system's packages and build pages
-  for all root sections.
 
 - build a ChangeLog.md out of changelog.lisp, if it is exists
 
