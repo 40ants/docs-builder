@@ -23,8 +23,23 @@ Otherwise `index.html` page will not be created.
 Algorithm searches section amongh all exported symbols. If you don't want it to find
 some root section, just pass `:export nil` to the MGL-PAX-MINIMAL:DEFSECTION.
 
+If you want your documentation link back to the GitHub sources, make sure
+you have either `:homepage` or `:source-control` in your ASDF definition:
+
+```
+(asdf:defsystem #:example
+  :licence \"MIT\"
+  :version \"0.0.3\"
+  :author \"John Doe\"
+  :mailto \"john@doe.me\"
+  :homepage \"https://github.com/john-doe/example\"
+  :source-control (:git \"https://github.com/john-doe/example\")
+  ...)
+```
+
 *Note*, that this builder not only renders HTML documentation, but also updates
-README files in the system's root directory."
+README files in the system's root directory.
+"
   
   (@todo section))
 
