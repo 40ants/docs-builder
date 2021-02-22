@@ -4,7 +4,9 @@
   (:import-from #:mgl-pax-minimal
                 #:defsection
                 #:section
-                #:macro))
+                #:macro)
+  (:import-from #:docs-builder/utils
+                #:external-dependencies))
 (in-package docs-builder/builders/mgl-pax/guesser)
 
 
@@ -34,7 +36,7 @@ README files in the system's root directory."
 
 (docs-builder/guesser:defguesser mgl-pax (system)
   (when (member "mgl-pax-minimal"
-                (docs-builder/utils:external-dependencies system)
+                (external-dependencies system)
                 :test #'string-equal)
     (ql:quickload :docs-builder/builders/mgl-pax/builder
                   :silent t)
