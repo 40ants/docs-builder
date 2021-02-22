@@ -1,4 +1,4 @@
-<a id='x-28DOCS-BUILDER-3A-3A-40INDEX-20MGL-PAX-MINIMAL-3ASECTION-29'></a>
+<a id='x-28DOCS-BUILDER-3A-40INDEX-20MGL-PAX-MINIMAL-3ASECTION-29'></a>
 
 # Docs Builder
 
@@ -17,7 +17,8 @@
         - [2.1.1 What is next][f6ff]
     - [2.2 Geneva][f2b9]
         - [2.2.1 What is next][701a]
-- [3 Roadmap][87ec]
+- [3 Utilities][132a]
+- [4 Roadmap][87ec]
 
 ###### \[in package DOCS-BUILDER/DOCS\]
 This system is a generic documentation builder for Common Lisp Systems.
@@ -299,9 +300,13 @@ This guesser tries to find if your system depends on `MGL-PAX-MINIMAL` system.
 If it is, then the [MGL-PAX](https://github.com/melisgl/mgl-pax)
 will be used to build documentation.
 
-During the `BUILD` phase, the builder will try to find `THE-PACKAGE:@INDEX` symbol in a
-package with the same name as the system's name. It should be a section, defined
-with `MGL-PAX-MINIMAL:DEFSECTION` macro.
+During the `BUILD` phase, the builder will try to find `MGL-PAX` sections not refereced
+from any other sections. For each root section, builder will create a separate HTML
+page. If there are few root sections, make sure one of them is having @INDEX name.
+Otherwise `index.html` page will not be created.
+
+Algorithm searches section amongh all exported symbols. If you don't want it to find
+some root section, just pass `:export nil` to the `MGL-PAX-MINIMAL:DEFSECTION`.
 
 *Note*, that this builder not only renders HTML documentation, but also updates
 README files in the system's root directory.
@@ -333,9 +338,51 @@ then [Geneva](https://github.com/eugeneia/geneva) documentation generator will b
 - build API reference pages for all packages created by the system.
 
 
+<a id='x-28DOCS-BUILDER-2FUTILS-3A-40UTILS-20MGL-PAX-MINIMAL-3ASECTION-29'></a>
+
+## 3 Utilities
+
+###### \[in package DOCS-BUILDER/UTILS\]
+<a id='x-28DOCS-BUILDER-2FUTILS-3AEXTERNAL-DEPENDENCIES-20FUNCTION-29'></a>
+
+- [function] **EXTERNAL-DEPENDENCIES** *SYSTEM &KEY ALL*
+
+    Returns a list of string with names of external dependencies of the system.
+    
+    It works with package-inferred systems too, recursively collecting
+    external-dependencies of all subsystems.
+    
+    Warning! By default, this function does not return dependencies of dependencies.
+    To get them all, add `:ALL` `T` option.
+
+<a id='x-28DOCS-BUILDER-2FUTILS-3ASYSTEM-PACKAGES-20GENERIC-FUNCTION-29'></a>
+
+- [generic-function] **SYSTEM-PACKAGES** *SYSTEM*
+
+    Returns a list of packages created by `ASDF` system.
+    
+    Default implementation returns a package having the same name as a system
+    and all packages matched to package-inferred subsystems:
+    
+    ```
+    CL-USER> (docs-builder/utils:system-packages :docs-builder)
+    (#<PACKAGE "DOCS-BUILDER">
+     #<PACKAGE "DOCS-BUILDER/UTILS">
+     #<PACKAGE "DOCS-BUILDER/GUESSER">
+     #<PACKAGE "DOCS-BUILDER/BUILDERS/GENEVA/GUESSER">
+     #<PACKAGE "DOCS-BUILDER/BUILDER">
+     #<PACKAGE "DOCS-BUILDER/BUILDERS/MGL-PAX/GUESSER">
+     #<PACKAGE "DOCS-BUILDER/DOCS">
+     #<PACKAGE "DOCS-BUILDER/BUILDERS/MGL-PAX/BUILDER">)
+    ```
+    
+    This function can be used by builder to find pieces of documentation.
+    For example, [MGL-PAX][9b0c]
+    builder uses it to find documentation sections.
+
 <a id='x-28DOCS-BUILDER-2FDOCS-3A-40ROADMAP-20MGL-PAX-MINIMAL-3ASECTION-29'></a>
 
-## 3 Roadmap
+## 4 Roadmap
 
 - Use [eazy-documentation](https://guicho271828.github.io/eazy-documentation/) as default fallback
   when no other builder was guessed.
@@ -347,6 +394,7 @@ then [Geneva](https://github.com/eugeneia/geneva) documentation generator will b
 
   [0169]: #x-28DOCS-BUILDER-2FBUILDER-3ABUILD-20GENERIC-FUNCTION-29 "(DOCS-BUILDER/BUILDER:BUILD GENERIC-FUNCTION)"
   [0ad6]: #x-28DOCS-BUILDER-2FDOCS-3A-40SUPPORTED-BUILDERS-20MGL-PAX-MINIMAL-3ASECTION-29 "Supported Docs Generators"
+  [132a]: #x-28DOCS-BUILDER-2FUTILS-3A-40UTILS-20MGL-PAX-MINIMAL-3ASECTION-29 "Utilities"
   [20a2]: #x-28DOCS-BUILDER-2FDOCS-3A-40EXTENDING-20MGL-PAX-MINIMAL-3ASECTION-29 "Extending"
   [2782]: #x-28DOCS-BUILDER-2FDOCS-3A-40ADDING-A-GUESSER-20MGL-PAX-MINIMAL-3ASECTION-29 "Guessing a Doc Generator"
   [3656]: #x-28DOCS-BUILDER-2FGUESSER-3ADEFGUESSER-20-28MGL-PAX-MINIMAL-3AMACRO-29-29 "(DOCS-BUILDER/GUESSER:DEFGUESSER (MGL-PAX-MINIMAL:MACRO))"

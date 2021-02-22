@@ -1,7 +1,6 @@
 (mgl-pax-minimal:define-package #:docs-builder/builders/mgl-pax/guesser
   (:use #:cl)
   (:import-from #:docs-builder/guesser)
-  (:import-from #:docs-builder/utils)
   (:import-from #:mgl-pax-minimal
                 #:defsection
                 #:section
@@ -14,9 +13,13 @@
 If it is, then the [MGL-PAX](https://github.com/melisgl/mgl-pax)
 will be used to build documentation.
 
-During the `BUILD` phase, the builder will try to find `THE-PACKAGE:@INDEX` symbol in a
-package with the same name as the system's name. It should be a section, defined
-with MGL-PAX-MINIMAL:DEFSECTION macro.
+During the `BUILD` phase, the builder will try to find MGL-PAX sections not refereced
+from any other sections. For each root section, builder will create a separate HTML
+page. If there are few root sections, make sure one of them is having \\@INDEX name.
+Otherwise `index.html` page will not be created.
+
+Algorithm searches section amongh all exported symbols. If you don't want it to find
+some root section, just pass `:export nil` to the MGL-PAX-MINIMAL:DEFSECTION.
 
 *Note*, that this builder not only renders HTML documentation, but also updates
 README files in the system's root directory."
@@ -26,8 +29,6 @@ README files in the system's root directory."
 
 (defsection @todo (:title "What is next")
   "
-- collect all sections from the system's packages and build pages
-  for all root sections.
 - build a ChangeLog.md out of changelog.lisp, if it is exists")
 
 

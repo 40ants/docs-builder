@@ -4,7 +4,8 @@
   (:import-from #:docs-builder/builder)
   (:import-from #:docs-builder/guesser)
   (:import-from #:log4cl)
-  (:export #:build))
+  (:export #:build
+           #:@index))
 (in-package docs-builder)
 
 

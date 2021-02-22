@@ -1,8 +1,12 @@
-(defpackage #:docs-builder/builders/mgl-pax/builder
+(mgl-pax-minimal:define-package #:docs-builder/builders/mgl-pax/builder
   (:use #:cl)
   (:import-from #:str)
   (:import-from #:mgl-pax)
-  (:import-from #:log4cl))
+  (:import-from #:log4cl)
+  (:import-from #:docs-builder/utils
+                #:system-packages)
+  (:import-from #:mgl-pax-minimal
+                #:section))
 (in-package docs-builder/builders/mgl-pax/builder)
 
 
@@ -10,19 +14,41 @@
   ())
 
 
-(defun find-main-section (system)
-  (let* ((system-name (asdf:primary-system-name system))
-         (package-name (string-upcase system-name))
-         (package (find-package package-name)))
-    ;; TODO: Probably we need to do something smarter here:     
-    (cond
-      (package
-        (let ((symbol (intern "@INDEX" package)))
-          (when (boundp symbol)
-            (symbol-value symbol))))
-      (t
-       (log:warn "No package ~S found"
-                 package-name)))))
+(defun find-all-sections (system)
+  (let ((packages (system-packages system)))
+    (loop with results = nil
+          for package in packages
+          do (do-external-symbols (symbol package)
+               (let ((value (and (boundp symbol)
+                                 (symbol-value symbol))))
+                 (when (and value
+                            (typep value
+                                   'section))
+                   (push value results))))
+          finally (return results))))
+
+
+(defun find-root-sections (system)
+  (let* ((sections (find-all-sections system))
+         (references
+           (loop for section in sections
+                 append (remove-if-not
+                         (lambda (obj)
+                           (typep obj 'mgl-pax-minimal:reference))
+                         (mgl-pax-minimal:section-entries section)))))
+    (loop for section in sections
+          for section-name = (mgl-pax-minimal:section-name section)
+          when (and
+                (not (member section-name
+                             references
+                             :key #'mgl-pax-minimal:reference-object))
+                ;; MGL-PAX package includes this section
+                ;; to collect all other sections into the "World":
+                ;; @mgl-pax-world-dummy
+                ;; It shouldn't be included into the documentation.
+                (not (string-equal (symbol-name section-name)
+                                   "@mgl-pax-world-dummy")))
+            collect section)))
 
 
 (defun make-github-source-uri-fn (system)
@@ -33,29 +59,41 @@
       (mgl-pax:make-github-source-uri-fn system url))))
 
 
-(defun make-pages (main-section system)
-  (list (list :objects (list main-section)
-              :source-uri-fn (make-github-source-uri-fn system))))
+(defun make-pages (root-sections system target-dir)
+  (loop for section in root-sections
+        collect (append
+                 (list :objects (list section)
+                       :source-uri-fn (make-github-source-uri-fn system))
+                 ;; When there is only one root section there is no
+                 ;; need to call it @index, we'll automatically
+                 ;; make it's name index.html
+                 (when (= (length root-sections) 1)
+                   (list :output (list (uiop:merge-pathnames* "index.html" target-dir)
+                                       :if-exists :supersede))))))
 
 
 (defmethod docs-builder/builder:build ((builder builder) (system asdf:system))
-  (let ((main-section (find-main-section system))
-        (target-dir (uiop:merge-pathnames* #P"docs/build/")))
+  (let ((root-sections (find-root-sections system))
+        (target-dir (asdf:system-relative-pathname system #P"docs/build/")))
     (cond
-      (main-section
+      (root-sections
        (log:info "Building docs in \"~A\" dir"
                  target-dir)
 
-       (mgl-pax:update-asdf-system-readmes main-section
+       (log:info "Found these root sections:" root-sections)
+
+       (mgl-pax:update-asdf-system-readmes root-sections
                                            system)
        
        (mgl-pax:update-asdf-system-html-docs
-        main-section
+        root-sections
         system
         :target-dir target-dir
-        :pages (make-pages main-section system))
+        :pages (make-pages root-sections system target-dir))
        
        (values target-dir))
       (t
-       (error "Unable to find @INDEX section in the ~S package"
+       (log:error "Unable to find any MGL-PAX section in the ~S system"
+                  (asdf:component-name system))
+       (error "Unable to find any MGL-PAX section in the ~S system"
               (asdf:component-name system))))))

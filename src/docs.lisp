@@ -5,11 +5,12 @@
                 #:section
                 #:macro)
   (:import-from #:docs-builder/builders/mgl-pax/guesser)
-  (:import-from #:docs-builder/builders/geneva/guesser))
+  (:import-from #:docs-builder/builders/geneva/guesser)
+  (:import-from #:docs-builder/utils))
 (in-package docs-builder/docs)
 
 
-(defsection docs-builder::@index (:title "Docs Builder")
+(defsection docs-builder:@index (:title "Docs Builder")
   "
 This system is a generic documentation builder for Common Lisp Systems.
 It able to generate HTML documentation for specified ASDF system.
@@ -26,6 +27,7 @@ can be extended to support other documentation builders, covered by examples in 
 
   (@usage section)
   (@supported-builders section)
+  (docs-builder/utils:@utils section)
   (@roadmap section))
 
 
