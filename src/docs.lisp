@@ -10,7 +10,7 @@
 (in-package docs-builder/docs)
 
 
-(defsection docs-builder:@index (:title "Docs Builder")
+(defsection docs-builder:@index (:title "Common Lisp Docs Builder")
   "
 This system is a generic documentation builder for Common Lisp Systems.
 It able to generate HTML documentation for specified ASDF system.
