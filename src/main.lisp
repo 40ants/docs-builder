@@ -3,6 +3,7 @@
   (:import-from #:docs-builder/core)
   (:import-from #:log4cl)
   (:import-from #:alexandria)
+  (:import-from #:log4cl-extras)
   (:import-from #:log4cl-extras/error
                 #:with-log-unhandled))
 (in-package docs-builder/main)
