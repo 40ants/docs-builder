@@ -2,6 +2,12 @@
 ChangeLog
 =========
 
+0.4.1 (2021-04-05)
+==================
+
+Now utility will dump traceback
+in case of errors during the build.
+
 0.4 (2021-04-05)
 ================
 

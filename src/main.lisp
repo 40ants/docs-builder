@@ -2,7 +2,9 @@
   (:use #:cl)
   (:import-from #:docs-builder/core)
   (:import-from #:log4cl)
-  (:import-from #:alexandria))
+  (:import-from #:alexandria)
+  (:import-from #:log4cl-extras/error
+                #:with-log-unhandled))
 (in-package docs-builder/main)
 
 
@@ -21,7 +23,8 @@
                     :silent t)
 
       (let* ((output-dir (ignore-errors
-                          (docs-builder/core:build system-name))))
+                          (with-log-unhandled ()
+                            (docs-builder/core:build system-name)))))
         (unless output-dir
           (log:error "Unable to build docs")
           (uiop:quit 1))
