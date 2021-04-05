@@ -6,9 +6,7 @@
                 #:system-packages)
   (:import-from #:40ants-doc
                 #:section)
-  (:import-from #:40ants-doc/github)
-  (:import-from #:40ants-doc/reference)
-  (:import-from #:40ants-doc/builder))
+  (:import-from #:40ants-doc/full))
 (in-package docs-builder/builders/40ants-doc/builder)
 
 
