@@ -1,4 +1,4 @@
-(mgl-pax-minimal:define-package #:docs-builder/guesser
+(uiop:define-package #:docs-builder/guesser
   (:use #:cl)
   (:export #:guess-builder
            #:defguesser))

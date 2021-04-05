@@ -1,4 +1,4 @@
-(uiop:define-package #:docs-builder/builders/mgl-pax/guesser
+(uiop:define-package #:docs-builder/builders/40ants-doc/guesser
   (:use #:cl)
   (:import-from #:docs-builder/guesser)
   (:import-from #:40ants-doc
@@ -7,21 +7,21 @@
                 #:macro)
   (:import-from #:docs-builder/utils
                 #:external-dependencies))
-(in-package docs-builder/builders/mgl-pax/guesser)
+(in-package docs-builder/builders/40ants-doc/guesser)
 
 
-(defsection @index (:title "MGL-PAX")
-  "This guesser tries to find if your system depends on MGL-PAX system.
-If it is, then the [MGL-PAX](https://github.com/melisgl/mgl-pax)
+(defsection @index (:title "40ANTS-DOC")
+  "This guesser tries to find if your system depends on 40ANTS-DOC system.
+If it is, then the [40ANTS-DOC](https://github.com/40ants/doc)
 will be used to build documentation.
 
-During the `BUILD` phase, the builder will try to find MGL-PAX sections not refereced
+During the `BUILD` phase, the builder will try to find documentation sections not refereced
 from any other sections. For each root section, builder will create a separate HTML
 page. If there are few root sections, make sure one of them is having \\@INDEX name.
 Otherwise `index.html` page will not be created.
 
 Algorithm searches section amongh all exported symbols. If you don't want it to find
-some root section, just pass `:export nil` to the MGL-PAX:DEFSECTION.
+some root section, just pass `:export nil` to the 40ANTS-DOC:DEFSECTION.
 
 If you want your documentation link back to the GitHub sources, make sure
 you have either `:homepage` or `:source-control` in your ASDF definition:
@@ -39,13 +39,24 @@ you have either `:homepage` or `:source-control` in your ASDF definition:
 
 *Note*, that this builder not only renders HTML documentation, but also updates
 README files in the system's root directory.
-")
+"
+  
+  (@todo section))
 
 
-(docs-builder/guesser:defguesser mgl-pax (system)
-  (when (member "mgl-pax"
-                (external-dependencies system)
-                :test #'string-equal)
-    (ql:quickload :docs-builder/builders/mgl-pax/builder
+(defsection @todo (:title "What is next")
+  "
+- build a ChangeLog.md out of changelog.lisp, if it is exists")
+
+
+(docs-builder/guesser:defguesser 40ants-doc (system)
+  (when (or (member "40ants-doc"
+                    (external-dependencies system)
+                    :test #'string-equal)
+            ;; Documentation for 40ANTS-DOC is written
+            ;; in 40ANTS-DOC :)))
+            (string-equal (asdf:component-name system)
+                          "40ants-doc"))
+    (ql:quickload :docs-builder/builders/40ants-doc/builder
                   :silent t)
-    (make-instance (intern "BUILDER" "DOCS-BUILDER/BUILDERS/MGL-PAX/BUILDER"))))
+    (make-instance (intern "BUILDER" "DOCS-BUILDER/BUILDERS/40ANTS-DOC/BUILDER"))))

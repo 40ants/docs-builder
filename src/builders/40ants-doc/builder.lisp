@@ -1,12 +1,15 @@
-(uiop:define-package #:docs-builder/builders/mgl-pax/builder
+(uiop:define-package #:docs-builder/builders/40ants-doc/builder
   (:use #:cl)
   (:import-from #:str)
   (:import-from #:log4cl)
   (:import-from #:docs-builder/utils
                 #:system-packages)
-  (:import-from #:mgl-pax
-                #:section))
-(in-package docs-builder/builders/mgl-pax/builder)
+  (:import-from #:40ants-doc
+                #:section)
+  (:import-from #:40ants-doc/github)
+  (:import-from #:40ants-doc/reference)
+  (:import-from #:40ants-doc/builder))
+(in-package docs-builder/builders/40ants-doc/builder)
 
 
 (defclass builder ()
@@ -33,20 +36,13 @@
            (loop for section in sections
                  append (remove-if-not
                          (lambda (obj)
-                           (typep obj 'mgl-pax:reference))
-                         (mgl-pax:section-entries section)))))
+                           (typep obj '40ants-doc/reference::reference))
+                         (40ants-doc:section-entries section)))))
     (loop for section in sections
-          for section-name = (mgl-pax:section-name section)
-          when (and
-                (not (member section-name
-                             references
-                             :key #'mgl-pax:reference-object))
-                ;; MGL-PAX package includes this section
-                ;; to collect all other sections into the "World":
-                ;; @mgl-pax-world-dummy
-                ;; It shouldn't be included into the documentation.
-                (not (string-equal (symbol-name section-name)
-                                   "@mgl-pax-world-dummy")))
+          for section-name = (40ants-doc:section-name section)
+          when (not (member section-name
+                            references
+                            :key #'40ants-doc/reference::reference-object))
             collect section)))
 
 
@@ -55,7 +51,7 @@
                  (ignore-errors (asdf:system-homepage system)))))
     (when (and url
                (str:starts-with-p "https://github.com/" url))
-      (mgl-pax:make-github-source-uri-fn system url))))
+      (40ants-doc/github:make-github-source-uri-fn system url))))
 
 
 (defun make-pages (root-sections system target-dir)
@@ -81,10 +77,21 @@
 
        (log:info "Found these root sections:" root-sections)
 
-       (mgl-pax:update-asdf-system-readmes root-sections
-                                           system)
+       (cond
+         ((probe-file (asdf:system-relative-pathname system "README.md"))
+          (log:info "Updating README.md file")
+          (40ants-doc/builder::update-asdf-system-readme root-sections
+                                                         system
+                                                         :format :markdown))
+         ((probe-file (asdf:system-relative-pathname system "README"))
+          (log:info "Updating README file")
+          (40ants-doc/builder::update-asdf-system-readme root-sections
+                                                         system
+                                                         :format :plain))
+         (t
+          (log:info "No README files found.")))
        
-       (mgl-pax:update-asdf-system-html-docs
+       (40ants-doc/builder:update-asdf-system-html-docs
         root-sections
         system
         :target-dir target-dir
@@ -92,7 +99,7 @@
        
        (values target-dir))
       (t
-       (log:error "Unable to find any MGL-PAX section in the ~S system"
+       (log:error "Unable to find any documentation section in the ~S system"
                   (asdf:component-name system))
-       (error "Unable to find any MGL-PAX section in the ~S system"
+       (error "Unable to find any documentation section in the ~S system"
               (asdf:component-name system))))))

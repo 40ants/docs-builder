@@ -1,7 +1,7 @@
-(defpackage #:docs-builder/builders/geneva/guesser
+(uiop:define-package #:docs-builder/builders/geneva/guesser
   (:use #:cl)
   (:import-from #:docs-builder/guesser)
-  (:import-from #:mgl-pax-minimal
+  (:import-from #:40ants-doc
                 #:defsection
                 #:section
                 #:macro))

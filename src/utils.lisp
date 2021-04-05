@@ -1,6 +1,6 @@
-(mgl-pax-minimal:define-package #:docs-builder/utils
+(uiop:define-package #:docs-builder/utils
   (:use #:cl)
-  (:import-from #:mgl-pax-minimal
+  (:import-from #:40ants-doc
                 #:defsection)
   (:documentation "The utils for documentation builders."))
 (in-package docs-builder/utils)

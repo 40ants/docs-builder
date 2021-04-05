@@ -1,9 +1,7 @@
-(mgl-pax-minimal:define-package #:docs-builder/docs
+(uiop:define-package #:docs-builder/docs
   (:use #:cl)
-  (:import-from #:mgl-pax-minimal
-                #:defsection
-                #:section
-                #:macro)
+  (:import-from #:40ants-doc
+                #:defsection)
   (:import-from #:docs-builder/builders/mgl-pax/guesser)
   (:import-from #:docs-builder/builders/geneva/guesser)
   (:import-from #:docs-builder/utils))

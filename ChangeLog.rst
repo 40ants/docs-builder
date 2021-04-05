@@ -2,6 +2,12 @@
 ChangeLog
 =========
 
+0.4 (2021-04-05)
+================
+
+* Added support for 40ANTS-DOC documentation builder.
+* Switched MGL-PAX builder from my fork to original.
+
 0.3 (2021-02-22)
 ================
 

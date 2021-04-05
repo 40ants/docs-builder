@@ -1,4 +1,4 @@
-(mgl-pax-minimal:define-package #:docs-builder/builder
+(uiop:define-package #:docs-builder/builder
   (:use #:cl)
   (:import-from :log4cl)
   (:export #:build))
