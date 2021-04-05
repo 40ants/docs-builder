@@ -4,7 +4,8 @@
   (:import-from #:log4cl)
   (:import-from #:alexandria)
   (:import-from #:log4cl-extras/error
-                #:with-log-unhandled))
+                #:with-log-unhandled)
+  (:import-from #:log4cl-extras/config))
 (in-package docs-builder/main)
 
 
@@ -15,7 +16,10 @@
 
   (let ((*trace-output* *error-output*)
         (*terminal-io* *error-output*))
-    (log:config :debug :sane)
+    
+    (log4cl-extras/config:setup
+      '(:level :debug
+        :appenders ((this-console :layout :plain))))
 
     (let* ((system-name (first argv)))
       (log:info "Quickloading system ~S" system-name)
