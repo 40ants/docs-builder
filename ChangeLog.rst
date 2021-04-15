@@ -2,6 +2,14 @@
 ChangeLog
 =========
 
+0.5.0 (2021-04-15)
+==================
+
+Now DOCS-BUILDER:BUILD has a special parameter :ERROR-ON-WARNINGS
+which is T by default. This flag causes a DOCUMENTATION-HAS-PROBLEMS
+continuable error to be signaled in case if there were some warnings
+during building the documentation.
+
 0.4.2 (2021-04-05)
 ==================
 
