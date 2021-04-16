@@ -2,6 +2,11 @@
 ChangeLog
 =========
 
+0.5.1 (2021-04-16)
+==================
+
+Fixed returning of the path to resulting docs.
+
 0.5.0 (2021-04-15)
 ==================
 
