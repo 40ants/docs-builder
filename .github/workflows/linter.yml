@@ -1,14 +1,15 @@
 {
-  "name": "DOCS",
+  "name": "LINTER",
   "on": {
     "push": {
       "branches": [
         "master"
       ]
-    }
+    },
+    "pull_request": null
   },
   "jobs": {
-    "build-docs": {
+    "linter": {
       "runs-on": "ubuntu-latest",
       "env": {
         "OS": "ubuntu-latest",
@@ -24,16 +25,18 @@
           "name": "Setup Common Lisp Environment",
           "uses": "40ants/setup-lisp@v1",
           "with": {
-            "asdf-system": "40ants-doc/doc"
+            "asdf-system": "docs-builder"
           }
         },
         {
-          "name": "Build Docs",
-          "uses": "40ants/build-docs@v1",
-          "with": {
-            "asdf-system": "40ants-doc/doc",
-            "error-on-warnings": false
-          }
+          "name": "Install SBLint",
+          "run": "\necho 'dist ultralisp http://dist.ultralisp.org' > qlfile\nqlot update\nqlot exec ros install 40ants-linter\n",
+          "shell": "bash"
+        },
+        {
+          "name": "Run Linter",
+          "run": "qlot exec 40ants-linter --system \"docs-builder\"",
+          "shell": "bash"
         }
       ]
     }

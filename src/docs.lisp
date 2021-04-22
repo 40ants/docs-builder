@@ -8,7 +8,12 @@
 (in-package docs-builder/docs)
 
 
-(defsection docs-builder:@index (:title "Common Lisp Docs Builder")
+(defsection docs-builder:@index (:title "Common Lisp Docs Builder"
+                                 :ignore-words ("HTML"
+                                                "README"
+                                                "PACKAGE-INFERRED-SYSTEM"
+                                                "API"
+                                                "CLOS"))
   "
 This system is a generic documentation builder for Common Lisp Systems.
 It able to generate HTML documentation for specified ASDF system.
@@ -40,7 +45,7 @@ using the [GitHub action](https://40ants.com/build-docs)."
 
 
 (defsection @repl-usage (:title "REPL")
-  "From the REPL, you need first to call a BUILD fuction:"
+  "From the REPL, you need first to call a DOCS-BUILDER:BUILD function:"
   
   (docs-builder:build function)
 
@@ -49,7 +54,7 @@ using the [GitHub action](https://40ants.com/build-docs)."
   (docs-builder/guesser:guess-builder generic-function)
 
   "
-Then it will pass the builder object and ASDF system to the DOCS-BUILDER/BUILDER:BUILD function:"
+Then it will pass the builder object and ASDF system to the DOCS-BUILDER/BUILDER:BUILD generic-function:"
 
   (docs-builder/builder:build generic-function)
 
@@ -123,11 +128,6 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: 40ants/setup-lisp@v1
-        with:
-          asdf-system: cl-info
-          qlfile-template: |
-            github mgl-pax svetlyak40wt/mgl-pax :branch mgl-pax-minimal
-      
       - uses: 40ants/build-docs@v1
         with:
           asdf-system: cl-info
@@ -212,8 +212,9 @@ Add this guesser file to the `docs-builder.asd` file:
   :license \"Unlicense\"
   :pathname \"src\"
   :description \"\"
-  :defsystem-depends-on (\"mgl-pax-minimal\")
+  :defsystem-depends-on (\"40ants-doc\")
   :depends-on (\"docs-builder/core\"
+               \"docs-builder/builders/40ants-doc/guesser\"
                \"docs-builder/builders/mgl-pax/guesser\"
                \"docs-builder/builders/geneva/guesser\"))
 ```
@@ -222,11 +223,11 @@ This way, it will be loaded along with the primary system while
 `geneva/builder` and it's dependencies will be loaded only
 if the system we are building documentation for is using Geneva.
 
-Now we can call MAKE-BUILDER to create a builder for example
+Now we can call DOCS-BUILDER/GUESSER:GUESS-BUILDER generic-function to create a builder for example
 system:
 
 ```
-CL-USER> (docs-builder:make-builder :example)
+CL-USER> (docs-builder/guesser:guess-builder :example)
 #<DOCS-BUILDER/BUILDERS/GENEVA/BUILDER::BUILDER {1003D89313}>
 ```
 ")
@@ -235,8 +236,8 @@ CL-USER> (docs-builder:make-builder :example)
 (defsection @adding-a-build-method (:title "Add a Build Method")
   "
 Now open a `src/builders/geneva/builder.lisp` file again and
-add DOCS-BUILDER/BUILDER:BUILD method. The method should build HTML
-documentation and return a path to the folder.
+add a method to the DOCS-BUILDER/BUILDER:BUILD generic-function.
+The method should build HTML documentation and return a path to the folder.
 
 ```
 (defmethod docs-builder/builder:build ((builder builder) (system asdf:system))
@@ -279,5 +280,6 @@ and build API reference for the primary system and all package inferred subsyste
 
 
 (defsection @supported-builders (:title "Supported Docs Generators")
+  (docs-builder/builders/40ants-doc/guesser:@index section)
   (docs-builder/builders/mgl-pax/guesser:@index section)
   (docs-builder/builders/geneva/guesser:@index section))

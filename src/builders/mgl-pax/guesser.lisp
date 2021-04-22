@@ -10,18 +10,19 @@
 (in-package docs-builder/builders/mgl-pax/guesser)
 
 
-(defsection @index (:title "MGL-PAX")
+(defsection @index (:title "MGL-PAX"
+                    :ignore-words ("MGL-PAX:DEFSECTION"))
   "This guesser tries to find if your system depends on MGL-PAX system.
 If it is, then the [MGL-PAX](https://github.com/melisgl/mgl-pax)
 will be used to build documentation.
 
-During the `BUILD` phase, the builder will try to find MGL-PAX sections not refereced
+During the `build` phase, the builder will try to find MGL-PAX sections not refereced
 from any other sections. For each root section, builder will create a separate HTML
 page. If there are few root sections, make sure one of them is having \\@INDEX name.
 Otherwise `index.html` page will not be created.
 
 Algorithm searches section amongh all exported symbols. If you don't want it to find
-some root section, just pass `:export nil` to the MGL-PAX:DEFSECTION.
+some root section, just pass `:export nil` to the MGL-PAX:DEFSECTION macro.
 
 If you want your documentation link back to the GitHub sources, make sure
 you have either `:homepage` or `:source-control` in your ASDF definition:

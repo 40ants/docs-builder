@@ -10,18 +10,19 @@
 (in-package docs-builder/builders/40ants-doc/guesser)
 
 
-(defsection @index (:title "40ANTS-DOC")
+(defsection @index (:title "40ANTS-DOC"
+                    :ignore-words ("40ANTS-DOC:DEFSECTION"))
   "This guesser tries to find if your system depends on 40ANTS-DOC system.
 If it is, then the [40ANTS-DOC](https://github.com/40ants/doc)
 will be used to build documentation.
 
-During the `BUILD` phase, the builder will try to find documentation sections not refereced
+During the `build` phase, the builder will try to find documentation sections not refereced
 from any other sections. For each root section, builder will create a separate HTML
 page. If there are few root sections, make sure one of them is having \\@INDEX name.
 Otherwise `index.html` page will not be created.
 
 Algorithm searches section amongh all exported symbols. If you don't want it to find
-some root section, just pass `:export nil` to the 40ANTS-DOC:DEFSECTION.
+some root section, just pass `:export nil` to the 40ANTS-DOC:DEFSECTION macro.
 
 If you want your documentation link back to the GitHub sources, make sure
 you have either `:homepage` or `:source-control` in your ASDF definition:

@@ -73,7 +73,9 @@
        (log:info "Building docs in \"~A\" dir"
                  target-dir)
 
-       (log:info "Found these root sections:" root-sections)
+       (when (> (length root-sections) 1)
+         (warn "Found more then one root section: ~S, probably you forgot to include one into another"
+               root-sections))
 
        (cond
          ((probe-file (asdf:system-relative-pathname system "README.md"))

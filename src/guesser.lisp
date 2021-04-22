@@ -9,7 +9,7 @@
 
 
 (defgeneric guess-builder (system)
-  (:documentation "Returns a builder object which can be passed to the BUILD method along with system.
+  (:documentation "Returns a builder object which can be passed to the DOCS-BUILDER/BUILDER:BUILD generic-function along with system.
 
 The builder type is guessed using different euristics which depends on a documentation system.
 
