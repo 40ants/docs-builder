@@ -17,7 +17,6 @@
 (defworkflow docs
   :on-push-to "master"
   :jobs ((40ants-ci/jobs/docs:build-docs
-          :asdf-system "40ants-doc/doc"
           ;; There are still a few warnings which should be shown.
           ;; And I have no time to fix this.
           :error-on-warnings nil)))

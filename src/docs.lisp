@@ -15,6 +15,8 @@
                                                 "API"
                                                 "CLOS"))
   "
+[![](https://github-actions.40ants.com/40ants/docs-builder/matrix.svg)](https://github.com/40ants/docs-builder/actions)
+
 This system is a generic documentation builder for Common Lisp Systems.
 It able to generate HTML documentation for specified ASDF system.
 
