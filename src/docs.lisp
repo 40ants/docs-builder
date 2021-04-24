@@ -82,13 +82,14 @@ CL-USER> (docs-builder:build :docs-builder)
 # will be merged:
 # https://github.com/melisgl/mgl-pax/pull/8
 
-$ ros install svetlyak40wt/mgl-pax
+$ ros install 40ants/doc
 
 $ ros install 40ants/docs-builder
 ```
 
 Here we call it to build documentation for \"docs-builder\" ASDF system:
 
+```
 $ build-docs docs-builder
  <INFO> [02:26:32] docs-builder/main main.lisp (main) -
   Quickloading system \"docs-builder\"
@@ -97,6 +98,7 @@ $ build-docs docs-builder
  <INFO> [02:26:34] docs-builder/builders/mgl-pax/builder builder.lisp (build builder system) -
   Building docs in \"/Users/art/projects/docs-builder/docs/build/\" dir
 Scan was called 2146 times.
+```
 
 ")
 
