@@ -4,49 +4,48 @@
 
 ## Table of Contents
 
-- [1 Usage][16b5]
-    - [1.1 REPL][76f2]
-    - [1.2 Command-line][03bf]
-    - [1.3 GitHub Action][6577]
-    - [1.4 Extending][81d2]
-        - [1.4.1 Add a Builder Class][c798]
-        - [1.4.2 Guessing a Doc Generator][4ba2]
-        - [1.4.3 Add a Build Method][a8f9]
-- [2 Supported Docs Generators][1999]
-    - [2.1 40ANTS-DOC][6ad1]
-        - [2.1.1 What is next][22e3]
-    - [2.2 MGL-PAX][9a66]
-    - [2.3 Geneva][3583]
-        - [2.3.1 What is next][3227]
-- [3 Utilities][8bb5]
-- [4 Roadmap][4bf7]
+- [1 docs-builder ASDF System Details][52d8]
+- [2 Usage][16b5]
+    - [2.1 REPL][76f2]
+    - [2.2 Command-line][03bf]
+    - [2.3 GitHub Action][6577]
+    - [2.4 Extending][81d2]
+        - [2.4.1 Add a Builder Class][c798]
+        - [2.4.2 Guessing a Doc Generator][4ba2]
+        - [2.4.3 Add a Build Method][a8f9]
+- [3 Supported Docs Generators][1999]
+    - [3.1 40ANTS-DOC][6ad1]
+        - [3.1.1 What is next][22e3]
+    - [3.2 MGL-PAX][9a66]
+    - [3.3 Geneva][3583]
+        - [3.3.1 What is next][3227]
+- [4 Utilities][8bb5]
+- [5 Roadmap][4bf7]
 
 ###### \[in package DOCS-BUILDER/DOCS\]
 [![](https://github-actions.40ants.com/40ants/docs-builder/matrix.svg)](https://github.com/40ants/docs-builder/actions)
 
-This system is a generic documentation builder for Common Lisp Systems.
-It able to generate HTML documentation for specified `ASDF` system.
+<a id='x-28-23A-28-2812-29-20BASE-CHAR-20-2E-20-22docs-builder-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29'></a>
 
-The idea is to use `docs-builder` as an universal HTML documentation builders
-which can be used in a continuous integration pipeline. For example, it is
-used inside [build-docs](https://40ants.com/build-docs) GitHub action, which can be
-used to build docs update gh-pages for any Common Lisp library (if it is uses
-documentation generator supported by `docs-builder`).
+## 1 docs-builder ASDF System Details
 
-Currently Docs Builder supports only [MGL-PAX](https://github.com/melisgl/mgl-pax)
-can be extended to support other documentation builders, covered by examples in here:
-[cl-doc-systems.github.io](https://cl-doc-systems.github.io/).
+- Description: A meta documentation builder for Common Lisp projects.
+- Licence: Unlicense
+- Author: Alexander Artemenko
+- Homepage: [https://40ants.com/docs-builder](https://40ants.com/docs-builder)
+- Bug tracker: [https://github.com/40ants/docs-builder/issues](https://github.com/40ants/docs-builder/issues)
+- Source control: [GIT](https://github.com/40ants/docs-builder)
 
 <a id='x-28DOCS-BUILDER-2FDOCS-3A-40USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
-## 1 Usage
+## 2 Usage
 
 Documentation can be built in a few ways: from the lisp REPL, command-line and
 using the [GitHub action](https://40ants.com/build-docs).
 
 <a id='x-28DOCS-BUILDER-2FDOCS-3A-40REPL-USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
-### 1.1 REPL
+### 2.1 REPL
 
 From the REPL, you need first to call a [`DOCS-BUILDER:BUILD`][036a] function:
 
@@ -76,7 +75,7 @@ Then it will pass the builder object and `ASDF` system to the [`DOCS-BUILDER/BUI
 
     Builds HTML documentation for `ASDF` system and returns absolute path to the dir with docs.
 
-Here is an example how to build documentation for `:docs-builder` `ASDF` system:
+Here is an example how to build documentation for [`:docs-builder`][52d8] `ASDF` system:
 
 ```lisp
 CL-USER> (docs-builder:build :docs-builder)
@@ -90,7 +89,7 @@ CL-USER> (docs-builder:build :docs-builder)
 
 <a id='x-28DOCS-BUILDER-2FDOCS-3A-40COMMAND-LINE-USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
-### 1.2 Command-line
+### 2.2 Command-line
 
 You can use builder from command-line. To do this, first install it using [Roswell](https://github.com/roswell/roswell):
 
@@ -122,7 +121,7 @@ Scan was called 2146 times.
 
 <a id='x-28DOCS-BUILDER-2FDOCS-3A-40GITHUB-ACTION-USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
-### 1.3 GitHub Action
+### 2.3 GitHub Action
 
 If you host your project on the GitHub, then the most easy way to build and host documentation
 would be to use [Github Pages](https://pages.github.com/).
@@ -161,7 +160,7 @@ You'll find more info in [the action's documentation](https://40ants.com/build-d
 
 <a id='x-28DOCS-BUILDER-2FDOCS-3A-40EXTENDING-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
-### 1.4 Extending
+### 2.4 Extending
 
 Docs builder was made to be extensible and here we see how to add support for a new
 documentation generator. A documentation builder we'll use is a [Geneva](https://inters.co/geneva/open-geneva.html).
@@ -175,7 +174,7 @@ file. Files with `*.mk2` extensions are special markup used by Geneva.
 
 <a id='x-28DOCS-BUILDER-2FDOCS-3A-40ADDING-A-BUILDER-CLASS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
-#### 1.4.1 Add a Builder Class
+#### 2.4.1 Add a Builder Class
 
 First thing we need to do is to create a builder class.
 
@@ -190,9 +189,9 @@ following content:
 
 <a id='x-28DOCS-BUILDER-2FDOCS-3A-40ADDING-A-GUESSER-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
-#### 1.4.2 Guessing a Doc Generator
+#### 2.4.2 Guessing a Doc Generator
 
-`DOCS-BUILDER` uses a number of euristics to determine the CLOS class
+[`DOCS-BUILDER`][52d8] uses a number of euristics to determine the CLOS class
 to be used for documentation generation. Euristics are incapulated in
 "guessers". Let's create a `src/builders/geneva/guesser.lisp` file
 and define a simple guesser, which will return the `builder` class defined
@@ -248,7 +247,7 @@ CL-USER> (docs-builder/guesser:guess-builder :example)
 
 <a id='x-28DOCS-BUILDER-2FDOCS-3A-40ADDING-A-BUILD-METHOD-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
-#### 1.4.3 Add a Build Method
+#### 2.4.3 Add a Build Method
 
 Now open a `src/builders/geneva/builder.lisp` file again and
 add a method to the [`DOCS-BUILDER/BUILDER:BUILD`][0169] generic-function.
@@ -293,11 +292,11 @@ and build API reference for the primary system and all package inferred subsyste
 
 <a id='x-28DOCS-BUILDER-2FDOCS-3A-40SUPPORTED-BUILDERS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
-## 2 Supported Docs Generators
+## 3 Supported Docs Generators
 
 <a id='x-28DOCS-BUILDER-2FBUILDERS-2F40ANTS-DOC-2FGUESSER-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
-### 2.1 40ANTS-DOC
+### 3.1 40ANTS-DOC
 
 ###### \[in package DOCS-BUILDER/BUILDERS/40ANTS-DOC/GUESSER\]
 This guesser tries to find if your system depends on `40ANTS-DOC` system.
@@ -331,14 +330,14 @@ README files in the system's root directory.
 
 <a id='x-28DOCS-BUILDER-2FBUILDERS-2F40ANTS-DOC-2FGUESSER-3A-40TODO-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
-#### 2.1.1 What is next
+#### 3.1.1 What is next
 
 - build a ChangeLog.md out of changelog.lisp, if it is exists
 
 
 <a id='x-28DOCS-BUILDER-2FBUILDERS-2FMGL-PAX-2FGUESSER-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
-### 2.2 MGL-PAX
+### 3.2 MGL-PAX
 
 ###### \[in package DOCS-BUILDER/BUILDERS/MGL-PAX/GUESSER\]
 This guesser tries to find if your system depends on `MGL-PAX` system.
@@ -372,7 +371,7 @@ README files in the system's root directory.
 
 <a id='x-28DOCS-BUILDER-2FBUILDERS-2FGENEVA-2FGUESSER-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
-### 2.3 Geneva
+### 3.3 Geneva
 
 ###### \[in package DOCS-BUILDER/BUILDERS/GENEVA/GUESSER\]
 This guesser tries to find a file `docs/sources/index.mk2` and if it exists
@@ -380,7 +379,7 @@ then [Geneva](https://github.com/eugeneia/geneva) documentation generator will b
 
 <a id='x-28DOCS-BUILDER-2FBUILDERS-2FGENEVA-2FGUESSER-3A-40TODO-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
-#### 2.3.1 What is next
+#### 3.3.1 What is next
 
 - make builder to process all `*.mk2` files in the `docs/sources/` dir.
 
@@ -389,7 +388,7 @@ then [Geneva](https://github.com/eugeneia/geneva) documentation generator will b
 
 <a id='x-28DOCS-BUILDER-2FUTILS-3A-40UTILS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
-## 3 Utilities
+## 4 Utilities
 
 ###### \[in package DOCS-BUILDER/UTILS\]
 <a id='x-28DOCS-BUILDER-2FUTILS-3AEXTERNAL-DEPENDENCIES-20FUNCTION-29'></a>
@@ -431,7 +430,7 @@ then [Geneva](https://github.com/eugeneia/geneva) documentation generator will b
 
 <a id='x-28DOCS-BUILDER-2FDOCS-3A-40ROADMAP-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
-## 4 Roadmap
+## 5 Roadmap
 
 - Use [eazy-documentation](https://guicho271828.github.io/eazy-documentation/) as default fallback
   when no other builder was guessed.
@@ -452,6 +451,7 @@ then [Geneva](https://github.com/eugeneia/geneva) documentation generator will b
   [3583]: #x-28DOCS-BUILDER-2FBUILDERS-2FGENEVA-2FGUESSER-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "Geneva"
   [4ba2]: #x-28DOCS-BUILDER-2FDOCS-3A-40ADDING-A-GUESSER-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "Guessing a Doc Generator"
   [4bf7]: #x-28DOCS-BUILDER-2FDOCS-3A-40ROADMAP-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "Roadmap"
+  [52d8]: #x-28-23A-28-2812-29-20BASE-CHAR-20-2E-20-22docs-builder-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29 "(#A((12) BASE-CHAR . \"docs-builder\") ASDF/SYSTEM:SYSTEM)"
   [6577]: #x-28DOCS-BUILDER-2FDOCS-3A-40GITHUB-ACTION-USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "GitHub Action"
   [6ad1]: #x-28DOCS-BUILDER-2FBUILDERS-2F40ANTS-DOC-2FGUESSER-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "40ANTS-DOC"
   [76f2]: #x-28DOCS-BUILDER-2FDOCS-3A-40REPL-USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "REPL"
