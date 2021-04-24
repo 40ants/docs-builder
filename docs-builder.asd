@@ -4,7 +4,6 @@
   :license "Unlicense"
   :pathname "src"
   :description ""
-  :defsystem-depends-on ("40ants-doc")
   :depends-on ("docs-builder/core"
                "docs-builder/builders/40ants-doc/guesser"
                "docs-builder/builders/mgl-pax/guesser"

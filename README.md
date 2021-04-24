@@ -1,26 +1,29 @@
-<a id='x-28DOCS-BUILDER-3A-40INDEX-20MGL-PAX-MINIMAL-3ASECTION-29'></a>
+<a id='x-28DOCS-BUILDER-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
 # Common Lisp Docs Builder
 
 ## Table of Contents
 
-- [1 Usage][8960]
-    - [1.1 REPL][e16c]
-    - [1.2 Command-line][b5c9]
-    - [1.3 GitHub Action][5697]
-    - [1.4 Extending][20a2]
-        - [1.4.1 Add a Builder Class][ba39]
-        - [1.4.2 Guessing a Doc Generator][2782]
-        - [1.4.3 Add a Build Method][d527]
-- [2 Supported Docs Generators][0ad6]
-    - [2.1 MGL-PAX][9b0c]
-        - [2.1.1 What is next][f6ff]
-    - [2.2 Geneva][f2b9]
-        - [2.2.1 What is next][701a]
-- [3 Utilities][132a]
-- [4 Roadmap][87ec]
+- [1 Usage][16b5]
+    - [1.1 REPL][76f2]
+    - [1.2 Command-line][03bf]
+    - [1.3 GitHub Action][6577]
+    - [1.4 Extending][81d2]
+        - [1.4.1 Add a Builder Class][c798]
+        - [1.4.2 Guessing a Doc Generator][4ba2]
+        - [1.4.3 Add a Build Method][a8f9]
+- [2 Supported Docs Generators][1999]
+    - [2.1 40ANTS-DOC][6ad1]
+        - [2.1.1 What is next][22e3]
+    - [2.2 MGL-PAX][9a66]
+    - [2.3 Geneva][3583]
+        - [2.3.1 What is next][3227]
+- [3 Utilities][8bb5]
+- [4 Roadmap][4bf7]
 
 ###### \[in package DOCS-BUILDER/DOCS\]
+[![](https://github-actions.40ants.com/40ants/docs-builder/matrix.svg)](https://github.com/40ants/docs-builder/actions)
+
 This system is a generic documentation builder for Common Lisp Systems.
 It able to generate HTML documentation for specified `ASDF` system.
 
@@ -34,22 +37,24 @@ Currently Docs Builder supports only [MGL-PAX](https://github.com/melisgl/mgl-pa
 can be extended to support other documentation builders, covered by examples in here:
 [cl-doc-systems.github.io](https://cl-doc-systems.github.io/).
 
-<a id='x-28DOCS-BUILDER-2FDOCS-3A-40USAGE-20MGL-PAX-MINIMAL-3ASECTION-29'></a>
+<a id='x-28DOCS-BUILDER-2FDOCS-3A-40USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
 ## 1 Usage
 
 Documentation can be built in a few ways: from the lisp REPL, command-line and
 using the [GitHub action](https://40ants.com/build-docs).
 
-<a id='x-28DOCS-BUILDER-2FDOCS-3A-40REPL-USAGE-20MGL-PAX-MINIMAL-3ASECTION-29'></a>
+<a id='x-28DOCS-BUILDER-2FDOCS-3A-40REPL-USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
 ### 1.1 REPL
 
-From the REPL, you need first to call a BUILD fuction:
+From the REPL, you need first to call a [`DOCS-BUILDER:BUILD`][036a] function:
 
 <a id='x-28DOCS-BUILDER-3ABUILD-20FUNCTION-29'></a>
 
-- [function] **DOCS-BUILDER:BUILD** *SYSTEM*
+- [function] **DOCS-BUILDER:BUILD** *SYSTEM &KEY (ERROR-ON-WARNINGS T)*
+
+    Builds HTML documentation for `ASDF` system and returns absolute path to the dir with docs.
 
 Inside, it will try to guess which documentation builder should be used:
 
@@ -57,13 +62,13 @@ Inside, it will try to guess which documentation builder should be used:
 
 - [generic-function] **DOCS-BUILDER/GUESSER:GUESS-BUILDER** *SYSTEM*
 
-    Returns a builder object which can be passed to the BUILD method along with system.
+    Returns a builder object which can be passed to the [`DOCS-BUILDER/BUILDER:BUILD`][0169] generic-function along with system.
     
     The builder type is guessed using different euristics which depends on a documentation system.
     
-    If you want to add support for a new documentation generator, use DEFGUESSER macro.
+    If you want to add support for a new documentation generator, use [`DEFGUESSER`][c83f] macro.
 
-Then it will pass the builder object and `ASDF` system to the [`DOCS-BUILDER/BUILDER:BUILD`][0169] function:
+Then it will pass the builder object and `ASDF` system to the [`DOCS-BUILDER/BUILDER:BUILD`][0169] generic-function:
 
 <a id='x-28DOCS-BUILDER-2FBUILDER-3ABUILD-20GENERIC-FUNCTION-29'></a>
 
@@ -83,7 +88,7 @@ CL-USER> (docs-builder:build :docs-builder)
 ```
 
 
-<a id='x-28DOCS-BUILDER-2FDOCS-3A-40COMMAND-LINE-USAGE-20MGL-PAX-MINIMAL-3ASECTION-29'></a>
+<a id='x-28DOCS-BUILDER-2FDOCS-3A-40COMMAND-LINE-USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
 ### 1.2 Command-line
 
@@ -96,23 +101,26 @@ You can use builder from command-line. To do this, first install it using [Roswe
 # will be merged:
 # https://github.com/melisgl/mgl-pax/pull/8
 
-$ ros install svetlyak40wt/mgl-pax
+$ ros install 40ants/doc
 
 $ ros install 40ants/docs-builder
 ```
 
 Here we call it to build documentation for "docs-builder" `ASDF` system:
 
+```
 $ build-docs docs-builder
- <INFO> [02:26:32][] docs-builder/main main.lisp (main) -
+ <INFO> [02:26:32] docs-builder/main main.lisp (main) -
   Quickloading system "docs-builder"
- <INFO> [02:26:34][] docs-builder/core core.lisp (build :before system) -
+ <INFO> [02:26:34] docs-builder/core core.lisp (build :before system) -
   Building docs for system #<PACKAGE-INFERRED-SYSTEM "docs-builder"> found at /Users/art/projects/docs-builder/
- <INFO> [02:26:34][] docs-builder/builders/mgl-pax/builder builder.lisp (build builder system) -
+ <INFO> [02:26:34] docs-builder/builders/mgl-pax/builder builder.lisp (build builder system) -
   Building docs in "/Users/art/projects/docs-builder/docs/build/" dir
 Scan was called 2146 times.
+```
 
-<a id='x-28DOCS-BUILDER-2FDOCS-3A-40GITHUB-ACTION-USAGE-20MGL-PAX-MINIMAL-3ASECTION-29'></a>
+
+<a id='x-28DOCS-BUILDER-2FDOCS-3A-40GITHUB-ACTION-USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
 ### 1.3 GitHub Action
 
@@ -144,11 +152,6 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: 40ants/setup-lisp@v1
-        with:
-          asdf-system: cl-info
-          qlfile-template: |
-            github mgl-pax svetlyak40wt/mgl-pax :branch mgl-pax-minimal
-      
       - uses: 40ants/build-docs@v1
         with:
           asdf-system: cl-info
@@ -156,7 +159,7 @@ jobs:
 
 You'll find more info in [the action's documentation](https://40ants.com/build-docs).
 
-<a id='x-28DOCS-BUILDER-2FDOCS-3A-40EXTENDING-20MGL-PAX-MINIMAL-3ASECTION-29'></a>
+<a id='x-28DOCS-BUILDER-2FDOCS-3A-40EXTENDING-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
 ### 1.4 Extending
 
@@ -170,7 +173,7 @@ First, we need a way to detect if the system uses the Geneva. This is done using
 Let's define a guesser which will consider we are working with Geneva, if there is a `docs/source/index.mk2`
 file. Files with `*.mk2` extensions are special markup used by Geneva.
 
-<a id='x-28DOCS-BUILDER-2FDOCS-3A-40ADDING-A-BUILDER-CLASS-20MGL-PAX-MINIMAL-3ASECTION-29'></a>
+<a id='x-28DOCS-BUILDER-2FDOCS-3A-40ADDING-A-BUILDER-CLASS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
 #### 1.4.1 Add a Builder Class
 
@@ -185,7 +188,7 @@ following content:
 ```
 
 
-<a id='x-28DOCS-BUILDER-2FDOCS-3A-40ADDING-A-GUESSER-20MGL-PAX-MINIMAL-3ASECTION-29'></a>
+<a id='x-28DOCS-BUILDER-2FDOCS-3A-40ADDING-A-GUESSER-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
 #### 1.4.2 Guessing a Doc Generator
 
@@ -195,9 +198,9 @@ to be used for documentation generation. Euristics are incapulated in
 and define a simple guesser, which will return the `builder` class defined
 in the previous section if a file `docs/sources/index.mk2` exists.
 
-To define a guesser, we'll be using [`DOCS-BUILDER/GUESSER:DEFGUESSER`][3656] macro:
+To define a guesser, we'll be using [`DOCS-BUILDER/GUESSER:DEFGUESSER`][c83f] macro:
 
-<a id='x-28DOCS-BUILDER-2FGUESSER-3ADEFGUESSER-20-28MGL-PAX-MINIMAL-3AMACRO-29-29'></a>
+<a id='x-28DOCS-BUILDER-2FGUESSER-3ADEFGUESSER-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29'></a>
 
 - [macro] **DOCS-BUILDER/GUESSER:DEFGUESSER** *NAME (SYSTEM) &BODY BODY*
 
@@ -223,8 +226,9 @@ Add this guesser file to the `docs-builder.asd` file:
   :license "Unlicense"
   :pathname "src"
   :description ""
-  :defsystem-depends-on ("mgl-pax-minimal")
+  :defsystem-depends-on ("40ants-doc")
   :depends-on ("docs-builder/core"
+               "docs-builder/builders/40ants-doc/guesser"
                "docs-builder/builders/mgl-pax/guesser"
                "docs-builder/builders/geneva/guesser"))
 ```
@@ -233,22 +237,22 @@ This way, it will be loaded along with the primary system while
 `geneva/builder` and it's dependencies will be loaded only
 if the system we are building documentation for is using Geneva.
 
-Now we can call MAKE-BUILDER to create a builder for example
+Now we can call [`DOCS-BUILDER/GUESSER:GUESS-BUILDER`][0577] generic-function to create a builder for example
 system:
 
 ```
-CL-USER> (docs-builder:make-builder :example)
+CL-USER> (docs-builder/guesser:guess-builder :example)
 #<DOCS-BUILDER/BUILDERS/GENEVA/BUILDER::BUILDER {1003D89313}>
 ```
 
 
-<a id='x-28DOCS-BUILDER-2FDOCS-3A-40ADDING-A-BUILD-METHOD-20MGL-PAX-MINIMAL-3ASECTION-29'></a>
+<a id='x-28DOCS-BUILDER-2FDOCS-3A-40ADDING-A-BUILD-METHOD-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
 #### 1.4.3 Add a Build Method
 
 Now open a `src/builders/geneva/builder.lisp` file again and
-add [`DOCS-BUILDER/BUILDER:BUILD`][0169] method. The method should build HTML
-documentation and return a path to the folder.
+add a method to the [`DOCS-BUILDER/BUILDER:BUILD`][0169] generic-function.
+The method should build HTML documentation and return a path to the folder.
 
 ```
 (defmethod docs-builder/builder:build ((builder builder) (system asdf:system))
@@ -287,26 +291,26 @@ CL-USER> (docs-builder:build :example)
 Of cause, in reality this method could be a more complex. It should process all `*.mk2` files
 and build API reference for the primary system and all package inferred subsystems.
 
-<a id='x-28DOCS-BUILDER-2FDOCS-3A-40SUPPORTED-BUILDERS-20MGL-PAX-MINIMAL-3ASECTION-29'></a>
+<a id='x-28DOCS-BUILDER-2FDOCS-3A-40SUPPORTED-BUILDERS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
 ## 2 Supported Docs Generators
 
-<a id='x-28DOCS-BUILDER-2FBUILDERS-2FMGL-PAX-2FGUESSER-3A-40INDEX-20MGL-PAX-MINIMAL-3ASECTION-29'></a>
+<a id='x-28DOCS-BUILDER-2FBUILDERS-2F40ANTS-DOC-2FGUESSER-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
-### 2.1 MGL-PAX
+### 2.1 40ANTS-DOC
 
-###### \[in package DOCS-BUILDER/BUILDERS/MGL-PAX/GUESSER\]
-This guesser tries to find if your system depends on `MGL-PAX-MINIMAL` system.
-If it is, then the [MGL-PAX](https://github.com/melisgl/mgl-pax)
+###### \[in package DOCS-BUILDER/BUILDERS/40ANTS-DOC/GUESSER\]
+This guesser tries to find if your system depends on `40ANTS-DOC` system.
+If it is, then the [40ANTS-DOC](https://github.com/40ants/doc)
 will be used to build documentation.
 
-During the `BUILD` phase, the builder will try to find `MGL-PAX` sections not refereced
+During the `build` phase, the builder will try to find documentation sections not refereced
 from any other sections. For each root section, builder will create a separate HTML
 page. If there are few root sections, make sure one of them is having @INDEX name.
 Otherwise `index.html` page will not be created.
 
 Algorithm searches section amongh all exported symbols. If you don't want it to find
-some root section, just pass `:export nil` to the `MGL-PAX-MINIMAL:DEFSECTION`.
+some root section, just pass `:export nil` to the `40ANTS-DOC:DEFSECTION` macro.
 
 If you want your documentation link back to the GitHub sources, make sure
 you have either `:homepage` or `:source-control` in your `ASDF` definition:
@@ -325,31 +329,65 @@ you have either `:homepage` or `:source-control` in your `ASDF` definition:
 *Note*, that this builder not only renders HTML documentation, but also updates
 README files in the system's root directory.
 
-<a id='x-28DOCS-BUILDER-2FBUILDERS-2FMGL-PAX-2FGUESSER-3A-40TODO-20MGL-PAX-MINIMAL-3ASECTION-29'></a>
+<a id='x-28DOCS-BUILDER-2FBUILDERS-2F40ANTS-DOC-2FGUESSER-3A-40TODO-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
 #### 2.1.1 What is next
 
 - build a ChangeLog.md out of changelog.lisp, if it is exists
 
 
-<a id='x-28DOCS-BUILDER-2FBUILDERS-2FGENEVA-2FGUESSER-3A-40INDEX-20MGL-PAX-MINIMAL-3ASECTION-29'></a>
+<a id='x-28DOCS-BUILDER-2FBUILDERS-2FMGL-PAX-2FGUESSER-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
-### 2.2 Geneva
+### 2.2 MGL-PAX
+
+###### \[in package DOCS-BUILDER/BUILDERS/MGL-PAX/GUESSER\]
+This guesser tries to find if your system depends on `MGL-PAX` system.
+If it is, then the [MGL-PAX](https://github.com/melisgl/mgl-pax)
+will be used to build documentation.
+
+During the `build` phase, the builder will try to find `MGL-PAX` sections not refereced
+from any other sections. For each root section, builder will create a separate HTML
+page. If there are few root sections, make sure one of them is having @INDEX name.
+Otherwise `index.html` page will not be created.
+
+Algorithm searches section amongh all exported symbols. If you don't want it to find
+some root section, just pass `:export nil` to the `MGL-PAX:DEFSECTION` macro.
+
+If you want your documentation link back to the GitHub sources, make sure
+you have either `:homepage` or `:source-control` in your `ASDF` definition:
+
+```
+(asdf:defsystem #:example
+  :licence "MIT"
+  :version "0.0.3"
+  :author "John Doe"
+  :mailto "john@doe.me"
+  :homepage "https://github.com/john-doe/example"
+  :source-control (:git "https://github.com/john-doe/example")
+  ...)
+```
+
+*Note*, that this builder not only renders HTML documentation, but also updates
+README files in the system's root directory.
+
+<a id='x-28DOCS-BUILDER-2FBUILDERS-2FGENEVA-2FGUESSER-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
+
+### 2.3 Geneva
 
 ###### \[in package DOCS-BUILDER/BUILDERS/GENEVA/GUESSER\]
 This guesser tries to find a file `docs/sources/index.mk2` and if it exists
 then [Geneva](https://github.com/eugeneia/geneva) documentation generator will be used.
 
-<a id='x-28DOCS-BUILDER-2FBUILDERS-2FGENEVA-2FGUESSER-3A-40TODO-20MGL-PAX-MINIMAL-3ASECTION-29'></a>
+<a id='x-28DOCS-BUILDER-2FBUILDERS-2FGENEVA-2FGUESSER-3A-40TODO-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
-#### 2.2.1 What is next
+#### 2.3.1 What is next
 
 - make builder to process all `*.mk2` files in the `docs/sources/` dir.
 
 - build API reference pages for all packages created by the system.
 
 
-<a id='x-28DOCS-BUILDER-2FUTILS-3A-40UTILS-20MGL-PAX-MINIMAL-3ASECTION-29'></a>
+<a id='x-28DOCS-BUILDER-2FUTILS-3A-40UTILS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
 ## 3 Utilities
 
@@ -364,7 +402,7 @@ then [Geneva](https://github.com/eugeneia/geneva) documentation generator will b
     external-dependencies of all subsystems.
     
     Warning! By default, this function does not return dependencies of dependencies.
-    To get them all, add `:ALL` `T` option.
+    To get them all, add `:ALL` T option.
 
 <a id='x-28DOCS-BUILDER-2FUTILS-3ASYSTEM-PACKAGES-20GENERIC-FUNCTION-29'></a>
 
@@ -388,10 +426,10 @@ then [Geneva](https://github.com/eugeneia/geneva) documentation generator will b
     ```
     
     This function can be used by builder to find pieces of documentation.
-    For example, [MGL-PAX][9b0c]
+    For example, [MGL-PAX][9a66]
     builder uses it to find documentation sections.
 
-<a id='x-28DOCS-BUILDER-2FDOCS-3A-40ROADMAP-20MGL-PAX-MINIMAL-3ASECTION-29'></a>
+<a id='x-28DOCS-BUILDER-2FDOCS-3A-40ROADMAP-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
 ## 4 Roadmap
 
@@ -404,22 +442,25 @@ then [Geneva](https://github.com/eugeneia/geneva) documentation generator will b
 
 
   [0169]: #x-28DOCS-BUILDER-2FBUILDER-3ABUILD-20GENERIC-FUNCTION-29 "(DOCS-BUILDER/BUILDER:BUILD GENERIC-FUNCTION)"
-  [0ad6]: #x-28DOCS-BUILDER-2FDOCS-3A-40SUPPORTED-BUILDERS-20MGL-PAX-MINIMAL-3ASECTION-29 "Supported Docs Generators"
-  [132a]: #x-28DOCS-BUILDER-2FUTILS-3A-40UTILS-20MGL-PAX-MINIMAL-3ASECTION-29 "Utilities"
-  [20a2]: #x-28DOCS-BUILDER-2FDOCS-3A-40EXTENDING-20MGL-PAX-MINIMAL-3ASECTION-29 "Extending"
-  [2782]: #x-28DOCS-BUILDER-2FDOCS-3A-40ADDING-A-GUESSER-20MGL-PAX-MINIMAL-3ASECTION-29 "Guessing a Doc Generator"
-  [3656]: #x-28DOCS-BUILDER-2FGUESSER-3ADEFGUESSER-20-28MGL-PAX-MINIMAL-3AMACRO-29-29 "(DOCS-BUILDER/GUESSER:DEFGUESSER (MGL-PAX-MINIMAL:MACRO))"
-  [5697]: #x-28DOCS-BUILDER-2FDOCS-3A-40GITHUB-ACTION-USAGE-20MGL-PAX-MINIMAL-3ASECTION-29 "GitHub Action"
-  [701a]: #x-28DOCS-BUILDER-2FBUILDERS-2FGENEVA-2FGUESSER-3A-40TODO-20MGL-PAX-MINIMAL-3ASECTION-29 "What is next"
-  [87ec]: #x-28DOCS-BUILDER-2FDOCS-3A-40ROADMAP-20MGL-PAX-MINIMAL-3ASECTION-29 "Roadmap"
-  [8960]: #x-28DOCS-BUILDER-2FDOCS-3A-40USAGE-20MGL-PAX-MINIMAL-3ASECTION-29 "Usage"
-  [9b0c]: #x-28DOCS-BUILDER-2FBUILDERS-2FMGL-PAX-2FGUESSER-3A-40INDEX-20MGL-PAX-MINIMAL-3ASECTION-29 "MGL-PAX"
-  [b5c9]: #x-28DOCS-BUILDER-2FDOCS-3A-40COMMAND-LINE-USAGE-20MGL-PAX-MINIMAL-3ASECTION-29 "Command-line"
-  [ba39]: #x-28DOCS-BUILDER-2FDOCS-3A-40ADDING-A-BUILDER-CLASS-20MGL-PAX-MINIMAL-3ASECTION-29 "Add a Builder Class"
-  [d527]: #x-28DOCS-BUILDER-2FDOCS-3A-40ADDING-A-BUILD-METHOD-20MGL-PAX-MINIMAL-3ASECTION-29 "Add a Build Method"
-  [e16c]: #x-28DOCS-BUILDER-2FDOCS-3A-40REPL-USAGE-20MGL-PAX-MINIMAL-3ASECTION-29 "REPL"
-  [f2b9]: #x-28DOCS-BUILDER-2FBUILDERS-2FGENEVA-2FGUESSER-3A-40INDEX-20MGL-PAX-MINIMAL-3ASECTION-29 "Geneva"
-  [f6ff]: #x-28DOCS-BUILDER-2FBUILDERS-2FMGL-PAX-2FGUESSER-3A-40TODO-20MGL-PAX-MINIMAL-3ASECTION-29 "What is next"
+  [036a]: #x-28DOCS-BUILDER-3ABUILD-20FUNCTION-29 "(DOCS-BUILDER:BUILD FUNCTION)"
+  [03bf]: #x-28DOCS-BUILDER-2FDOCS-3A-40COMMAND-LINE-USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "Command-line"
+  [0577]: #x-28DOCS-BUILDER-2FGUESSER-3AGUESS-BUILDER-20GENERIC-FUNCTION-29 "(DOCS-BUILDER/GUESSER:GUESS-BUILDER GENERIC-FUNCTION)"
+  [16b5]: #x-28DOCS-BUILDER-2FDOCS-3A-40USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "Usage"
+  [1999]: #x-28DOCS-BUILDER-2FDOCS-3A-40SUPPORTED-BUILDERS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "Supported Docs Generators"
+  [22e3]: #x-28DOCS-BUILDER-2FBUILDERS-2F40ANTS-DOC-2FGUESSER-3A-40TODO-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "What is next"
+  [3227]: #x-28DOCS-BUILDER-2FBUILDERS-2FGENEVA-2FGUESSER-3A-40TODO-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "What is next"
+  [3583]: #x-28DOCS-BUILDER-2FBUILDERS-2FGENEVA-2FGUESSER-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "Geneva"
+  [4ba2]: #x-28DOCS-BUILDER-2FDOCS-3A-40ADDING-A-GUESSER-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "Guessing a Doc Generator"
+  [4bf7]: #x-28DOCS-BUILDER-2FDOCS-3A-40ROADMAP-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "Roadmap"
+  [6577]: #x-28DOCS-BUILDER-2FDOCS-3A-40GITHUB-ACTION-USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "GitHub Action"
+  [6ad1]: #x-28DOCS-BUILDER-2FBUILDERS-2F40ANTS-DOC-2FGUESSER-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "40ANTS-DOC"
+  [76f2]: #x-28DOCS-BUILDER-2FDOCS-3A-40REPL-USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "REPL"
+  [81d2]: #x-28DOCS-BUILDER-2FDOCS-3A-40EXTENDING-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "Extending"
+  [8bb5]: #x-28DOCS-BUILDER-2FUTILS-3A-40UTILS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "Utilities"
+  [9a66]: #x-28DOCS-BUILDER-2FBUILDERS-2FMGL-PAX-2FGUESSER-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "MGL-PAX"
+  [a8f9]: #x-28DOCS-BUILDER-2FDOCS-3A-40ADDING-A-BUILD-METHOD-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "Add a Build Method"
+  [c798]: #x-28DOCS-BUILDER-2FDOCS-3A-40ADDING-A-BUILDER-CLASS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29 "Add a Builder Class"
+  [c83f]: #x-28DOCS-BUILDER-2FGUESSER-3ADEFGUESSER-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29 "(DOCS-BUILDER/GUESSER:DEFGUESSER (40ANTS-DOC/LOCATIVES:MACRO))"
 
 * * *
-###### \[generated by [MGL-PAX](https://github.com/melisgl/mgl-pax)\]
+###### \[generated by [40ANTS-DOC](https://40ants.com/doc)\]
