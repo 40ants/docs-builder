@@ -5,7 +5,7 @@
   :pathname "src"
   :description "A meta documentation builder for Common Lisp projects."
   :long-description
-    "This system is a generic documentation builder for Common Lisp Systems.
+  "This system is a generic documentation builder for Common Lisp Systems.
 It able to generate HTML documentation for specified ASDF system.
 
 The idea is to use `docs-builder` as an universal HTML documentation builders
