@@ -14,6 +14,7 @@
                                                 "PACKAGE-INFERRED-SYSTEM"
                                                 "API"
                                                 "CLOS"))
+  (docs-builder system)
   "
 [![](https://github-actions.40ants.com/40ants/docs-builder/matrix.svg)](https://github.com/40ants/docs-builder/actions)
 
