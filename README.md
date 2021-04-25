@@ -36,6 +36,19 @@
 - Bug tracker: [https://github.com/40ants/docs-builder/issues](https://github.com/40ants/docs-builder/issues)
 - Source control: [GIT](https://github.com/40ants/docs-builder)
 
+This system is a generic documentation builder for Common Lisp Systems.
+It able to generate HTML documentation for specified `ASDF` system.
+
+The idea is to use [`docs-builder`][52d8] as an universal HTML documentation builders
+which can be used in a continuous integration pipeline. For example, it is
+used inside [build-docs](https://40ants.com/build-docs) GitHub action, which can be
+used to build docs update gh-pages for any Common Lisp library (if it is uses
+documentation generator supported by [`docs-builder`][52d8]).
+
+Currently Docs Builder supports only [MGL-PAX](https://github.com/melisgl/mgl-pax)
+can be extended to support other documentation builders, covered by examples in here:
+[cl-doc-systems.github.io](https://cl-doc-systems.github.io/).
+
 <a id='x-28DOCS-BUILDER-2FDOCS-3A-40USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29'></a>
 
 ## 2 Usage
