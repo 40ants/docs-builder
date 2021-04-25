@@ -2,6 +2,15 @@
 ChangeLog
 =========
 
+0.5.2 (2021-04-25)
+==================
+
+Fixed the case when 40ANTS-DOC or MGL-PAX
+builder found the same section twice. This could
+happen for a package-inferred system where
+some package has the same nickname as as a
+primary system.
+
 0.5.1 (2021-04-16)
 ==================
 

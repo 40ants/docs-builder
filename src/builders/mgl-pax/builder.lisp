@@ -23,7 +23,7 @@
                  (when (and value
                             (typep value
                                    'section))
-                   (push value results))))
+                   (pushnew value results))))
           finally (return results))))
 
 
