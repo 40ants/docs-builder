@@ -11,9 +11,9 @@
 (in-package docs-builder/main)
 
 
-(defmain main ((error-on-warnings "If documentation will generate any warnings, build will fail. This can be \"true\" or \"false\"."
-                                  :default "true")
-               &rest systems)
+(defmain (main) ((error-on-warnings "If documentation will generate any warnings, build will fail. This can be \"true\" or \"false\"."
+                                    :default "true")
+                 &rest systems)
   (unless systems
     (format *error-output* "Please, provide a system name.~%")
     (uiop:quit 1))
