@@ -6,7 +6,9 @@
                 #:system-packages)
   (:import-from #:40ants-doc
                 #:section)
-  (:import-from #:40ants-doc/full))
+  (:import-from #:40ants-doc/full)
+  (:import-from #:alexandria
+                #:remove-from-plistf))
 (in-package docs-builder/builders/40ants-doc/builder)
 
 
@@ -41,7 +43,7 @@
           when (not (member section-name
                             references
                             :key #'40ants-doc/reference::reference-object))
-            collect section)))
+          collect section)))
 
 
 (defun make-github-source-uri-fn (system)
@@ -52,52 +54,58 @@
       (40ants-doc/github:make-github-source-uri-fn system url))))
 
 
-(defun make-pages (root-sections system target-dir)
-  (loop for section in root-sections
-        collect (append
-                 (list :objects (list section)
-                       :source-uri-fn (make-github-source-uri-fn system))
-                 ;; When there is only one root section there is no
-                 ;; need to call it @index, we'll automatically
-                 ;; make it's name index.html
-                 (when (= (length root-sections) 1)
-                   (list :output (list (uiop:merge-pathnames* "index.html" target-dir)
-                                       :if-exists :supersede))))))
-
-
-(defmethod docs-builder/builder:build ((builder builder) (system asdf:system))
+(defmethod docs-builder/builder:build ((builder builder) (system asdf:system)
+                                       &rest rest
+                                       &key local)
+  (remove-from-plistf rest :local)
+  
   (let ((root-sections (find-root-sections system))
         (target-dir (asdf:system-relative-pathname system #P"docs/build/")))
+    
     (cond
       (root-sections
        (log:info "Building docs in \"~A\" dir"
                  target-dir)
 
-       (when (> (length root-sections) 1)
-         (warn "Found more then one root section: ~S, probably you forgot to include one into another"
-               root-sections))
-
-       (cond
-         ((probe-file (asdf:system-relative-pathname system "README.md"))
-          (log:info "Updating README.md file")
-          (40ants-doc/builder::update-asdf-system-readme root-sections
-                                                         system
-                                                         :format :markdown))
-         ((probe-file (asdf:system-relative-pathname system "README"))
-          (log:info "Updating README file")
-          (40ants-doc/builder::update-asdf-system-readme root-sections
-                                                         system
-                                                         :format :plain))
-         (t
-          (log:info "No README files found.")))
+       (flet ((readme-section-p (section)
+                (string-equal
+                 (symbol-name (40ants-doc:section-name section))
+                 "@README"))
+              (changelog-section-p (section)
+                (string-equal
+                 (symbol-name (40ants-doc:section-name section))
+                 "@CHANGELOG")))
+         (let ((doc-sections
+                 (loop for section in root-sections
+                       unless (or (readme-section-p section)
+                                  (changelog-section-p section))
+                       collect section))
+               (readme-sections (remove-if-not #'readme-section-p
+                                               root-sections))
+               (changelog-sections (remove-if-not #'changelog-section-p
+                                                  root-sections)))
+           (when (> (length doc-sections)
+                    1)
+             (warn "Found more then one root section: ~S, probably you forgot to include one into another"
+                   root-sections))
+         
+           (apply #'40ants-doc/builder:update-asdf-system-docs
+                  (append doc-sections
+                          ;; We want to include changelog into the HTML documentation
+                          ;; and markdown version will be built because of :CHANGELOG-SECTIONS argument
+                          changelog-sections)
+                  system
+                  :readme-sections readme-sections
+                  :changelog-sections changelog-sections
+                  :docs-dir target-dir
+                  :base-url (unless local
+                              (asdf/system:system-homepage system))
+                  ;; When we are building docs for local usage,
+                  ;; we don't want to trim index.html from urls.
+                  :clean-urls (not local)
+                  rest)
        
-       (40ants-doc/builder:update-asdf-system-html-docs
-        root-sections
-        system
-        :target-dir target-dir
-        :pages (make-pages root-sections system target-dir))
-       
-       (values target-dir))
+           (values target-dir))))
       (t
        (log:error "Unable to find any documentation section in the ~S system"
                   (asdf:component-name system))

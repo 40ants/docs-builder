@@ -71,7 +71,7 @@
                                        :if-exists :supersede))))))
 
 
-(defmethod docs-builder/builder:build ((builder builder) (system asdf:system))
+(defmethod docs-builder/builder:build ((builder builder) (system asdf:system) &key &allow-other-keys)
   (let ((root-sections (find-root-sections system))
         (target-dir (asdf:system-relative-pathname system #P"docs/build/")))
     (cond

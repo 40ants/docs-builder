@@ -10,7 +10,7 @@
   ())
 
 
-(defmethod docs-builder/builder:build ((builder builder) (system asdf:system))
+(defmethod docs-builder/builder:build ((builder builder) (system asdf:system) &key &allow-other-keys)
   (let* ((docs-source-dir
            (asdf:system-relative-pathname system
                                           "docs/source/"))

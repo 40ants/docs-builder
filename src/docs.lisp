@@ -33,7 +33,7 @@ can be extended to support other documentation builders, covered by examples in 
   
   (@usage section)
   (@supported-builders section)
-  (docs-builder/utils:@utils section)
+  (docs-builder/utils::@utils section)
   (@roadmap section))
 
 
@@ -285,6 +285,6 @@ and build API reference for the primary system and all package inferred subsyste
 
 
 (defsection @supported-builders (:title "Supported Docs Generators")
-  (docs-builder/builders/40ants-doc/guesser:@index section)
-  (docs-builder/builders/mgl-pax/guesser:@index section)
-  (docs-builder/builders/geneva/guesser:@index section))
+  (docs-builder/builders/40ants-doc/guesser::@index section)
+  (docs-builder/builders/mgl-pax/guesser::@index section)
+  (docs-builder/builders/geneva/guesser::@index section))

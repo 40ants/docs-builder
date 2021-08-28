@@ -7,6 +7,9 @@
 
 (defvar *guessers* nil)
 
+(defparameter *system-to-builder*
+  (make-hash-table))
+
 
 (defgeneric guess-builder (system)
   (:documentation "Returns a builder object which can be passed to the DOCS-BUILDER/BUILDER:BUILD generic-function along with system.
@@ -32,10 +35,12 @@ If you want to add support for a new documentation generator, use DEFGUESSER mac
 
 
 (defmethod guess-builder ((system asdf:system))
-  (loop for guesser in *guessers*
-          thereis (funcall guesser
-                           system)
-        finally (error "Unable to create documentation builder for system ~S"
-                       system)))
+  (or (gethash system *system-to-builder*)
+      (setf (gethash system *system-to-builder*)
+       (loop for guesser in *guessers*
+             thereis (funcall guesser
+                              system)
+             finally (error "Unable to create documentation builder for system ~S"
+                            system)))))
 
 

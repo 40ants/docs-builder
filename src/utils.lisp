@@ -81,7 +81,11 @@ builder uses it to find documentation sections.
   (:method ((system asdf:system))
 
     (let* ((package-name (string-upcase
-                          (asdf:component-name system))))
+                           ;; If we are building documentation for the subsystem
+                          ;; of a large ASDF package inferred system,
+                          ;; then most probably we want to collect packages
+                          ;; of the whole ASDF system.
+                          (asdf:primary-system-name system))))
       (append (list (find-package package-name))
               (loop with prefix-name = (format nil "~A/" package-name)
                     with prefix-name-length = (length prefix-name)

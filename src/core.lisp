@@ -18,8 +18,9 @@
                      (num-of-warnings c)))))
 
 
-(defun build (system &key (error-on-warnings t))
+(defun build (system &rest rest &key (error-on-warnings t) &allow-other-keys)
   "Builds HTML documentation for ASDF system and returns absolute path to the dir with docs."
+  (log:info "Guessing builder")
   (let ((builder (docs-builder/guesser:guess-builder system)))
     (unless builder
       (error "Unable to guess documentation builder for ASDF system ~S"
@@ -29,10 +30,15 @@
              (handler-bind ((warning (lambda (c)
                                        (declare (ignore c))
                                        (incf warnings))))
-               (docs-builder/builder:build builder system))))
+               (log:info "Building the documentation")
+               (apply #'docs-builder/builder:build
+                      builder
+                      system
+                      rest))))
       (when (and error-on-warnings
                  (not (zerop warnings)))
         (cerror "Ignore Warnings"
                 'documentation-has-problems
                 :num-of-warnings warnings))
+      (log:info "Done")
       (values docs-path))))

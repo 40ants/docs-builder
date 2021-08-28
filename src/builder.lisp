@@ -5,19 +5,25 @@
 (in-package docs-builder/builder)
 
 
-(defgeneric build (builder system)
+(defgeneric build (builder system &key &allow-other-keys)
   (:documentation "Builds HTML documentation for ASDF system and returns absolute path to the dir with docs."))
 
 
-(defmethod build ((builder t) (system string))
-  (build builder (asdf:find-system system)))
+(defmethod build ((builder t) (system string) &rest rest &key &allow-other-keys)
+  (apply #'build
+         builder
+         (asdf:find-system system)
+         rest))
 
 
-(defmethod build ((builder t) (system symbol))
-  (build builder (asdf:find-system system)))
+(defmethod build ((builder t) (system symbol) &rest rest &key &allow-other-keys)
+  (apply #'build
+           builder
+           (asdf:find-system system)
+           rest))
 
 
-(defmethod build :around ((builder t) (system asdf:system))
+(defmethod build :around ((builder t) (system asdf:system) &key &allow-other-keys)
   (log:info "Building docs for system ~A found at ~A"
             system
             (asdf:system-relative-pathname system ""))
