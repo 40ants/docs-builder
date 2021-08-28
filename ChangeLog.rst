@@ -2,6 +2,12 @@
 ChangeLog
 =========
 
+0.6.1 (2021-08-28)
+==================
+
+Fixed argument passing to the builder. Previously
+error ``Unknown &KEY argument: :ERROR-ON-WARNINGS`` has happened.
+
 0.6.0 (2021-08-28)
 ==================
 

@@ -4,6 +4,8 @@
   (:import-from #:docs-builder/builder)
   (:import-from #:docs-builder/guesser)
   (:import-from #:log4cl)
+  (:import-from #:alexandria
+                #:remove-from-plistf)
   (:export #:build
            #:@index))
 (in-package docs-builder)
@@ -21,6 +23,8 @@
 (defun build (system &rest rest &key (error-on-warnings t) &allow-other-keys)
   "Builds HTML documentation for ASDF system and returns absolute path to the dir with docs."
   (log:info "Guessing builder")
+  (remove-from-plistf rest :error-on-warnings)
+  
   (let ((builder (docs-builder/guesser:guess-builder system)))
     (unless builder
       (error "Unable to guess documentation builder for ASDF system ~S"
