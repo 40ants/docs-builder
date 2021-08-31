@@ -18,6 +18,10 @@
 
 (defun find-all-sections (system)
   (let ((packages (system-packages system)))
+    (unless packages
+      (error "No packages with names like \"~A\""
+             (string-upcase (asdf:primary-system-name system))))
+    
     (loop with results = nil
           for package in packages
           do (do-external-symbols (symbol package)
@@ -107,7 +111,7 @@
        
            (values target-dir))))
       (t
-       (log:error "Unable to find any documentation section in the ~S system"
+       (log:error "Unable to find any documentation section in the ~S system. Export @index, @readme and @changelog 40ANTS-DOC:SECTION's please."
                   (asdf:component-name system))
-       (error "Unable to find any documentation section in the ~S system"
+       (error "Unable to find any documentation section in the ~S system.~%Export @index, @readme and @changelog 40ANTS-DOC:SECTION's please."
               (asdf:component-name system))))))

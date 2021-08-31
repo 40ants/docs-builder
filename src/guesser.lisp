@@ -35,12 +35,19 @@ If you want to add support for a new documentation generator, use DEFGUESSER mac
 
 
 (defmethod guess-builder ((system asdf:system))
-  (or (gethash system *system-to-builder*)
-      (setf (gethash system *system-to-builder*)
-       (loop for guesser in *guessers*
-             thereis (funcall guesser
-                              system)
-             finally (error "Unable to create documentation builder for system ~S"
-                            system)))))
+  (or (let ((builder (gethash system *system-to-builder*)))
+        (log:info "Using builder" builder)
+        builder)
+      (progn
+        (log:info "Guessing builder")
+
+        (setf (gethash system *system-to-builder*)
+              (loop for guesser in *guessers*
+                    thereis (progn
+                              (log:info "Running guesser" guesser)
+                              (funcall guesser
+                                       system))
+                    finally (error "Unable to create documentation builder for system ~S"
+                                   system))))))
 
 

@@ -2,6 +2,11 @@
 ChangeLog
 =========
 
+0.6.2 (2021-08-31)
+==================
+
+Speedup documentation builder guessing.
+
 0.6.1 (2021-08-28)
 ==================
 

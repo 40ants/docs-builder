@@ -22,7 +22,6 @@
 
 (defun build (system &rest rest &key (error-on-warnings t) &allow-other-keys)
   "Builds HTML documentation for ASDF system and returns absolute path to the dir with docs."
-  (log:info "Guessing builder")
   (remove-from-plistf rest :error-on-warnings)
   
   (let ((builder (docs-builder/guesser:guess-builder system)))

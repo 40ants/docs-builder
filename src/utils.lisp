@@ -19,9 +19,17 @@
       (:feature :windows \"winhttp\")
 "
   (etypecase item
+    (symbol (string-downcase
+             (symbol-name item)))
     (string item)
     (list
      (ecase (first item)
+       (:version
+        ;; Like (:VERSION "fare-utils" "1.0.0")
+        (ensure-supported (second item)))
+       (:require
+        ;; Like (:REQUIRE :SB-POSIX)
+        (ensure-supported (second item)))
        (:feature
         (when (uiop:featurep (second item))
           (ensure-supported (third item))))))))
@@ -30,26 +38,37 @@
 (defun external-dependencies (system &key all)
   "Returns a list of string with names of external dependencies of the system.
 
-   It works with package-inferred systems too, recursively collecting
-   external-dependencies of all subsystems.
+    It works with package-inferred systems too, recursively collecting
+    external-dependencies of all subsystems.
 
-   Warning! By default, this function does not return dependencies of dependencies.
-   To get them all, add :ALL T option."
-  (etypecase system
-    ((or symbol string)
-     (external-dependencies (asdf:find-system system)
-                             :all all))
-    (asdf:system
-     (loop for item in (asdf:system-depends-on system)
-           for real-item = (ensure-supported item)
-           when (and real-item
-                     (asdf/system:primary-system-p real-item))
-             collect real-item
-           when (and real-item
-                     (or all
-                         (not (asdf/system:primary-system-p real-item))))
-             append (external-dependencies real-item
-                                           :all all)))))
+    Warning! By default, this function does not return dependencies of dependencies.
+    To get them all, add :ALL T option."
+  (let ((visited nil)
+        (results nil))
+    (labels ((recurse (system)
+               (typecase system
+                 ((or string symbol)
+                  (recurse (asdf:find-system system)))
+                 
+                 (asdf:system
+                  (loop for item in (asdf:system-depends-on system)
+                        for real-item = (ensure-supported item)
+                        for seen = (when real-item
+                                     (member real-item visited :test #'equal))
+                        when (and real-item
+                                  (not seen)
+                                  (asdf/system:primary-system-p real-item))
+                        do (pushnew real-item results
+                                    :test #'string=)
+                        when (and real-item
+                                  (not seen)
+                                  (or all
+                                      (not (asdf/system:primary-system-p real-item))))
+                        do (push real-item visited)
+                           (recurse real-item))))))
+      (recurse system)
+      (values (sort results
+                    #'string<)))))
 
 
 (defgeneric system-packages (system)
@@ -81,12 +100,14 @@ builder uses it to find documentation sections.
   (:method ((system asdf:system))
 
     (let* ((package-name (string-upcase
-                           ;; If we are building documentation for the subsystem
+                          ;; If we are building documentation for the subsystem
                           ;; of a large ASDF package inferred system,
                           ;; then most probably we want to collect packages
                           ;; of the whole ASDF system.
-                          (asdf:primary-system-name system))))
-      (append (list (find-package package-name))
+                          (asdf:primary-system-name system)))
+           (primary-package (find-package package-name)))
+      (append (when primary-package
+                (list primary-package))
               (loop with prefix-name = (format nil "~A/" package-name)
                     with prefix-name-length = (length prefix-name)
                     for package in (list-all-packages)
@@ -96,4 +117,4 @@ builder uses it to find documentation sections.
                               (string= (subseq package-name
                                                0 prefix-name-length)
                                        prefix-name))
-                      collect package)))))
+                    collect package)))))
