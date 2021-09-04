@@ -2,6 +2,12 @@
 ChangeLog
 =========
 
+0.7.0 (2021-09-04)
+==================
+
+Added ``DOCS-CONFIG`` ASDF system to allow define
+a special config for documented systems.
+
 0.6.2 (2021-08-31)
 ==================
 
