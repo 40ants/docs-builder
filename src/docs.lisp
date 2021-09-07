@@ -54,11 +54,8 @@ can be extended to support other documentation builders, covered by examples in 
 
 (defsection docs-builder:@index (:title "Common Lisp Docs Builder"
                                  :ignore-words *ignore-words*
-                                 :external-docs (
-                                                 #P"/Users/art/projects/lisp/40ants-doc/docs/build/references.json"
-                                                 #P"/Users/art/projects/lisp/defmain/docs/build/references.json"
-                                                 ;; "https://40ants.com/doc/"
-                                                 ))
+                                 :external-docs ("https://40ants.com/doc/"
+                                                 "https://40ants.com/defmain/"))
   *badges*
   
   (docs-builder system)
