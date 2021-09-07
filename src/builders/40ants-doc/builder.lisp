@@ -8,7 +8,8 @@
                 #:section)
   (:import-from #:40ants-doc/full)
   (:import-from #:alexandria
-                #:remove-from-plistf))
+                #:remove-from-plistf
+                #:when-let))
 (in-package docs-builder/builders/40ants-doc/builder)
 
 
@@ -86,21 +87,24 @@
                        collect section))
                (readme-sections (remove-if-not #'readme-section-p
                                                root-sections))
-               (changelog-sections (remove-if-not #'changelog-section-p
-                                                  root-sections)))
+               (changelog-section (when-let ((sections (remove-if-not #'changelog-section-p
+                                                                      root-sections)))
+                                    (unless (= (length sections) 1)
+                                      (error "More than one @CHANGELOG section were found"))
+                                    (first sections))))
            (when (> (length doc-sections)
                     1)
              (warn "Found more then one root section: ~S, probably you forgot to include one into another"
                    root-sections))
-         
+
            (apply #'40ants-doc/builder:update-asdf-system-docs
                   (append doc-sections
                           ;; We want to include changelog into the HTML documentation
                           ;; and markdown version will be built because of :CHANGELOG-SECTIONS argument
-                          changelog-sections)
+                          (list changelog-section))
                   system
                   :readme-sections readme-sections
-                  :changelog-sections changelog-sections
+                  :changelog-sections changelog-section
                   :docs-dir target-dir
                   :base-url (unless local
                               (asdf/system:system-homepage system))

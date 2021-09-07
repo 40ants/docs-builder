@@ -2,7 +2,9 @@
   (:use #:cl)
   (:import-from #:40ants-doc
                 #:defsection)
-  (:documentation "The utils for documentation builders."))
+  (:documentation "The utils for documentation builders.")
+  (:export #:system-packages
+           #:external-dependencies))
 (in-package docs-builder/utils)
 
 

@@ -6,8 +6,14 @@
   (:import-from #:log4cl)
   (:import-from #:alexandria
                 #:remove-from-plistf)
+  (:import-from #:docs-builder/changelog
+                #:@changelog)
   (:export #:build
-           #:@index))
+           #:@index
+           #:@readme
+           #:@changelog
+           #:documentation-has-problems
+           #:num-of-warnings))
 (in-package docs-builder)
 
 

@@ -4,21 +4,37 @@
                 #:defsection)
   (:import-from #:docs-builder/builders/mgl-pax/guesser)
   (:import-from #:docs-builder/builders/geneva/guesser)
-  (:import-from #:docs-builder/utils))
+  (:import-from #:docs-builder/utils)
+  (:import-from #:docs-config
+                #:docs-config)
+  (:import-from #:docs-builder/core))
 (in-package docs-builder/docs)
 
 
-(defsection docs-builder:@index (:title "Common Lisp Docs Builder"
-                                 :ignore-words ("HTML"
-                                                "README"
-                                                "PACKAGE-INFERRED-SYSTEM"
-                                                "API"
-                                                "CLOS"))
-  "[![](https://github-actions.40ants.com/40ants/docs-builder/matrix.svg)](https://github.com/40ants/docs-builder/actions)"
-  
-  (docs-builder system)
+(defmethod docs-config ((system (eql (asdf:find-system "docs-builder"))))
+  ;; 40ANTS-DOC-THEME-40ANTS system will bring
+  ;; as dependency a full 40ANTS-DOC but we don't want
+  ;; unnecessary dependencies here:
+  (ql:quickload :40ants-doc-theme-40ants)
+  (list :theme
+        (find-symbol "40ANTS-THEME"
+                     (find-package "40ANTS-DOC-THEME-40ANTS"))))
 
-  "This system is a generic documentation builder for Common Lisp Systems.
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defparameter *ignore-words*
+    '("HTML"
+      "README"
+      "PACKAGE-INFERRED-SYSTEM"
+      "GIT"
+      "REPL"
+      "ASDF"
+      "MGL-PAX"
+      "API"
+      "CLOS"))
+
+  (defparameter *introduction*
+    "This system is a generic documentation builder for Common Lisp Systems.
 It able to generate HTML documentation for specified ASDF system.
 
 The idea is to use `docs-builder` as an universal HTML documentation builders
@@ -27,13 +43,42 @@ used inside [build-docs](https://40ants.com/build-docs) GitHub action, which can
 used to build docs update gh-pages for any Common Lisp library (if it is uses
 documentation generator supported by `docs-builder`).
 
-Currently Docs Builder supports only [MGL-PAX](https://github.com/melisgl/mgl-pax)
+Currently Docs Builder supports only 40ANTS-DOC, [MGL-PAX](https://github.com/melisgl/mgl-pax)
+and [Geneva](https://inters.co/geneva/open-geneva.html), but it
 can be extended to support other documentation builders, covered by examples in here:
-[cl-doc-systems.github.io](https://cl-doc-systems.github.io/)."
+[cl-doc-systems.github.io](https://cl-doc-systems.github.io/).")
+
+  (defparameter *badges*
+    "[![](https://github-actions.40ants.com/40ants/docs-builder/matrix.svg)](https://github.com/40ants/docs-builder/actions)"))
+
+
+(defsection docs-builder:@index (:title "Common Lisp Docs Builder"
+                                 :ignore-words *ignore-words*
+                                 :external-docs (
+                                                 #P"/Users/art/projects/lisp/40ants-doc/docs/build/references.json"
+                                                 #P"/Users/art/projects/lisp/defmain/docs/build/references.json"
+                                                 ;; "https://40ants.com/doc/"
+                                                 ))
+  *badges*
+  
+  (docs-builder system)
+
+  *introduction*
   
   (@usage section)
+  (@extending section)
   (@supported-builders section)
+  (@api section)
   (docs-builder/utils::@utils section)
+  (@roadmap section))
+
+
+(defsection docs-builder:@readme (:title "Common Lisp Docs Builder"
+                                  :ignore-words *ignore-words*)
+  *badges*
+  (docs-builder system)
+  *introduction*
+  (@usage section)
   (@roadmap section))
 
 
@@ -44,7 +89,7 @@ using the [GitHub action](https://40ants.com/build-docs)."
   (@repl-usage section)
   (@command-line-usage section)
   (@github-action-usage section)
-  (@extending section))
+  (@additional-params section))
 
 
 (defsection @repl-usage (:title "REPL")
@@ -140,6 +185,11 @@ jobs:
 
 You'll find more info in [the action's documentation](https://40ants.com/build-docs).
 ")
+
+
+(defsection @additional-params (:title "Additional Params")
+  "You can customize a builder by defining a method for this generic function:"
+  (docs-config:docs-config generic-function))
 
 
 (defsection @roadmap (:title "Roadmap")
@@ -282,6 +332,11 @@ Of cause, in reality this method could be a more complex. It should process all 
 and build API reference for the primary system and all package inferred subsystems.
 
 ")
+
+
+(defsection @api (:title "API")
+  (docs-builder/core:documentation-has-problems condition)
+  (docs-builder/core:num-of-warnings (reader docs-builder:documentation-has-problems)))
 
 
 (defsection @supported-builders (:title "Supported Docs Generators")
