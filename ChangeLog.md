@@ -2,6 +2,12 @@
 
 # ChangeLog
 
+<a id="x-28DOCS-BUILDER-2FCHANGELOG-3A-3A-7C0-2E7-2E1-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
+
+## 0.7.1 (2021-09-11)
+
+Fixed building documentation with [40ants-doc][a2c7] if changelog section is absent.
+
 <a id="x-28DOCS-BUILDER-2FCHANGELOG-3A-3A-7C0-2E7-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
 ## 0.7.0 (2021-09-04)
