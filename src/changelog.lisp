@@ -8,6 +8,8 @@
 (defchangelog (:ignore-words ("HTML"
                               "MGL-PAX"
                               "ERROR-ON-WARNINGS") )
+  (0.7.1 2021-09-11
+         "Fixed building documentation with 40ANTS-DOC if changelog section is absent.")
   (0.7.0 2021-09-04
          "Added DOCS-CONFIG:DOCS-CONFIG generic-function to allow define
           a special config for documented systems.")

@@ -101,7 +101,8 @@
                   (append doc-sections
                           ;; We want to include changelog into the HTML documentation
                           ;; and markdown version will be built because of :CHANGELOG-SECTIONS argument
-                          (list changelog-section))
+                          (when changelog-section
+                            (list changelog-section)))
                   system
                   :readme-sections readme-sections
                   :changelog-sections changelog-section
