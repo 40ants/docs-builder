@@ -1,6 +1,5 @@
 (uiop:define-package #:docs-builder/builders/mgl-pax/guesser
   (:use #:cl)
-  (:import-from #:quicklisp)
   (:import-from #:docs-builder/guesser)
   (:import-from #:40ants-doc
                 #:defsection
@@ -49,6 +48,6 @@ README files in the system's root directory.
     (when (member "mgl-pax"
                   deps
                   :test #'string-equal)
-      (ql:quickload :docs-builder/builders/mgl-pax/builder
-                    :silent t)
+      (uiop:symbol-call :ql :quickload :docs-builder/builders/mgl-pax/builder
+                            :silent t)
       (make-instance (intern "BUILDER" "DOCS-BUILDER/BUILDERS/MGL-PAX/BUILDER")))))

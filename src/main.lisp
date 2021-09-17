@@ -2,7 +2,6 @@
   (:use #:cl)
   (:import-from #:defmain
                 #:defmain)
-  (:import-from #:quicklisp)
   (:import-from #:docs-builder/core)
   (:import-from #:log4cl)
   (:import-from #:alexandria)
@@ -30,8 +29,8 @@
 
     (let* ((system-name (first systems)))
       (log:info "Quickloading system ~S" system-name)
-      (ql:quickload system-name
-                    :silent t)
+      (uiop:symbol-call :ql :quickload system-name
+                            :silent t)
 
       (let* ((output-dir (ignore-errors
                           (with-log-unhandled ()

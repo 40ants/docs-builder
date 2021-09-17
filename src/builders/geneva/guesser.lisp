@@ -1,6 +1,5 @@
 (uiop:define-package #:docs-builder/builders/geneva/guesser
   (:use #:cl)
-  (:import-from #:quicklisp)
   (:import-from #:docs-builder/guesser)
   (:import-from #:40ants-doc
                 #:defsection
@@ -26,6 +25,6 @@ then [Geneva](https://github.com/eugeneia/geneva) documentation generator will b
   (when (probe-file
          (asdf:system-relative-pathname system
                                         "docs/source/index.mk2"))
-    (ql:quickload :docs-builder/builders/geneva/builder
-                  :silent t)
+    (uiop:symbol-call :ql :quickload :docs-builder/builders/geneva/builder
+                          :silent t)
     (make-instance (intern "BUILDER" "DOCS-BUILDER/BUILDERS/GENEVA/BUILDER"))))

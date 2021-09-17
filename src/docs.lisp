@@ -2,7 +2,6 @@
   (:use #:cl)
   (:import-from #:40ants-doc
                 #:defsection)
-  (:import-from #:quicklisp)
   (:import-from #:docs-builder/builders/mgl-pax/guesser)
   (:import-from #:docs-builder/builders/geneva/guesser)
   (:import-from #:docs-builder/utils)
@@ -16,7 +15,7 @@
   ;; 40ANTS-DOC-THEME-40ANTS system will bring
   ;; as dependency a full 40ANTS-DOC but we don't want
   ;; unnecessary dependencies here:
-  (ql:quickload :40ants-doc-theme-40ants)
+  (uiop:symbol-call :ql :quickload :40ants-doc-theme-40ants)
   (list :theme
         (find-symbol "40ANTS-THEME"
                      (find-package "40ANTS-DOC-THEME-40ANTS"))))
@@ -248,8 +247,8 @@ To define a guesser, we'll be using DOCS-BUILDER/GUESSER:DEFGUESSER macro:
   (when (probe-file
          (asdf:system-relative-pathname system
                                         \"docs/source/index.mk2\"))
-    (ql:quickload :docs-builder/builders/geneva/builder
-                  :silent t)
+    (uiop:symbol-call :ql :quickload :docs-builder/builders/geneva/builder
+                          :silent t)
     (make-instance (intern \"BUILDER\" \"DOCS-BUILDER/BUILDERS/GENEVA/BUILDER\"))))
 ```
 

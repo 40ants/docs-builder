@@ -1,6 +1,5 @@
 (uiop:define-package #:docs-builder/builders/40ants-doc/guesser
   (:use #:cl)
-  (:import-from #:quicklisp)
   (:import-from #:docs-builder/guesser)
   (:import-from #:40ants-doc
                 #:defsection
@@ -59,6 +58,6 @@ README files in the system's root directory.
             ;; in 40ANTS-DOC :)))
             (string-equal (asdf:component-name system)
                           "40ants-doc"))
-    (ql:quickload :docs-builder/builders/40ants-doc/builder
-                  :silent t)
+    (uiop:symbol-call :ql :quickload :docs-builder/builders/40ants-doc/builder
+                          :silent t)
     (make-instance (intern "BUILDER" "DOCS-BUILDER/BUILDERS/40ANTS-DOC/BUILDER"))))
