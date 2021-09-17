@@ -2,6 +2,7 @@
   (:use #:cl)
   (:import-from #:40ants-doc
                 #:defsection)
+  (:import-from #:quicklisp)
   (:import-from #:docs-builder/builders/mgl-pax/guesser)
   (:import-from #:docs-builder/builders/geneva/guesser)
   (:import-from #:docs-builder/utils)

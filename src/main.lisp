@@ -2,6 +2,7 @@
   (:use #:cl)
   (:import-from #:defmain
                 #:defmain)
+  (:import-from #:quicklisp)
   (:import-from #:docs-builder/core)
   (:import-from #:log4cl)
   (:import-from #:alexandria)

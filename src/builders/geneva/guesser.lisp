@@ -1,5 +1,6 @@
 (uiop:define-package #:docs-builder/builders/geneva/guesser
   (:use #:cl)
+  (:import-from #:quicklisp)
   (:import-from #:docs-builder/guesser)
   (:import-from #:40ants-doc
                 #:defsection
