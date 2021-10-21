@@ -1,4 +1,4 @@
-(defpackage #:docs-builder/changelog
+(uiop:define-package #:docs-builder/changelog
   (:use #:cl)
   (:import-from #:40ants-doc/changelog
                 #:defchangelog))
@@ -7,7 +7,11 @@
 
 (defchangelog (:ignore-words ("HTML"
                               "MGL-PAX"
-                              "ERROR-ON-WARNINGS") )
+                              "ERROR-ON-WARNINGS")
+               :external-docs ("https://40ants.com/doc/"))
+  (0.8.0 2021-10-21
+         "DOCS-BUILDER/BUILDER:BUILD generic-function specialized on 40ANTS-DOC system now supports ROOT-SECTIONS argument.
+          You can specify this argument to render a multipage documentation and suppress a warning about more than one root section.")
   (0.7.1 2021-09-11
          "Fixed building documentation with 40ANTS-DOC if changelog section is absent.")
   (0.7.0 2021-09-04

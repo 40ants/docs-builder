@@ -61,11 +61,16 @@
 
 (defmethod docs-builder/builder:build ((builder builder) (system asdf:system)
                                        &rest rest
-                                       &key local)
-  (remove-from-plistf rest :local)
+                                       &key local root-sections)
+  (remove-from-plistf rest :local :root-sections)
   
-  (let ((root-sections (find-root-sections system))
-        (target-dir (asdf:system-relative-pathname system #P"docs/build/")))
+  (let* ((user-specified-root-sections (loop for item in root-sections
+                                             collect (typecase item
+                                                       (symbol (symbol-value item))
+                                                       (t item))))
+         (root-sections (or user-specified-root-sections
+                            (find-root-sections system)))
+         (target-dir (asdf:system-relative-pathname system #P"docs/build/")))
     
     (cond
       (root-sections
@@ -84,7 +89,7 @@
                  (loop for section in root-sections
                        unless (or (readme-section-p section)
                                   (changelog-section-p section))
-                       collect section))
+                         collect section))
                (readme-sections (remove-if-not #'readme-section-p
                                                root-sections))
                (changelog-section (when-let ((sections (remove-if-not #'changelog-section-p
@@ -92,10 +97,11 @@
                                     (unless (= (length sections) 1)
                                       (error "More than one @CHANGELOG section were found"))
                                     (first sections))))
-           (when (> (length doc-sections)
-                    1)
+           (when (and (> (length doc-sections)
+                         1)
+                      (not user-specified-root-sections))
              (warn "Found more then one root section: ~S, probably you forgot to include one into another"
-                   root-sections))
+                   doc-sections))
 
            (apply #'40ants-doc/builder:update-asdf-system-docs
                   (append doc-sections

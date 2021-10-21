@@ -18,7 +18,7 @@ will be used to build documentation.
 
 During the `build` phase, the builder will try to find documentation sections not refereced
 from any other sections. For each root section, builder will create a separate HTML
-page. If there are few root sections, make sure one of them is having \\@INDEX name.
+page. If there are few root sections, make sure one of them is having @INDEX name.
 Otherwise `index.html` page will not be created.
 
 Algorithm searches section amongh all exported symbols. If you don't want it to find
