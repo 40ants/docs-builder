@@ -16,6 +16,7 @@
 
 (defworkflow docs
   :on-push-to "master"
+  :on-pull-request t
   :jobs ((40ants-ci/jobs/docs:build-docs
           ;; There are still a few warnings which should be shown.
           ;; And I have no time to fix this.

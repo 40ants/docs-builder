@@ -7,8 +7,12 @@
 
 (defchangelog (:ignore-words ("HTML"
                               "MGL-PAX"
-                              "ERROR-ON-WARNINGS")
+                              "ERROR-ON-WARNINGS"
+                              "DYNAMIC-BINDINGS")
                :external-docs ("https://40ants.com/doc/"))
+  (0.9.0 2021-10-27
+         "Added support for DYNAMIC-BINDINGS key in [DOCS-CONFIG:DOCS-CONFIG][generic-function]'s results. This allows to configure documentation builder
+          in case if usual arguments passing is not enough.")
   (0.8.0 2021-10-21
          "DOCS-BUILDER/BUILDER:BUILD generic-function specialized on 40ANTS-DOC system now supports ROOT-SECTIONS argument.
           You can specify this argument to render a multipage documentation and suppress a warning about more than one root section.")
