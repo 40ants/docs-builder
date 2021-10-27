@@ -184,7 +184,8 @@ You'll find more info in [the action's documentation](https://40ants.com/build-d
 ")
 
 
-(defsection @additional-params (:title "Additional Params")
+(defsection @additional-params (:title "Additional Params"
+                                :ignore-words ("DYNAMIC-BINDINGS"))
   "You can customize a builder by defining a method for this generic function:"
   (docs-config:docs-config generic-function))
 

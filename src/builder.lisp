@@ -37,16 +37,22 @@
                              ;; Thats is why here we check both.
                              (unless (eql system primary-system)
                                (docs-config primary-system))))
+         (dynamic-bindings (getf special-config :dynamic-bindings))
+         (special-config (alexandria:remove-from-plist special-config
+                                                       :dynamic-bindings))
          (params (append rest
                          ;; Config defined for ASDF system goes after the method
                          ;; params because explicit params from REST should have higher priority.
                          (when special-config
                            (log:info "Using config ~S" special-config)
                            special-config)))
-         (result (apply #'call-next-method
-                        builder
-                        system
-                        params)))
+         (result (progv
+                     (mapcar #'car dynamic-bindings)
+                     (mapcar #'cdr dynamic-bindings)
+                   (apply #'call-next-method
+                          builder
+                          system
+                          params))))
     (when (or (null result)
               (not (uiop:directory-exists-p result)))
       (error "BUILD method of (~S ~S) should return a pathname to a directory with HTML docs."
