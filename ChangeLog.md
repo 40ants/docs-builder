@@ -2,11 +2,25 @@
 
 # ChangeLog
 
+<a id="x-28DOCS-BUILDER-2FCHANGELOG-3A-3A-7C0-2E9-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
+
+## 0.9.0 (2021-10-27)
+
+Added support for `DYNAMIC-BINDINGS` key in [`docs-config:docs-config`][37c9]'s results. This allows to configure documentation builder
+in case if usual arguments passing is not enough.
+
+<a id="x-28DOCS-BUILDER-2FCHANGELOG-3A-3A-7C0-2E8-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
+
+## 0.8.0 (2021-10-21)
+
+[`docs-builder/builder:build`][9de0] generic-function specialized on [`40ants-doc`][a2c7] system now supports `ROOT-SECTIONS` argument.
+You can specify this argument to render a multipage documentation and suppress a warning about more than one root section.
+
 <a id="x-28DOCS-BUILDER-2FCHANGELOG-3A-3A-7C0-2E7-2E1-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
 ## 0.7.1 (2021-09-11)
 
-Fixed building documentation with [40ants-doc][a2c7] if changelog section is absent.
+Fixed building documentation with [`40ants-doc`][a2c7] if changelog section is absent.
 
 <a id="x-28DOCS-BUILDER-2FCHANGELOG-3A-3A-7C0-2E7-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
@@ -32,19 +46,19 @@ error `Unknown &KEY argument: :ERROR-ON-WARNINGS` has happened.
 
 ## 0.6.0 (2021-08-28)
 
-Support new refactored [40ants-doc][a2c7] system.
+Support new refactored [`40ants-doc`][a2c7] system.
 
 <a id="x-28DOCS-BUILDER-2FCHANGELOG-3A-3A-7C0-2E5-2E3-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
 ## 0.5.3 (2021-05-08)
 
-Roswell script was fixed to work with latest [defmain][dc1a] system.
+Roswell script was fixed to work with latest [`defmain`][dc1a] system.
 
 <a id="x-28DOCS-BUILDER-2FCHANGELOG-3A-3A-7C0-2E5-2E2-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
 ## 0.5.2 (2021-04-25)
 
-Fixed the case when [40ants-doc][a2c7] or `MGL-PAX`
+Fixed the case when [`40ants-doc`][a2c7] or `MGL-PAX`
 builder found the same section twice. This could
 happen for a package-inferred system where
 some package has the same nickname as as a
@@ -82,7 +96,7 @@ in case of errors during the build.
 
 ## 0.4.0 (2021-04-05)
 
-* Added support for [40ants-doc][a2c7] documentation builder.
+* Added support for [`40ants-doc`][a2c7] documentation builder.
 
 * Switched `MGL-PAX` builder from my fork to original.
 
@@ -108,6 +122,7 @@ Initial version.
 
 [dc1a]: https://40ants.com/defmain/#x-28-23A-28-287-29-20BASE-CHAR-20-2E-20-22defmain-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29
 [a2c7]: https://40ants.com/doc/#x-28-23A-28-2810-29-20BASE-CHAR-20-2E-20-2240ants-doc-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29
+[9de0]: https://40ants.com/docs-builder/#x-28DOCS-BUILDER-2FBUILDER-3ABUILD-20GENERIC-FUNCTION-29
 [febf]: https://40ants.com/docs-builder/#x-28DOCS-BUILDER-3ABUILD-20FUNCTION-29
 [d28c]: https://40ants.com/docs-builder/#x-28DOCS-BUILDER-3ADOCUMENTATION-HAS-PROBLEMS-20CONDITION-29
 [37c9]: https://40ants.com/docs-builder/#x-28DOCS-CONFIG-3ADOCS-CONFIG-20GENERIC-FUNCTION-29
