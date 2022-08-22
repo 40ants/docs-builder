@@ -40,7 +40,7 @@ Speedup documentation builder guessing.
 ## 0.6.1 (2021-08-28)
 
 Fixed argument passing to the builder. Previously
-error `Unknown &KEY argument: :ERROR-ON-WARNINGS` has happened.
+error `Unknown &KEY argument: :ERROR-ON-WARNINGS` has happened. 
 
 <a id="x-28DOCS-BUILDER-2FCHANGELOG-3A-3A-7C0-2E6-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
