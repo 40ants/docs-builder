@@ -2,6 +2,12 @@
 
 # ChangeLog
 
+<a id="x-28DOCS-BUILDER-2FCHANGELOG-3A-3A-7C0-2E9-2E1-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
+
+## 0.9.1 (2022-10-26)
+
+Fixed an issue with warnings from `ASDF` find-system function. Also, a build now should go faster.
+
 <a id="x-28DOCS-BUILDER-2FCHANGELOG-3A-3A-7C0-2E9-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
 ## 0.9.0 (2021-10-27)
