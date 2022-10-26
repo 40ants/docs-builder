@@ -17,7 +17,7 @@
                    a custom theme for 40ANTS-DOC system:
 
                    ```lisp
-                   (defmethod docs-config ((system (eql (asdf:find-system \"cl-info\"))))
+                   (defmethod docs-config ((system (eql (asdf:registered-system \"cl-info\"))))
                      ;; 40ANTS-DOC-THEME-40ANTS system will bring
                      ;; as dependency a full 40ANTS-DOC but we don't want
                      ;; unnecessary dependencies here:
@@ -36,7 +36,7 @@
                    a method looks like when I configure Weblocks documentation builder:
 
                    ```
-                   (defmethod docs-config ((system (eql (asdf:find-system \"weblocks\"))))
+                   (defmethod docs-config ((system (eql (asdf:registered-system \"weblocks\"))))
                      ;; ...
                      (list :theme
                            (find-symbol \"40ANTS-THEME\"
@@ -51,6 +51,6 @@
   (:method ((system t))
     nil)
   (:method ((system-name symbol))
-    (docs-config (asdf:find-system system-name)))
+    (docs-config (asdf:registered-system system-name)))
   (:method ((system-name string))
-    (docs-config (asdf:find-system system-name))))
+    (docs-config (asdf:registered-system system-name))))

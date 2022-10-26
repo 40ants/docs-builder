@@ -50,7 +50,7 @@
     (labels ((recurse (system)
                (typecase system
                  ((or string symbol)
-                  (recurse (asdf:find-system system)))
+                  (recurse (asdf:registered-system system)))
                  
                  (asdf:system
                   (loop for item in (asdf:system-depends-on system)
@@ -96,9 +96,9 @@ For example, DOCS-BUILDER/BUILDERS/MGL-PAX/GUESSER:@INDEX
 builder uses it to find documentation sections.
 ")
   (:method ((system string))
-    (system-packages (asdf:find-system system)))
+    (system-packages (asdf:registered-system system)))
   (:method ((system symbol))
-    (system-packages (asdf:find-system system)))
+    (system-packages (asdf:registered-system system)))
   (:method ((system asdf:system))
 
     (let* ((package-name (string-upcase

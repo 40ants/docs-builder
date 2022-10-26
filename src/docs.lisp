@@ -11,7 +11,7 @@
 (in-package docs-builder/docs)
 
 
-(defmethod docs-config ((system (eql (asdf:find-system "docs-builder"))))
+(defmethod docs-config ((system (eql (asdf:registered-system "docs-builder"))))
   ;; 40ANTS-DOC-THEME-40ANTS system will bring
   ;; as dependency a full 40ANTS-DOC but we don't want
   ;; unnecessary dependencies here:

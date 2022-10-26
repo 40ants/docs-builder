@@ -14,14 +14,14 @@
 (defmethod build ((builder t) (system string) &rest rest &key &allow-other-keys)
   (apply #'build
          builder
-         (asdf:find-system system)
+         (asdf:registered-system system)
          rest))
 
 
 (defmethod build ((builder t) (system symbol) &rest rest &key &allow-other-keys)
   (apply #'build
            builder
-           (asdf:find-system system)
+           (asdf:registered-system system)
            rest))
 
 
@@ -30,7 +30,7 @@
             system
             (asdf:system-relative-pathname system ""))
   (let* ((primary-system
-           (asdf:find-system (asdf:primary-system-name system)))
+           (asdf:registered-system (asdf:primary-system-name system)))
          (special-config (or (docs-config system)
                              ;; You might be building docs for a subsystem,
                              ;; but specialize DOCS-CONFIG method on a primary system.
