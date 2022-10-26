@@ -7,9 +7,12 @@
 
 (defchangelog (:ignore-words ("HTML"
                               "MGL-PAX"
+                              "ASDF"
                               "ERROR-ON-WARNINGS"
                               "DYNAMIC-BINDINGS")
                :external-docs ("https://40ants.com/doc/"))
+  (0.9.1 2022-10-26
+         "Fixed an issue with warnings from ASDF find-system function. Also, a build now should go faster.")
   (0.9.0 2021-10-27
          "Added support for DYNAMIC-BINDINGS key in [DOCS-CONFIG:DOCS-CONFIG][generic-function]'s results. This allows to configure documentation builder
           in case if usual arguments passing is not enough.")

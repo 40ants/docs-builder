@@ -27,11 +27,11 @@ If you want to add support for a new documentation generator, use DEFGUESSER mac
 
 
 (defmethod guess-builder ((system symbol))
-  (guess-builder (asdf:find-system system)))
+  (guess-builder (asdf:registered-system system)))
 
 
 (defmethod guess-builder ((system string))
-  (guess-builder (asdf:find-system system)))
+  (guess-builder (asdf:registered-system system)))
 
 
 (defmethod guess-builder ((system asdf:system))
