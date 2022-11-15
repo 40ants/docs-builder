@@ -6,7 +6,7 @@
                 #:system-packages)
   (:import-from #:40ants-doc
                 #:section)
-  (:import-from #:40ants-doc/full)
+  (:import-from #:40ants-doc-full)
   (:import-from #:alexandria
                 #:remove-from-plistf
                 #:when-let))
@@ -56,7 +56,7 @@
                  (ignore-errors (asdf:system-homepage system)))))
     (when (and url
                (str:starts-with-p "https://github.com/" url))
-      (40ants-doc/github:make-github-source-uri-fn system url))))
+      (40ants-doc-full/github:make-github-source-uri-fn system url))))
 
 
 (defmethod docs-builder/builder:build ((builder builder) (system asdf:system)
@@ -103,7 +103,7 @@
              (warn "Found more then one root section: ~S, probably you forgot to include one into another"
                    doc-sections))
 
-           (apply #'40ants-doc/builder:update-asdf-system-docs
+           (apply #'40ants-doc-full/builder:update-asdf-system-docs
                   (append doc-sections
                           ;; We want to include changelog into the HTML documentation
                           ;; and markdown version will be built because of :CHANGELOG-SECTIONS argument

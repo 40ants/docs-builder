@@ -11,6 +11,8 @@
                               "ERROR-ON-WARNINGS"
                               "DYNAMIC-BINDINGS")
                :external-docs ("https://40ants.com/doc/"))
+  (0.10.0 2022-11-16
+          "Support new refactored 40ANTS-DOC system.")
   (0.9.1 2022-10-26
          "Fixed an issue with warnings from ASDF find-system function. Also, a build now should go faster.")
   (0.9.0 2021-10-27
