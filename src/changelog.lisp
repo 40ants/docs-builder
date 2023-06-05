@@ -1,9 +1,7 @@
 (uiop:define-package #:docs-builder/changelog
   (:use #:cl)
   (:import-from #:40ants-doc/changelog
-                #:defchangelog)
-  (:import-from #:docs-builder
-                #:build))
+                #:defchangelog))
 (in-package docs-builder/changelog)
 
 
@@ -15,7 +13,7 @@
                :external-docs ("https://40ants.com/doc/"))
   (0.11.0 2023-06-05
           "* Now docs builder tries to load system using either Quicklisp client or ASDF if system is not already loaded.
-           * Also a bug was fixed - previously BUILD function hanged in recursion in case if asdf system wasn't found.
+           * Also a bug was fixed - previously DOCS-BUILDER:BUILD function hanged in recursion in case if asdf system wasn't found.
              Now it will show an error.")
   (0.10.0 2022-11-16
           "Support new refactored 40ANTS-DOC system.")
