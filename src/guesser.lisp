@@ -26,12 +26,28 @@ If you want to add support for a new documentation generator, use DEFGUESSER mac
      (pushnew ',name *guessers*)))
 
 
+(defun find-or-load-system (system-name)
+  (let ((system (asdf:registered-system system-name)))
+    (cond
+      (system system)
+      (t
+       (let ((system (progn
+                       #+quicklisp
+                       (ql:quickload system-name)
+                       #-quicklisp
+                       (asdf:load-system system-name)
+                       (asdf:registered-system system-name))))
+         (unless system
+           (error "Unable to load system \"~A\" ensure it is accessible to ASDF or Quicklisp."
+                  system-name))
+         (values system))))))
+
 (defmethod guess-builder ((system symbol))
-  (guess-builder (asdf:registered-system system)))
+  (guess-builder (find-or-load-system system)))
 
 
 (defmethod guess-builder ((system string))
-  (guess-builder (asdf:registered-system system)))
+  (guess-builder (find-or-load-system system)))
 
 
 (defmethod guess-builder ((system asdf:system))
