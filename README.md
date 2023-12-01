@@ -9,17 +9,11 @@
 ## DOCS-BUILDER ASDF System Details
 
 * Description: A meta documentation builder for Common Lisp projects.
-
 * Licence: Unlicense
-
 * Author: Alexander Artemenko
-
 * Homepage: [https://40ants.com/docs-builder][3993]
-
 * Bug tracker: [https://github.com/40ants/docs-builder/issues][7d71]
-
 * Source control: [GIT][843b]
-
 * Depends on: [40ants-doc][2c00], [alexandria][8236], [docs-config][ce67], [log4cl][7f8b], [uiop][5274]
 
 This system is a generic documentation builder for Common Lisp Systems.
@@ -51,7 +45,7 @@ From the `REPL`, you need first to call a [`docs-builder:build`][febf] function:
 
 <a id="x-28DOCS-BUILDER-3ABUILD-20FUNCTION-29"></a>
 
-#### [function](6a20) `docs-builder:build` system &rest rest &key (error-on-warnings t) &allow-other-keys
+#### [function](83f8) `docs-builder:build` system &rest rest &key (error-on-warnings t) &allow-other-keys
 
 Builds `HTML` documentation for `ASDF` system and returns absolute path to the dir with docs.
 
@@ -59,7 +53,7 @@ Inside, it will try to guess which documentation builder should be used:
 
 <a id="x-28DOCS-BUILDER-2FGUESSER-3AGUESS-BUILDER-20GENERIC-FUNCTION-29"></a>
 
-#### [generic-function](77d5) `docs-builder/guesser:guess-builder` system
+#### [generic-function](b835) `docs-builder/guesser:guess-builder` system
 
 Returns a builder object which can be passed to the [`docs-builder/builder:build`][9de0] generic-function along with system.
 
@@ -71,7 +65,7 @@ Then it will pass the builder object and `ASDF` system to the [`docs-builder/bui
 
 <a id="x-28DOCS-BUILDER-2FBUILDER-3ABUILD-20GENERIC-FUNCTION-29"></a>
 
-#### [generic-function](589d) `docs-builder/builder:build` builder system &key local root-sections &allow-other-keys
+#### [generic-function](5d18) `docs-builder/builder:build` builder system &key local root-sections &allow-other-keys
 
 Builds `HTML` documentation for `ASDF` system and returns absolute path to the dir with docs.
 
@@ -160,7 +154,7 @@ You can customize a builder by defining a method for this generic function:
 
 <a id="x-28DOCS-CONFIG-3ADOCS-CONFIG-20GENERIC-FUNCTION-29"></a>
 
-#### [generic-function](e256) `docs-config:docs-config` asdf-system
+#### [generic-function](aab2) `docs-config:docs-config` asdf-system
 
 Should return a plist which will be passed as keyword
 arguments to the documentation builder when building
@@ -207,9 +201,7 @@ a method looks like when I configure Weblocks documentation builder:
 
 * Use [eazy-documentation][f9f7] as default fallback
   when no other builder was guessed.
-
 * Support other documentation generators, collected at https://cl-doc-systems.github.io/
-
 * Add ability to put a configuration file into the reporitory, for fine-tunning the builder.
 
 
@@ -223,10 +215,10 @@ a method looks like when I configure Weblocks documentation builder:
 [8884]: https://cl-doc-systems.github.io/
 [843b]: https://github.com/40ants/docs-builder
 [100b]: https://github.com/40ants/docs-builder/actions
-[589d]: https://github.com/40ants/docs-builder/blob/d90b94f54a75fb943c4e8e7088809f325021623e/src/builder.lisp#L10
-[e256]: https://github.com/40ants/docs-builder/blob/d90b94f54a75fb943c4e8e7088809f325021623e/src/config.lisp#L9
-[6a20]: https://github.com/40ants/docs-builder/blob/d90b94f54a75fb943c4e8e7088809f325021623e/src/core.lisp#L29
-[77d5]: https://github.com/40ants/docs-builder/blob/d90b94f54a75fb943c4e8e7088809f325021623e/src/guesser.lisp#L14
+[5d18]: https://github.com/40ants/docs-builder/blob/12b6827772e09510f46e2ec54b41827fc693d3f4/src/builder.lisp#L10
+[aab2]: https://github.com/40ants/docs-builder/blob/12b6827772e09510f46e2ec54b41827fc693d3f4/src/config.lisp#L9
+[83f8]: https://github.com/40ants/docs-builder/blob/12b6827772e09510f46e2ec54b41827fc693d3f4/src/core.lisp#L29
+[b835]: https://github.com/40ants/docs-builder/blob/12b6827772e09510f46e2ec54b41827fc693d3f4/src/guesser.lisp#L14
 [7d71]: https://github.com/40ants/docs-builder/issues
 [7927]: https://github.com/melisgl/mgl-pax
 [795a]: https://github.com/roswell/roswell

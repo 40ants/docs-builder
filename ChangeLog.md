@@ -7,7 +7,6 @@
 ## 0.11.0 (2023-06-05)
 
 * Now docs builder tries to load system using either Quicklisp client or `ASDF` if system is not already loaded.
-
 * Also a bug was fixed - previously [`docs-builder:build`][febf] function hanged in recursion in case if asdf system wasn't found.
   Now it will show an error.
 
@@ -118,7 +117,6 @@ in case of errors during the build.
 ## 0.4.0 (2021-04-05)
 
 * Added support for [`40ants-doc`][a2c7] documentation builder.
-
 * Switched `MGL-PAX` builder from my fork to original.
 
 <a id="x-28DOCS-BUILDER-2FCHANGELOG-3A-3A-7C0-2E3-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
