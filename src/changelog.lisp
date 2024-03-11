@@ -12,6 +12,8 @@
                               "ERROR-ON-WARNINGS"
                               "DYNAMIC-BINDINGS")
                :external-docs ("https://40ants.com/doc/"))
+  (0.11.1 2024-03-11
+          "* Fixed initite loop when the system is unknown to ASDF yet.")
   (0.11.0 2023-06-05
           "* Now docs builder tries to load system using either Quicklisp client or ASDF if system is not already loaded.
            * Also a bug was fixed - previously DOCS-BUILDER:BUILD function hanged in recursion in case if asdf system wasn't found.
