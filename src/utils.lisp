@@ -50,7 +50,11 @@
     (labels ((recurse (system)
                (typecase system
                  ((or string symbol)
-                  (recurse (asdf:registered-system system)))
+                  (let ((found-system (asdf:registered-system system)))
+                    (unless found-system
+                      (error "Unable to find system \"~A\". Try to load it using ASDF or Quicklisp."
+                             system))
+                    (recurse found-system)))
                  
                  (asdf:system
                   (loop for item in (asdf:system-depends-on system)
@@ -60,14 +64,14 @@
                         when (and real-item
                                   (not seen)
                                   (asdf/system:primary-system-p real-item))
-                        do (pushnew real-item results
-                                    :test #'string=)
+                          do (pushnew real-item results
+                                      :test #'string=)
                         when (and real-item
                                   (not seen)
                                   (or all
                                       (not (asdf/system:primary-system-p real-item))))
-                        do (push real-item visited)
-                           (recurse real-item))))))
+                          do (push real-item visited)
+                             (recurse real-item))))))
       (recurse system)
       (values (sort results
                     #'string<)))))
