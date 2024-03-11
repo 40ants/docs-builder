@@ -16,6 +16,7 @@
 (defworkflow linter
   :on-push-to "master"
   :on-pull-request t
+  :cache t
   :jobs ((40ants-ci/jobs/linter:linter
           :asdf-version *asdf-version*)))
 
@@ -23,6 +24,7 @@
 (defworkflow docs
   :on-push-to "master"
   :on-pull-request t
+  :cache t
   :jobs ((40ants-ci/jobs/docs:build-docs
           ;; There are still a few warnings which should be shown.
           ;; And I have no time to fix this.
