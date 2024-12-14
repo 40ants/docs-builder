@@ -2,6 +2,12 @@
 
 # ChangeLog
 
+<a id="x-28DOCS-BUILDER-2FCHANGELOG-3A-3A-7C0-2E12-2E0-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
+
+## 0.12.0 (2024-12-14)
+
+* Now `DYNAMIC_SPACE_SIZE` env variable can be used to control amount of memory available to `SBCL`, by default it is `1Gb`.
+
 <a id="x-28DOCS-BUILDER-2FCHANGELOG-3A-3A-7C0-2E11-2E1-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
 ## 0.11.1 (2024-03-11)
