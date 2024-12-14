@@ -1,7 +1,8 @@
 #!/bin/sh
 #|-*- mode:lisp -*-|#
 #|
-exec ros -Q -- $0 "$@"
+DYNAMIC_SPACE_SIZE=${DYNAMIC_SPACE_SIZE:-1Gb}
+exec ros dynamic-space-size=$DYNAMIC_SPACE_SIZE -Q -- $0 "$@"
 |#
 (progn ;;init forms
   (ros:ensure-asdf)

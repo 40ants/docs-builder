@@ -1,3 +1,4 @@
 /docs/
 /.qlot/
 README
+*.fasl

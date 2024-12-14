@@ -9,9 +9,14 @@
 (defchangelog (:ignore-words ("HTML"
                               "MGL-PAX"
                               "ASDF"
+                              "DYNAMIC_SPACE_SIZE"
+                              "1Gb"
+                              "SBCL"
                               "ERROR-ON-WARNINGS"
                               "DYNAMIC-BINDINGS")
                :external-docs ("https://40ants.com/doc/"))
+  (0.12.0 2024-12-14
+          "* Now `DYNAMIC_SPACE_SIZE` env variable can be used to control amount of memory available to SBCL, by default it is `1Gb`.")
   (0.11.1 2024-03-11
           "* Fixed initite loop when the system is unknown to ASDF yet.")
   (0.11.0 2023-06-05
