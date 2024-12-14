@@ -1,0 +1,323 @@
+<html lang=en>
+ <head>
+  <meta charset=UTF-8><meta name=viewport
+      content="width=device-width, initial-scale=1">
+  <title>Common Lisp Docs Builder</title>
+  <link rel=alternate
+        href="https://40ants.com/docs-builder/changelog.xml"
+        type="application/rss+xml">
+  <link rel=stylesheet type="text/css"
+        href=theme.css>
+  <script type="text/javascript" src=jquery.js></script>
+  <script type="text/javascript" src=toc.js></script>
+  <script type="text/javascript">$(document).ready(function() {$('a:has(img)').css('border-bottom', 'none')})</script>
+  <link rel=stylesheet type="text/css"
+      href=highlight.min.css>
+  <script type="text/javascript"
+          src=highlight.min.js></script>
+  <script type="text/javascript">hljs.highlightAll();</script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FL71WXK73K"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-FL71WXK73K');
+    </script>
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript" >
+       (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+       m[i].l=1*new Date();
+       for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+       k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+       (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+       ym(42462884, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true
+       });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/42462884" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+
+ </head>
+ <body>
+  <div class=page><a id=fork-me href="https://github.com/40ants/docs-builder">Fork me on GitHub</a>
+   <div class=navbar>
+    <div class=navbar-inner>
+     <a class=brand href="/">
+      <img class=logo
+           src="https://40ants.com/img/logo.svg"></a>
+     <ul class=nav>
+      <li><a href="/posts/">Blog</a>
+      <li><a href="/ru/posts/">Blog (RU)</a>
+      <li><a href="/tips/">Lisp Tips</a>
+      <li><a href="/projects/">Our Projects</a>
+      <li><a href="/about/">About</a>
+     </ul>
+    </div>
+   </div>
+   <input type=checkbox id=sidebar-check>
+   <label for=sidebar-check>
+    <div id=sidebar-trigger>
+     <span></span><span></span><span></span>
+    </div></label><div class=sidebar><div class=header><form class=search method=GET action="search/">
+      <input type=text name=q>
+      <input type=submit value=Search><span id=search-progress></span>
+     </form>
+    </div><div class=content><div class=page-toc><ul><li><p><a href="#x-28DOCS-BUILDER-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-28DOCS-BUILDER-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Common Lisp Docs Builder</a></p><ul><li><p><a href="#docs-builder-asdf-system-details" data-document="" data-node="docs-builder-asdf-system-details">DOCS-BUILDER ASDF System Details</a></p></li><li><p><a href="#x-28DOCS-BUILDER-2FDOCS-3A-3A-40USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-28DOCS-BUILDER-2FDOCS-3A-3A-40USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Usage</a></p><ul><li><p><a href="#x-28DOCS-BUILDER-2FDOCS-3A-3A-40REPL-USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-28DOCS-BUILDER-2FDOCS-3A-3A-40REPL-USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">REPL</a></p></li><li><p><a href="#x-28DOCS-BUILDER-2FDOCS-3A-3A-40COMMAND-LINE-USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-28DOCS-BUILDER-2FDOCS-3A-3A-40COMMAND-LINE-USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Command-line</a></p></li><li><p><a href="#x-28DOCS-BUILDER-2FDOCS-3A-3A-40GITHUB-ACTION-USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-28DOCS-BUILDER-2FDOCS-3A-3A-40GITHUB-ACTION-USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">GitHub Action</a></p></li><li><p><a href="#x-28DOCS-BUILDER-2FDOCS-3A-3A-40ADDITIONAL-PARAMS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-28DOCS-BUILDER-2FDOCS-3A-3A-40ADDITIONAL-PARAMS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Additional Params</a></p></li></ul></li><li><p><a href="#x-28DOCS-BUILDER-2FDOCS-3A-3A-40EXTENDING-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-28DOCS-BUILDER-2FDOCS-3A-3A-40EXTENDING-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Extending</a></p><ul><li><p><a href="#x-28DOCS-BUILDER-2FDOCS-3A-3A-40ADDING-A-BUILDER-CLASS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-28DOCS-BUILDER-2FDOCS-3A-3A-40ADDING-A-BUILDER-CLASS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Add a Builder Class</a></p></li><li><p><a href="#x-28DOCS-BUILDER-2FDOCS-3A-3A-40ADDING-A-GUESSER-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-28DOCS-BUILDER-2FDOCS-3A-3A-40ADDING-A-GUESSER-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Guessing a Doc Generator</a></p></li><li><p><a href="#x-28DOCS-BUILDER-2FDOCS-3A-3A-40ADDING-A-BUILD-METHOD-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-28DOCS-BUILDER-2FDOCS-3A-3A-40ADDING-A-BUILD-METHOD-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Add a Build Method</a></p></li></ul></li><li><p><a href="#x-28DOCS-BUILDER-2FDOCS-3A-3A-40SUPPORTED-BUILDERS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-28DOCS-BUILDER-2FDOCS-3A-3A-40SUPPORTED-BUILDERS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Supported Docs Generators</a></p><ul><li><p><a href="#x-28DOCS-BUILDER-2FBUILDERS-2F40ANTS-DOC-2FGUESSER-3A-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-28DOCS-BUILDER-2FBUILDERS-2F40ANTS-DOC-2FGUESSER-3A-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">40ANTS-DOC</a></p><ul><li><p><a href="#x-28DOCS-BUILDER-2FBUILDERS-2F40ANTS-DOC-2FGUESSER-3A-3A-40TODO-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-28DOCS-BUILDER-2FBUILDERS-2F40ANTS-DOC-2FGUESSER-3A-3A-40TODO-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">What is next</a></p></li></ul></li><li><p><a href="#x-28DOCS-BUILDER-2FBUILDERS-2FMGL-PAX-2FGUESSER-3A-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-28DOCS-BUILDER-2FBUILDERS-2FMGL-PAX-2FGUESSER-3A-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">MGL-PAX</a></p></li><li><p><a href="#x-28DOCS-BUILDER-2FBUILDERS-2FGENEVA-2FGUESSER-3A-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-28DOCS-BUILDER-2FBUILDERS-2FGENEVA-2FGUESSER-3A-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Geneva</a></p><ul><li><p><a href="#x-28DOCS-BUILDER-2FBUILDERS-2FGENEVA-2FGUESSER-3A-3A-40TODO-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-28DOCS-BUILDER-2FBUILDERS-2FGENEVA-2FGUESSER-3A-3A-40TODO-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">What is next</a></p></li></ul></li></ul></li><li><p><a href="#x-28DOCS-BUILDER-2FDOCS-3A-3A-40API-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-28DOCS-BUILDER-2FDOCS-3A-3A-40API-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">API</a></p></li><li><p><a href="#x-28DOCS-BUILDER-2FUTILS-3A-3A-40UTILS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-28DOCS-BUILDER-2FUTILS-3A-3A-40UTILS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Utilities</a></p></li><li><p><a href="#x-28DOCS-BUILDER-2FDOCS-3A-3A-40ROADMAP-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-28DOCS-BUILDER-2FDOCS-3A-3A-40ROADMAP-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Roadmap</a></p></li></ul></li><li><p><a href="changelog/#x-28DOCS-BUILDER-2FCHANGELOG-3A-40CHANGELOG-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="changelog/" data-node="x-28DOCS-BUILDER-2FCHANGELOG-3A-40CHANGELOG-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">ChangeLog</a></p></li></ul>
+     </div>
+    </div><div class=footer>
+     <a href="https://40ants.com/doc">[generated by 40ANTS-DOC]</a>
+    </div>
+   </div><div class=content role=main><h1>Common Lisp Docs Builder<a class=header-link
+     href=#x-28DOCS-BUILDER-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DOCS-BUILDER-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h1><p><a href="https://github.com/40ants/docs-builder/actions"><img src="https://github-actions.40ants.com/40ants/docs-builder/matrix.svg"/></a></p><h2 id="docs-builder-asdf-system-details">DOCS-BUILDER ASDF System Details</h2><ul><li><p>Description: A meta documentation builder for Common Lisp projects.</p></li><li><p>Licence: Unlicense</p></li><li><p>Author: Alexander Artemenko</p></li><li><p>Homepage: <a href="https://40ants.com/docs-builder">https://40ants.com/docs-builder</a></p></li><li><p>Bug tracker: <a href="https://github.com/40ants/docs-builder/issues">https://github.com/40ants/docs-builder/issues</a></p></li><li><p>Source control: <a href="https://github.com/40ants/docs-builder">GIT</a></p></li><li><p>Depends on: <a href="https://quickdocs.org/40ants-doc">40ants-doc</a>, <a href="https://quickdocs.org/alexandria">alexandria</a>, <a href="https://quickdocs.org/docs-config">docs-config</a>, <a href="https://quickdocs.org/log4cl">log4cl</a>, <a href="https://quickdocs.org/uiop">uiop</a></p></li></ul><p>This system is a generic documentation builder for Common Lisp Systems.
+It able to generate <code>HTML</code> documentation for specified <code>ASDF</code> system.</p><p>The idea is to use <code>docs-builder</code> as an universal <code>HTML</code> documentation builders
+which can be used in a continuous integration pipeline. For example, it is
+used inside <a href="https://40ants.com/build-docs">build-docs</a> GitHub action, which can be
+used to build docs update gh-pages for any Common Lisp library (if it is uses
+documentation generator supported by <code>docs-builder</code>).</p><p>Currently Docs Builder supports only <a href="https://40ants.com/doc/#x-28-23A-28-2810-29-20BASE-CHAR-20-2E-20-2240ants-doc-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29"><code>40ants-doc</code></a>, <a href="https://github.com/melisgl/mgl-pax">MGL-PAX</a>
+and <a href="https://inters.co/geneva/open-geneva.html">Geneva</a>, but it
+can be extended to support other documentation builders, covered by examples in here:
+<a href="https://cl-doc-systems.github.io/">cl-doc-systems.github.io</a>.</p><h2>Usage<a class=header-link
+     href=#x-28DOCS-BUILDER-2FDOCS-3A-3A-40USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DOCS-BUILDER-2FDOCS-3A-3A-40USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><p>Documentation can be built in a few ways: from the lisp <code>REPL</code>, command-line and
+using the <a href="https://40ants.com/build-docs">GitHub action</a>.</p><h3>REPL<a class=header-link
+     href=#x-28DOCS-BUILDER-2FDOCS-3A-3A-40REPL-USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DOCS-BUILDER-2FDOCS-3A-3A-40REPL-USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h3><p>From the <code>REPL</code>, you need first to call a <a href="https://40ants.com/docs-builder/#x-28DOCS-BUILDER-3ABUILD-20FUNCTION-29" data-document="https://40ants.com/docs-builder/" data-node="x-28DOCS-BUILDER-3ABUILD-20FUNCTION-29"><code>docs-builder:build</code></a> function:</p><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/docs-builder/blob/c5f5a252a3bb8b1ba43a27f684137ce8b1b778aa/src/core.lisp#L29">function</a><div class=reference-object><div class=object-name><a href=#x-28DOCS-BUILDER-3ABUILD-20FUNCTION-29 id=x-28DOCS-BUILDER-3ABUILD-20FUNCTION-29>docs-builder:build</a></div><div class=object-args><span class=locative-args>system &amp;rest rest &amp;key (error-on-warnings t) &amp;allow-other-keys</span></div></div><a class=bullet-link href=#x-28DOCS-BUILDER-3ABUILD-20FUNCTION-29></a></div><div class=bullet-content><p>Builds <code>HTML</code> documentation for <code>ASDF</code> system and returns absolute path to the dir with docs.</p></div></div><p>Inside, it will try to guess which documentation builder should be used:</p><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/docs-builder/blob/c5f5a252a3bb8b1ba43a27f684137ce8b1b778aa/src/guesser.lisp#L14">generic-function</a><div class=reference-object><div class=object-name><a href=#x-28DOCS-BUILDER-2FGUESSER-3AGUESS-BUILDER-20GENERIC-FUNCTION-29 id=x-28DOCS-BUILDER-2FGUESSER-3AGUESS-BUILDER-20GENERIC-FUNCTION-29>docs-builder/guesser:guess-builder</a></div><div class=object-args><span class=locative-args>system</span></div></div><a class=bullet-link href=#x-28DOCS-BUILDER-2FGUESSER-3AGUESS-BUILDER-20GENERIC-FUNCTION-29></a></div><div class=bullet-content><p>Returns a builder object which can be passed to the <a href="https://40ants.com/docs-builder/#x-28DOCS-BUILDER-2FBUILDER-3ABUILD-20GENERIC-FUNCTION-29" data-document="https://40ants.com/docs-builder/" data-node="x-28DOCS-BUILDER-2FBUILDER-3ABUILD-20GENERIC-FUNCTION-29"><code>docs-builder/builder:build</code></a> generic-function along with system.</p><p>The builder type is guessed using different euristics which depends on a documentation system.</p><p>If you want to add support for a new documentation generator, use <a href="https://40ants.com/docs-builder/#x-28DOCS-BUILDER-2FGUESSER-3ADEFGUESSER-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29" data-document="https://40ants.com/docs-builder/" data-node="x-28DOCS-BUILDER-2FGUESSER-3ADEFGUESSER-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29"><code>defguesser</code></a> macro.</p></div></div><p>Then it will pass the builder object and <code>ASDF</code> system to the <a href="https://40ants.com/docs-builder/#x-28DOCS-BUILDER-2FBUILDER-3ABUILD-20GENERIC-FUNCTION-29" data-document="https://40ants.com/docs-builder/" data-node="x-28DOCS-BUILDER-2FBUILDER-3ABUILD-20GENERIC-FUNCTION-29"><code>docs-builder/builder:build</code></a> generic-function:</p><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/docs-builder/blob/c5f5a252a3bb8b1ba43a27f684137ce8b1b778aa/src/builder.lisp#L10">generic-function</a><div class=reference-object><div class=object-name><a href=#x-28DOCS-BUILDER-2FBUILDER-3ABUILD-20GENERIC-FUNCTION-29 id=x-28DOCS-BUILDER-2FBUILDER-3ABUILD-20GENERIC-FUNCTION-29>docs-builder/builder:build</a></div><div class=object-args><span class=locative-args>builder system &amp;key local root-sections &amp;allow-other-keys</span></div></div><a class=bullet-link href=#x-28DOCS-BUILDER-2FBUILDER-3ABUILD-20GENERIC-FUNCTION-29></a></div><div class=bullet-content><p>Builds <code>HTML</code> documentation for <code>ASDF</code> system and returns absolute path to the dir with docs.</p></div></div><p>Here is an example how to build documentation for <code>:docs-builder</code> <code>ASDF</code> system:</p><pre><code class="lisp">CL-USER&gt; (docs-builder:build :docs-builder)
+ &lt;INFO&gt; [02:12:00] docs-builder/core core.lisp (build :before system) -
+  Building docs for system #&lt;PACKAGE-INFERRED-SYSTEM &quot;docs-builder&quot;&gt; found at /Users/art/projects/docs-builder/
+ &lt;INFO&gt; [02:12:00] docs-builder/builders/mgl-pax/builder builder.lisp (build builder system) -
+  Building docs in &quot;/Users/art/projects/docs-builder/docs/build/&quot; dir
+#P&quot;/Users/art/projects/docs-builder/docs/build/&quot;</code></pre><h3>Command-line<a class=header-link
+     href=#x-28DOCS-BUILDER-2FDOCS-3A-3A-40COMMAND-LINE-USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DOCS-BUILDER-2FDOCS-3A-3A-40COMMAND-LINE-USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h3><p>You can use builder from command-line. To do this, first install it using <a href="https://github.com/roswell/roswell">Roswell</a>:</p><pre><code class="bash"># Note, we need to install this patched mgl-pax
+# first, to be able to load docs-builder.
+# This step in necessary until this pull
+# will be merged:
+# https://github.com/melisgl/mgl-pax/pull/8
+
+$ ros install 40ants/doc
+
+$ ros install 40ants/docs-builder</code></pre><p>Here we call it to build documentation for &quot;docs-builder&quot; <code>ASDF</code> system:</p><pre><code class="">$ build-docs docs-builder
+ &lt;INFO&gt; [02:26:32] docs-builder/main main.lisp (main) -
+  Quickloading system &quot;docs-builder&quot;
+ &lt;INFO&gt; [02:26:34] docs-builder/core core.lisp (build :before system) -
+  Building docs for system #&lt;PACKAGE-INFERRED-SYSTEM &quot;docs-builder&quot;&gt; found at /Users/art/projects/docs-builder/
+ &lt;INFO&gt; [02:26:34] docs-builder/builders/mgl-pax/builder builder.lisp (build builder system) -
+  Building docs in &quot;/Users/art/projects/docs-builder/docs/build/&quot; dir
+Scan was called 2146 times.</code></pre><h3>GitHub Action<a class=header-link
+     href=#x-28DOCS-BUILDER-2FDOCS-3A-3A-40GITHUB-ACTION-USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DOCS-BUILDER-2FDOCS-3A-3A-40GITHUB-ACTION-USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h3><p>If you host your project on the GitHub, then the most easy way to build and host documentation
+would be to use <a href="https://pages.github.com/">Github Pages</a>.</p><p>To build docs and update the site, create a file <code>.github/workflows/docs.yml</code> with a content like this:</p><pre><code class="yaml">name: 'Docs'
+
+on:
+  # This will run tests on pushes
+  # to master branch and every monday:
+  push:
+    branches:
+      - 'main'
+      - 'master'
+  schedule:
+    - cron:  '0 10 * * 1'
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+    
+    env:
+      LISP: sbcl-bin
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: 40ants/setup-lisp@v1
+      - uses: 40ants/build-docs@v1
+        with:
+          asdf-system: cl-info</code></pre><p>You'll find more info in <a href="https://40ants.com/build-docs">the action's documentation</a>.</p><h3>Additional Params<a class=header-link
+     href=#x-28DOCS-BUILDER-2FDOCS-3A-3A-40ADDITIONAL-PARAMS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DOCS-BUILDER-2FDOCS-3A-3A-40ADDITIONAL-PARAMS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h3><p>You can customize a builder by defining a method for this generic function:</p><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/docs-builder/blob/c5f5a252a3bb8b1ba43a27f684137ce8b1b778aa/src/config.lisp#L9">generic-function</a><div class=reference-object><div class=object-name><a href=#x-28DOCS-CONFIG-3ADOCS-CONFIG-20GENERIC-FUNCTION-29 id=x-28DOCS-CONFIG-3ADOCS-CONFIG-20GENERIC-FUNCTION-29>docs-config:docs-config</a></div><div class=object-args><span class=locative-args>asdf-system</span></div></div><a class=bullet-link href=#x-28DOCS-CONFIG-3ADOCS-CONFIG-20GENERIC-FUNCTION-29></a></div><div class=bullet-content><p>Should return a plist which will be passed as keyword
+arguments to the documentation builder when building
+docs for a given asdf-system.</p><p>Implement a method, <code>EQL</code> specialized on a concrete <code>ASDF</code> system.</p><p>Here is a typical method I use for my own libraries to set
+a custom theme for <a href="https://40ants.com/doc/#x-28-23A-28-2810-29-20BASE-CHAR-20-2E-20-2240ants-doc-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29"><code>40ants-doc</code></a> system:</p><pre><code class="lisp">(defmethod docs-config ((system (eql (asdf:registered-system &quot;cl-info&quot;))))
+  ;; 40ANTS-DOC-THEME-40ANTS system will bring
+  ;; as dependency a full 40ANTS-DOC but we don't want
+  ;; unnecessary dependencies here:
+  (uiop:symbol-call :ql :quickload :40ants-doc-theme-40ants)
+  (list :theme
+        (find-symbol &quot;40ANTS-THEME&quot;
+                     (find-package &quot;40ANTS-DOC-THEME-40ANTS&quot;))))</code></pre><p>Try to load additional dependencies inside the method. This users of your
+library will not download dependencies needed only for building documentation.</p><p>For some special cases it might be useful to return a special key <code>DYNAMIC-BINDINGS</code>.
+This could be useful, for configuring some custom extensions like it did with
+interactive demos for the <a href="https://40ants.com/weblocks/">Weblocks</a>. Here is how
+a method looks like when I configure Weblocks documentation builder:</p><pre><code class="">(defmethod docs-config ((system (eql (asdf:registered-system &quot;weblocks&quot;))))
+  ;; ...
+  (list :theme
+        (find-symbol &quot;40ANTS-THEME&quot;
+                     (find-package &quot;40ANTS-DOC-THEME-40ANTS&quot;))
+        :dynamic-bindings (list (cons 'weblocks/doc/example:*server-url*
+                                      ;; When local examples server is running,
+                                      ;; we'll be using it instead of production:
+                                      (unless weblocks/doc/example::*port*
+                                        &quot;http://examples.40ants.com/&quot;))))</code></pre></div></div><h2>Extending<a class=header-link
+     href=#x-28DOCS-BUILDER-2FDOCS-3A-3A-40EXTENDING-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DOCS-BUILDER-2FDOCS-3A-3A-40EXTENDING-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><p>Docs builder was made to be extensible and here we see how to add support for a new
+documentation generator. A documentation builder we'll use is a <a href="https://inters.co/geneva/open-geneva.html">Geneva</a>.</p><p>Some time ago I've wrote <a href="https://github.com/cl-doc-systems/geneva">a template system</a> to demonstrate how to
+document <code>ASDF</code> system using Geneva. Lets try to automate docs building and add Geneva support to the <a href="https://40ants.com/docs-builder/#x-28-23A-28-2812-29-20BASE-CHAR-20-2E-20-22docs-builder-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29" data-document="https://40ants.com/docs-builder/" data-node="x-28-23A-28-2812-29-20BASE-CHAR-20-2E-20-22docs-builder-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29"><code>docs-builder</code></a>!</p><p>First, we need a way to detect if the system uses the Geneva. This is done using &quot;guesser&quot;.
+Let's define a guesser which will consider we are working with Geneva, if there is a <code>docs/source/index.mk2</code>
+file. Files with <code>*.mk2</code> extensions are special markup used by Geneva.</p><h3>Add a Builder Class<a class=header-link
+     href=#x-28DOCS-BUILDER-2FDOCS-3A-3A-40ADDING-A-BUILDER-CLASS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DOCS-BUILDER-2FDOCS-3A-3A-40ADDING-A-BUILDER-CLASS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h3><p>First thing we need to do is to create a builder class.</p><p>Create a <code>src/builders/geneva/builder.lisp</code> file with
+following content:</p><pre><code class="">(defclass builder ()
+  ())</code></pre><h3>Guessing a Doc Generator<a class=header-link
+     href=#x-28DOCS-BUILDER-2FDOCS-3A-3A-40ADDING-A-GUESSER-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DOCS-BUILDER-2FDOCS-3A-3A-40ADDING-A-GUESSER-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h3><p><code>DOCS-BUILDER</code> uses a number of euristics to determine the <code>CLOS</code> class
+to be used for documentation generation. Euristics are incapulated in
+&quot;guessers&quot;. Let's create a <code>src/builders/geneva/guesser.lisp</code> file
+and define a simple guesser, which will return the <code>builder</code> class defined
+in the previous section if a file <code>docs/sources/index.mk2</code> exists.</p><p>To define a guesser, we'll be using <a href="https://40ants.com/docs-builder/#x-28DOCS-BUILDER-2FGUESSER-3ADEFGUESSER-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29" data-document="https://40ants.com/docs-builder/" data-node="x-28DOCS-BUILDER-2FGUESSER-3ADEFGUESSER-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29"><code>docs-builder/guesser:defguesser</code></a> macro:</p><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/docs-builder/blob/c5f5a252a3bb8b1ba43a27f684137ce8b1b778aa/src/guesser.lisp#L22">macro</a><div class=reference-object><div class=object-name><a href=#x-28DOCS-BUILDER-2FGUESSER-3ADEFGUESSER-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29 id=x-28DOCS-BUILDER-2FGUESSER-3ADEFGUESSER-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29>docs-builder/guesser:defguesser</a></div><div class=object-args><span class=locative-args>name (system) &amp;body body</span></div></div><a class=bullet-link href=#x-28DOCS-BUILDER-2FGUESSER-3ADEFGUESSER-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29></a></div></div><pre><code class="">(docs-builder/guesser:defguesser geneva (system)
+  (when (probe-file
+         (asdf:system-relative-pathname system
+                                        &quot;docs/source/index.mk2&quot;))
+    (uiop:symbol-call :ql :quickload :docs-builder/builders/geneva/builder
+                          :silent t)
+    (make-instance (intern &quot;BUILDER&quot; &quot;DOCS-BUILDER/BUILDERS/GENEVA/BUILDER&quot;))))</code></pre><p>When all rules matched, guesser loads the builder package and all its dependencies.
+In our case, <code>Geneva</code> system will be loaded.</p><p>Add this guesser file to the <code>docs-builder.asd</code> file:</p><pre><code class="">(defsystem &quot;docs-builder&quot; 
+  :class :package-inferred-system
+  :author &quot;Alexander Artemenko&quot;
+  :license &quot;Unlicense&quot;
+  :pathname &quot;src&quot;
+  :description &quot;&quot;
+  :defsystem-depends-on (&quot;40ants-doc&quot;)
+  :depends-on (&quot;docs-builder/core&quot;
+               &quot;docs-builder/builders/40ants-doc/guesser&quot;
+               &quot;docs-builder/builders/mgl-pax/guesser&quot;
+               &quot;docs-builder/builders/geneva/guesser&quot;))</code></pre><p>This way, it will be loaded along with the primary system while
+<code>geneva/builder</code> and it's dependencies will be loaded only
+if the system we are building documentation for is using Geneva.</p><p>Now we can call <a href="https://40ants.com/docs-builder/#x-28DOCS-BUILDER-2FGUESSER-3AGUESS-BUILDER-20GENERIC-FUNCTION-29" data-document="https://40ants.com/docs-builder/" data-node="x-28DOCS-BUILDER-2FGUESSER-3AGUESS-BUILDER-20GENERIC-FUNCTION-29"><code>docs-builder/guesser:guess-builder</code></a> generic-function to create a builder for example
+system:</p><pre><code class="">CL-USER&gt; (docs-builder/guesser:guess-builder :example)
+#&lt;DOCS-BUILDER/BUILDERS/GENEVA/BUILDER::BUILDER {1003D89313}&gt;</code></pre><h3>Add a Build Method<a class=header-link
+     href=#x-28DOCS-BUILDER-2FDOCS-3A-3A-40ADDING-A-BUILD-METHOD-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DOCS-BUILDER-2FDOCS-3A-3A-40ADDING-A-BUILD-METHOD-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h3><p>Now open a <code>src/builders/geneva/builder.lisp</code> file again and
+add a method to the <a href="https://40ants.com/docs-builder/#x-28DOCS-BUILDER-2FBUILDER-3ABUILD-20GENERIC-FUNCTION-29" data-document="https://40ants.com/docs-builder/" data-node="x-28DOCS-BUILDER-2FBUILDER-3ABUILD-20GENERIC-FUNCTION-29"><code>docs-builder/builder:build</code></a> generic-function.
+The method should build <code>HTML</code> documentation and return a path to the folder.</p><pre><code class="">(defmethod docs-builder/builder:build ((builder builder) (system asdf:system))
+  (let* ((docs-source-dir
+           (asdf:system-relative-pathname system
+                                          &quot;docs/source/&quot;))
+         (docs-output-dir
+           (asdf:system-relative-pathname system
+                                          &quot;docs/build/&quot;))
+         (index-input-filename
+           (uiop:merge-pathnames* docs-source-dir
+                                  &quot;index.mk2&quot;))
+         (index-output-filename
+           (uiop:merge-pathnames* docs-output-dir
+                                  &quot;index.html&quot;))
+         (document (with-open-file (s index-input-filename)
+                     (geneva.mk2:read-mk2 s))))
+    (ensure-directories-exist docs-output-dir)
+    
+    (uiop:with-output-file (s index-output-filename
+                              :if-exists :supersede)
+      (geneva.html:render-html document :stream s)
+      ;; Return a directory with resulting docs:
+      docs-output-dir)))</code></pre><p>Finally, we can build our documentation:</p><pre><code class="">CL-USER&gt; (docs-builder:build :example)
+ &lt;INFO&gt; [23:53:48] docs-builder/builder builder.lisp (build :around system) -
+  Building docs for system #&lt;PACKAGE-INFERRED-SYSTEM &quot;example&quot;&gt; found at /Users/art/cl-doc-systems/geneva/
+#P&quot;/Users/art/cl-doc-systems/geneva/docs/build/&quot;</code></pre><p>Of cause, in reality this method could be a more complex. It should process all <code>*.mk2</code> files
+and build <code>API</code> reference for the primary system and all package inferred subsystems.</p><h2>Supported Docs Generators<a class=header-link
+     href=#x-28DOCS-BUILDER-2FDOCS-3A-3A-40SUPPORTED-BUILDERS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DOCS-BUILDER-2FDOCS-3A-3A-40SUPPORTED-BUILDERS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><h3>40ANTS-DOC<a class=header-link
+     href=#x-28DOCS-BUILDER-2FBUILDERS-2F40ANTS-DOC-2FGUESSER-3A-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DOCS-BUILDER-2FBUILDERS-2F40ANTS-DOC-2FGUESSER-3A-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h3><p>This guesser tries to find if your system depends on <a href="https://40ants.com/doc/#x-28-23A-28-2810-29-20BASE-CHAR-20-2E-20-2240ants-doc-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29"><code>40ants-doc</code></a> system.
+If it is, then the <a href="https://github.com/40ants/doc">40ANTS-DOC</a>
+will be used to build documentation.</p><p>During the <code>build</code> phase, the builder will try to find documentation sections not refereced
+from any other sections. For each root section, builder will create a separate <code>HTML</code>
+page. If there are few root sections, make sure one of them is having <a href="https://40ants.com/docs-builder/#x-28DOCS-BUILDER-2FBUILDERS-2F40ANTS-DOC-2FGUESSER-3A-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="https://40ants.com/docs-builder/" data-node="x-28DOCS-BUILDER-2FBUILDERS-2F40ANTS-DOC-2FGUESSER-3A-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"><code>40ants-doc</code></a> name.
+Otherwise <code>index.html</code> page will not be created.</p><p>Algorithm searches section amongh all exported symbols. If you don't want it to find
+some root section, just pass <code>:export nil</code> to the <a href="https://40ants.com/doc/#x-2840ANTS-DOC-3ADEFSECTION-20-2840ANTS-DOC-2FLOCATIVES-3AMACRO-29-29"><code>40ants-doc:defsection</code></a> macro.</p><p>If you want your documentation link back to the GitHub sources, make sure
+you have either <code>:homepage</code> or <code>:source-control</code> in your <code>ASDF</code> definition:</p><pre><code class="">(asdf:defsystem #:example
+  :licence &quot;MIT&quot;
+  :version &quot;0.0.3&quot;
+  :author &quot;John Doe&quot;
+  :mailto &quot;john@doe.me&quot;
+  :homepage &quot;https://github.com/john-doe/example&quot;
+  :source-control (:git &quot;https://github.com/john-doe/example&quot;)
+  ...)</code></pre><p><i>Note</i>, that this builder not only renders <code>HTML</code> documentation, but also updates
+<code>README</code> files in the system's root directory.</p><h4>What is next<a class=header-link
+     href=#x-28DOCS-BUILDER-2FBUILDERS-2F40ANTS-DOC-2FGUESSER-3A-3A-40TODO-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DOCS-BUILDER-2FBUILDERS-2F40ANTS-DOC-2FGUESSER-3A-3A-40TODO-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h4><ul><li><p>build a ChangeLog.md out of changelog.lisp, if it is exists</p></li></ul><h3>MGL-PAX<a class=header-link
+     href=#x-28DOCS-BUILDER-2FBUILDERS-2FMGL-PAX-2FGUESSER-3A-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DOCS-BUILDER-2FBUILDERS-2FMGL-PAX-2FGUESSER-3A-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h3><p>This guesser tries to find if your system depends on <code>MGL-PAX</code> system.
+If it is, then the <a href="https://github.com/melisgl/mgl-pax">MGL-PAX</a>
+will be used to build documentation.</p><p>During the <code>build</code> phase, the builder will try to find <code>MGL-PAX</code> sections not refereced
+from any other sections. For each root section, builder will create a separate <code>HTML</code>
+page. If there are few root sections, make sure one of them is having \<a href="https://40ants.com/docs-builder/#x-28DOCS-BUILDER-2FBUILDERS-2FMGL-PAX-2FGUESSER-3A-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="https://40ants.com/docs-builder/" data-node="x-28DOCS-BUILDER-2FBUILDERS-2FMGL-PAX-2FGUESSER-3A-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"><code>mgl-pax</code></a> name.
+Otherwise <code>index.html</code> page will not be created.</p><p>Algorithm searches section amongh all exported symbols. If you don't want it to find
+some root section, just pass <code>:export nil</code> to the <code>MGL-PAX:DEFSECTION</code> macro.</p><p>If you want your documentation link back to the GitHub sources, make sure
+you have either <code>:homepage</code> or <code>:source-control</code> in your <code>ASDF</code> definition:</p><pre><code class="">(asdf:defsystem #:example
+  :licence &quot;MIT&quot;
+  :version &quot;0.0.3&quot;
+  :author &quot;John Doe&quot;
+  :mailto &quot;john@doe.me&quot;
+  :homepage &quot;https://github.com/john-doe/example&quot;
+  :source-control (:git &quot;https://github.com/john-doe/example&quot;)
+  ...)</code></pre><p><i>Note</i>, that this builder not only renders <code>HTML</code> documentation, but also updates
+<code>README</code> files in the system's root directory.</p><h3>Geneva<a class=header-link
+     href=#x-28DOCS-BUILDER-2FBUILDERS-2FGENEVA-2FGUESSER-3A-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DOCS-BUILDER-2FBUILDERS-2FGENEVA-2FGUESSER-3A-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h3><p>This guesser tries to find a file <code>docs/sources/index.mk2</code> and if it exists
+then <a href="https://github.com/eugeneia/geneva">Geneva</a> documentation generator will be used.</p><h4>What is next<a class=header-link
+     href=#x-28DOCS-BUILDER-2FBUILDERS-2FGENEVA-2FGUESSER-3A-3A-40TODO-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DOCS-BUILDER-2FBUILDERS-2FGENEVA-2FGUESSER-3A-3A-40TODO-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h4><ul><li><p>make builder to process all <code>*.mk2</code> files in the <code>docs/sources/</code> dir.</p></li><li><p>build <code>API</code> reference pages for all packages created by the system.</p></li></ul><h2>API<a class=header-link
+     href=#x-28DOCS-BUILDER-2FDOCS-3A-3A-40API-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DOCS-BUILDER-2FDOCS-3A-3A-40API-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/docs-builder/blob/c5f5a252a3bb8b1ba43a27f684137ce8b1b778aa/src/core.lisp#L20">condition</a><div class=reference-object><div class=object-name><a href=#x-28DOCS-BUILDER-3ADOCUMENTATION-HAS-PROBLEMS-20CONDITION-29 id=x-28DOCS-BUILDER-3ADOCUMENTATION-HAS-PROBLEMS-20CONDITION-29>docs-builder:documentation-has-problems</a></div><div class=object-args><span class=locative-args></span></div></div><a class=bullet-link href=#x-28DOCS-BUILDER-3ADOCUMENTATION-HAS-PROBLEMS-20CONDITION-29></a></div></div><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/docs-builder/blob/c5f5a252a3bb8b1ba43a27f684137ce8b1b778aa/src/core.lisp#L20">reader</a><div class=reference-object><div class=object-name><a href=#x-28DOCS-BUILDER-3ANUM-OF-WARNINGS-20-2840ANTS-DOC-2FLOCATIVES-3AREADER-20DOCS-BUILDER-3ADOCUMENTATION-HAS-PROBLEMS-29-29 id=x-28DOCS-BUILDER-3ANUM-OF-WARNINGS-20-2840ANTS-DOC-2FLOCATIVES-3AREADER-20DOCS-BUILDER-3ADOCUMENTATION-HAS-PROBLEMS-29-29>docs-builder:num-of-warnings</a></div><div class=object-args><span class=locative-args></span><span class=locative-args>(:num-of-warnings)</span></div></div><a class=bullet-link href=#x-28DOCS-BUILDER-3ANUM-OF-WARNINGS-20-2840ANTS-DOC-2FLOCATIVES-3AREADER-20DOCS-BUILDER-3ADOCUMENTATION-HAS-PROBLEMS-29-29></a></div></div><h2>Utilities<a class=header-link
+     href=#x-28DOCS-BUILDER-2FUTILS-3A-3A-40UTILS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DOCS-BUILDER-2FUTILS-3A-3A-40UTILS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/docs-builder/blob/c5f5a252a3bb8b1ba43a27f684137ce8b1b778aa/src/utils.lisp#L40">function</a><div class=reference-object><div class=object-name><a href=#x-28DOCS-BUILDER-2FUTILS-3AEXTERNAL-DEPENDENCIES-20FUNCTION-29 id=x-28DOCS-BUILDER-2FUTILS-3AEXTERNAL-DEPENDENCIES-20FUNCTION-29>docs-builder/utils:external-dependencies</a></div><div class=object-args><span class=locative-args>system &amp;key all</span></div></div><a class=bullet-link href=#x-28DOCS-BUILDER-2FUTILS-3AEXTERNAL-DEPENDENCIES-20FUNCTION-29></a></div><div class=bullet-content><p>Returns a list of string with names of external dependencies of the system.</p><p>It works with package-inferred systems too, recursively collecting
+external-dependencies of all subsystems.</p><p>Warning! By default, this function does not return dependencies of dependencies.
+To get them all, add <code>:ALL</code> T option.</p></div></div><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/docs-builder/blob/c5f5a252a3bb8b1ba43a27f684137ce8b1b778aa/src/utils.lisp#L80">generic-function</a><div class=reference-object><div class=object-name><a href=#x-28DOCS-BUILDER-2FUTILS-3ASYSTEM-PACKAGES-20GENERIC-FUNCTION-29 id=x-28DOCS-BUILDER-2FUTILS-3ASYSTEM-PACKAGES-20GENERIC-FUNCTION-29>docs-builder/utils:system-packages</a></div><div class=object-args><span class=locative-args>system</span></div></div><a class=bullet-link href=#x-28DOCS-BUILDER-2FUTILS-3ASYSTEM-PACKAGES-20GENERIC-FUNCTION-29></a></div><div class=bullet-content><p>Returns a list of packages created by <code>ASDF</code> system.</p><p>Default implementation returns a package having the same name as a system
+and all packages matched to package-inferred subsystems:</p><pre><code class="">CL-USER&gt; (docs-builder/utils:system-packages :docs-builder)
+(#&lt;PACKAGE &quot;DOCS-BUILDER&quot;&gt;
+ #&lt;PACKAGE &quot;DOCS-BUILDER/UTILS&quot;&gt;
+ #&lt;PACKAGE &quot;DOCS-BUILDER/GUESSER&quot;&gt;
+ #&lt;PACKAGE &quot;DOCS-BUILDER/BUILDERS/GENEVA/GUESSER&quot;&gt;
+ #&lt;PACKAGE &quot;DOCS-BUILDER/BUILDER&quot;&gt;
+ #&lt;PACKAGE &quot;DOCS-BUILDER/BUILDERS/MGL-PAX/GUESSER&quot;&gt;
+ #&lt;PACKAGE &quot;DOCS-BUILDER/DOCS&quot;&gt;
+ #&lt;PACKAGE &quot;DOCS-BUILDER/BUILDERS/MGL-PAX/BUILDER&quot;&gt;)</code></pre><p>This function can be used by builder to find pieces of documentation.
+For example, <a href="https://40ants.com/docs-builder/#x-28DOCS-BUILDER-2FBUILDERS-2FMGL-PAX-2FGUESSER-3A-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="https://40ants.com/docs-builder/" data-node="x-28DOCS-BUILDER-2FBUILDERS-2FMGL-PAX-2FGUESSER-3A-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"><code>mgl-pax</code></a>
+builder uses it to find documentation sections.</p></div></div><h2>Roadmap<a class=header-link
+     href=#x-28DOCS-BUILDER-2FDOCS-3A-3A-40ROADMAP-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-28DOCS-BUILDER-2FDOCS-3A-3A-40ROADMAP-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><ul><li><p>Use <a href="https://guicho271828.github.io/eazy-documentation/">eazy-documentation</a> as default fallback
+  when no other builder was guessed.</p></li><li><p>Support other documentation generators, collected at https://cl-doc-systems.github.io/</p></li><li><p>Add ability to put a configuration file into the reporitory, for fine-tunning the builder.</p></li></ul>
+   </div><div class=footer>
+    <hr class=separator>
+    <p class=fineprint>Created with passion by <em>40Ants</em><a class=lisp-logo
+     href="http://lisp-lang.org/">
+      <img
+           src="https://40ants.com/img/made-with-lisp.svg"></a>
+   </div>
+  </div>
+ </body>
+</html>
