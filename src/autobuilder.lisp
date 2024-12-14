@@ -9,6 +9,8 @@
   (:import-from #:fs-watcher)
   (:import-from #:trivial-open-browser
                 #:open-browser)
+  (:import-from #:alexandria
+                #:remove-from-plistf)
   (:export #:build
            #:stop))
 (in-package #:docs-autobuilder)
@@ -67,9 +69,16 @@
                        (subseq file 0 (length root))))))
 
 
-(defun build (system &key in-thread port (interface "localhost"))
+(defun build (system &rest rest-args
+                     &key in-thread port (interface "localhost")
+                     &allow-other-keys)
   (when *server*
     (error "Server already running."))
+
+  (remove-from-plistf rest-args
+                      :in-thread
+                      :port
+                      :interface)
 
   (let* ((system-path (asdf:system-relative-pathname system "./"))
          (docs-path (handler-bind ((docs-builder:documentation-has-problems
@@ -88,7 +97,9 @@
                                   :address interface)))
          (url (format nil "http://~A:~A/"
                       interface port)))
-    (open-browser url)
+    
+    (with-simple-restart (skip-opening-the-browser "Skip opening the browser")
+      (open-browser url))
     
     (labels ((build-system (changed-file)
                (cond
@@ -105,7 +116,8 @@
                   (handler-case
                       (progn
                         (ql:quickload system)
-                        (docs-builder:build system))
+                        (apply #'docs-builder:build system
+                               rest-args))
                     (docs-builder:documentation-has-problems (c)
                       (log:error "Unable to build docs for ~A system. ~A"
                                  system c))
