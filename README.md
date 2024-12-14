@@ -45,7 +45,7 @@ From the `REPL`, you need first to call a [`docs-builder:build`][febf] function:
 
 <a id="x-28DOCS-BUILDER-3ABUILD-20FUNCTION-29"></a>
 
-#### [function](60c5) `docs-builder:build` system &rest rest &key (error-on-warnings t) &allow-other-keys
+#### [function](13ba) `docs-builder:build` system &rest rest &key (error-on-warnings t) &allow-other-keys
 
 Builds `HTML` documentation for `ASDF` system and returns absolute path to the dir with docs.
 
@@ -53,7 +53,7 @@ Inside, it will try to guess which documentation builder should be used:
 
 <a id="x-28DOCS-BUILDER-2FGUESSER-3AGUESS-BUILDER-20GENERIC-FUNCTION-29"></a>
 
-#### [generic-function](e787) `docs-builder/guesser:guess-builder` system
+#### [generic-function](74f3) `docs-builder/guesser:guess-builder` system
 
 Returns a builder object which can be passed to the [`docs-builder/builder:build`][9de0] generic-function along with system.
 
@@ -65,7 +65,7 @@ Then it will pass the builder object and `ASDF` system to the [`docs-builder/bui
 
 <a id="x-28DOCS-BUILDER-2FBUILDER-3ABUILD-20GENERIC-FUNCTION-29"></a>
 
-#### [generic-function](6418) `docs-builder/builder:build` builder system &key local root-sections &allow-other-keys
+#### [generic-function](18b9) `docs-builder/builder:build` builder system &key local root-sections &allow-other-keys
 
 Builds `HTML` documentation for `ASDF` system and returns absolute path to the dir with docs.
 
@@ -154,7 +154,7 @@ You can customize a builder by defining a method for this generic function:
 
 <a id="x-28DOCS-CONFIG-3ADOCS-CONFIG-20GENERIC-FUNCTION-29"></a>
 
-#### [generic-function](55d6) `docs-config:docs-config` asdf-system
+#### [generic-function](676f) `docs-config:docs-config` asdf-system
 
 Should return a plist which will be passed as keyword
 arguments to the documentation builder when building
@@ -215,10 +215,10 @@ a method looks like when I configure Weblocks documentation builder:
 [8884]: https://cl-doc-systems.github.io/
 [843b]: https://github.com/40ants/docs-builder
 [100b]: https://github.com/40ants/docs-builder/actions
-[6418]: https://github.com/40ants/docs-builder/blob/c83df45b13351e81bcbdc6d36d5e6668de3c6d15/src/builder.lisp#L10
-[55d6]: https://github.com/40ants/docs-builder/blob/c83df45b13351e81bcbdc6d36d5e6668de3c6d15/src/config.lisp#L9
-[60c5]: https://github.com/40ants/docs-builder/blob/c83df45b13351e81bcbdc6d36d5e6668de3c6d15/src/core.lisp#L29
-[e787]: https://github.com/40ants/docs-builder/blob/c83df45b13351e81bcbdc6d36d5e6668de3c6d15/src/guesser.lisp#L14
+[18b9]: https://github.com/40ants/docs-builder/blob/c5f5a252a3bb8b1ba43a27f684137ce8b1b778aa/src/builder.lisp#L10
+[676f]: https://github.com/40ants/docs-builder/blob/c5f5a252a3bb8b1ba43a27f684137ce8b1b778aa/src/config.lisp#L9
+[13ba]: https://github.com/40ants/docs-builder/blob/c5f5a252a3bb8b1ba43a27f684137ce8b1b778aa/src/core.lisp#L29
+[74f3]: https://github.com/40ants/docs-builder/blob/c5f5a252a3bb8b1ba43a27f684137ce8b1b778aa/src/guesser.lisp#L14
 [7d71]: https://github.com/40ants/docs-builder/issues
 [7927]: https://github.com/melisgl/mgl-pax
 [795a]: https://github.com/roswell/roswell
