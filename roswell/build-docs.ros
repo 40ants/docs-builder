@@ -1,6 +1,7 @@
 #!/bin/sh
 #|-*- mode:lisp -*-|#
 #|
+
 if [ "${DYNAMIC_SPACE_SIZE}" != "" ]; then
   OPTS="dynamic-space-size=${DYNAMIC_SPACE_SIZE}"
 else
@@ -8,6 +9,7 @@ else
 fi
 
 exec ros ${OPTS} -Q -- $0 "$@"
+
 |#
 (progn ;;init forms
   (ros:ensure-asdf)
