@@ -86,7 +86,8 @@
                                        (let ((restart (find-restart 'continue c)))
                                          (when restart
                                            (invoke-restart restart))))))
-                      (docs-builder:build system)))
+                      (apply #'docs-builder:build system
+                             rest-args)))
          (port (or port
                    (available-port interface)))
          (app (make-app docs-path))
