@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<rss version="2.0">
+    <channel>
+        <title>docs-builder ChangeLog</title>
+        <link>https://40ants.com/docs-builder</link>
+        <generator>xml-emitter</generator>
+        <language>en-us</language>
+        <item>
+            <title>0.12.0  (2024-12-14)</title>
+            <description>&lt;ul&gt;&lt;li&gt;&lt;p&gt;Now &lt;code&gt;DYNAMIC_SPACE_SIZE&lt;/code&gt; env variable can be used to control amount of memory available to &lt;code&gt;SBCL&lt;/code&gt;, by default it is &lt;code&gt;1Gb&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+            <pubDate>Sat, 14 Dec 2024 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.11.1  (2024-03-11)</title>
+            <description>&lt;ul&gt;&lt;li&gt;&lt;p&gt;Fixed initite loop when the system is unknown to &lt;code&gt;ASDF&lt;/code&gt; yet.&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+            <pubDate>Mon, 11 Mar 2024 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.11.0  (2023-06-05)</title>
+            <description>&lt;ul&gt;&lt;li&gt;&lt;p&gt;Now docs builder tries to load system using either Quicklisp client or &lt;code&gt;ASDF&lt;/code&gt; if system is not already loaded.&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;Also a bug was fixed - previously &lt;a href=&quot;https://40ants.com/docs-builder/#x-28DOCS-BUILDER-3ABUILD-20FUNCTION-29&quot; data-document=&quot;https://40ants.com/docs-builder/&quot; data-node=&quot;x-28DOCS-BUILDER-3ABUILD-20FUNCTION-29&quot;&gt;&lt;code&gt;docs-builder:build&lt;/code&gt;&lt;/a&gt; function hanged in recursion in case if asdf system wasn&apos;t found.
+  Now it will show an error.&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+            <pubDate>Mon, 05 Jun 2023 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.10.0  (2022-11-16)</title>
+            <description>&lt;p&gt;Support new refactored &lt;a href=&quot;https://40ants.com/doc/#x-28-23A-28-2810-29-20BASE-CHAR-20-2E-20-2240ants-doc-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29&quot;&gt;&lt;code&gt;40ants-doc&lt;/code&gt;&lt;/a&gt; system.&lt;/p&gt;</description>
+            <pubDate>Wed, 16 Nov 2022 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.9.1  (2022-10-26)</title>
+            <description>&lt;p&gt;Fixed an issue with warnings from &lt;code&gt;ASDF&lt;/code&gt; find-system function. Also, a build now should go faster.&lt;/p&gt;</description>
+            <pubDate>Wed, 26 Oct 2022 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.9.0  (2021-10-27)</title>
+            <description>&lt;p&gt;Added support for &lt;code&gt;DYNAMIC-BINDINGS&lt;/code&gt; key in &lt;a href=&quot;https://40ants.com/docs-builder/#x-28DOCS-CONFIG-3ADOCS-CONFIG-20GENERIC-FUNCTION-29&quot; data-document=&quot;https://40ants.com/docs-builder/&quot; data-node=&quot;x-28DOCS-CONFIG-3ADOCS-CONFIG-20GENERIC-FUNCTION-29&quot;&gt;&lt;code&gt;docs-config:docs-config&lt;/code&gt;&lt;/a&gt;&apos;s results. This allows to configure documentation builder
+in case if usual arguments passing is not enough.&lt;/p&gt;</description>
+            <pubDate>Wed, 27 Oct 2021 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.8.0  (2021-10-21)</title>
+            <description>&lt;p&gt;&lt;a href=&quot;https://40ants.com/docs-builder/#x-28DOCS-BUILDER-2FBUILDER-3ABUILD-20GENERIC-FUNCTION-29&quot; data-document=&quot;https://40ants.com/docs-builder/&quot; data-node=&quot;x-28DOCS-BUILDER-2FBUILDER-3ABUILD-20GENERIC-FUNCTION-29&quot;&gt;&lt;code&gt;docs-builder/builder:build&lt;/code&gt;&lt;/a&gt; generic-function specialized on &lt;a href=&quot;https://40ants.com/doc/#x-28-23A-28-2810-29-20BASE-CHAR-20-2E-20-2240ants-doc-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29&quot;&gt;&lt;code&gt;40ants-doc&lt;/code&gt;&lt;/a&gt; system now supports &lt;code&gt;ROOT-SECTIONS&lt;/code&gt; argument.
+You can specify this argument to render a multipage documentation and suppress a warning about more than one root section.&lt;/p&gt;</description>
+            <pubDate>Thu, 21 Oct 2021 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.7.1  (2021-09-11)</title>
+            <description>&lt;p&gt;Fixed building documentation with &lt;a href=&quot;https://40ants.com/doc/#x-28-23A-28-2810-29-20BASE-CHAR-20-2E-20-2240ants-doc-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29&quot;&gt;&lt;code&gt;40ants-doc&lt;/code&gt;&lt;/a&gt; if changelog section is absent.&lt;/p&gt;</description>
+            <pubDate>Sat, 11 Sep 2021 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.7.0  (2021-09-04)</title>
+            <description>&lt;p&gt;Added &lt;a href=&quot;https://40ants.com/docs-builder/#x-28DOCS-CONFIG-3ADOCS-CONFIG-20GENERIC-FUNCTION-29&quot; data-document=&quot;https://40ants.com/docs-builder/&quot; data-node=&quot;x-28DOCS-CONFIG-3ADOCS-CONFIG-20GENERIC-FUNCTION-29&quot;&gt;&lt;code&gt;docs-config:docs-config&lt;/code&gt;&lt;/a&gt; generic-function to allow define
+a special config for documented systems.&lt;/p&gt;</description>
+            <pubDate>Sat, 04 Sep 2021 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.6.2  (2021-08-31)</title>
+            <description>&lt;p&gt;Speedup documentation builder guessing.&lt;/p&gt;</description>
+            <pubDate>Tue, 31 Aug 2021 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.6.1  (2021-08-28)</title>
+            <description>&lt;p&gt;Fixed argument passing to the builder. Previously
+error &lt;code&gt;Unknown &amp;amp;KEY argument: :ERROR-ON-WARNINGS&lt;/code&gt; has happened. &lt;/p&gt;</description>
+            <pubDate>Sat, 28 Aug 2021 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.6.0  (2021-08-28)</title>
+            <description>&lt;p&gt;Support new refactored &lt;a href=&quot;https://40ants.com/doc/#x-28-23A-28-2810-29-20BASE-CHAR-20-2E-20-2240ants-doc-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29&quot;&gt;&lt;code&gt;40ants-doc&lt;/code&gt;&lt;/a&gt; system.&lt;/p&gt;</description>
+            <pubDate>Sat, 28 Aug 2021 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.5.3  (2021-05-08)</title>
+            <description>&lt;p&gt;Roswell script was fixed to work with latest &lt;a href=&quot;https://40ants.com/defmain/#x-28-23A-28-287-29-20BASE-CHAR-20-2E-20-22defmain-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29&quot;&gt;&lt;code&gt;defmain&lt;/code&gt;&lt;/a&gt; system.&lt;/p&gt;</description>
+            <pubDate>Sat, 08 May 2021 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.5.2  (2021-04-25)</title>
+            <description>&lt;p&gt;Fixed the case when &lt;a href=&quot;https://40ants.com/doc/#x-28-23A-28-2810-29-20BASE-CHAR-20-2E-20-2240ants-doc-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29&quot;&gt;&lt;code&gt;40ants-doc&lt;/code&gt;&lt;/a&gt; or &lt;code&gt;MGL-PAX&lt;/code&gt;
+builder found the same section twice. This could
+happen for a package-inferred system where
+some package has the same nickname as as a
+primary system.&lt;/p&gt;</description>
+            <pubDate>Sun, 25 Apr 2021 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.5.1  (2021-04-16)</title>
+            <description>&lt;p&gt;Fixed returning of the path to resulting docs.&lt;/p&gt;</description>
+            <pubDate>Fri, 16 Apr 2021 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.5.0  (2021-04-15)</title>
+            <description>&lt;p&gt;Now &lt;a href=&quot;https://40ants.com/docs-builder/#x-28DOCS-BUILDER-3ABUILD-20FUNCTION-29&quot; data-document=&quot;https://40ants.com/docs-builder/&quot; data-node=&quot;x-28DOCS-BUILDER-3ABUILD-20FUNCTION-29&quot;&gt;&lt;code&gt;docs-builder:build&lt;/code&gt;&lt;/a&gt; has a special argument &lt;code&gt;ERROR-ON-WARNINGS&lt;/code&gt;
+which is T by default. This flag causes a &lt;a href=&quot;https://40ants.com/docs-builder/#x-28DOCS-BUILDER-3ADOCUMENTATION-HAS-PROBLEMS-20CONDITION-29&quot; data-document=&quot;https://40ants.com/docs-builder/&quot; data-node=&quot;x-28DOCS-BUILDER-3ADOCUMENTATION-HAS-PROBLEMS-20CONDITION-29&quot;&gt;&lt;code&gt;docs-builder:documentation-has-problems&lt;/code&gt;&lt;/a&gt;
+continuable error signaled in case if there were some warnings
+during building the documentation.&lt;/p&gt;</description>
+            <pubDate>Thu, 15 Apr 2021 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.4.2  (2021-04-05)</title>
+            <description>&lt;p&gt;Fixed dependency on &lt;code&gt;log4cl-extras&lt;/code&gt;.&lt;/p&gt;</description>
+            <pubDate>Mon, 05 Apr 2021 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.4.1  (2021-04-05)</title>
+            <description>&lt;p&gt;Now utility will dump traceback
+in case of errors during the build.&lt;/p&gt;</description>
+            <pubDate>Mon, 05 Apr 2021 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.4.0  (2021-04-05)</title>
+            <description>&lt;ul&gt;&lt;li&gt;&lt;p&gt;Added support for &lt;a href=&quot;https://40ants.com/doc/#x-28-23A-28-2810-29-20BASE-CHAR-20-2E-20-2240ants-doc-22-29-20ASDF-2FSYSTEM-3ASYSTEM-29&quot;&gt;&lt;code&gt;40ants-doc&lt;/code&gt;&lt;/a&gt; documentation builder.&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;Switched &lt;code&gt;MGL-PAX&lt;/code&gt; builder from my fork to original.&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</description>
+            <pubDate>Mon, 05 Apr 2021 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.3.0  (2021-02-22)</title>
+            <description>&lt;p&gt;Now &lt;code&gt;MGL-PAX&lt;/code&gt; builder is able to discover all root sections and to build
+a multipage &lt;code&gt;HTML&lt;/code&gt; doc.&lt;/p&gt;</description>
+            <pubDate>Mon, 22 Feb 2021 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.2.0  (2021-02-21)</title>
+            <description>&lt;p&gt;Added basic support for Geneva documentation generator.&lt;/p&gt;</description>
+            <pubDate>Sun, 21 Feb 2021 00:00:00 +0000</pubDate>
+        </item>
+        <item>
+            <title>0.1.0  (2021-02-04)</title>
+            <description>&lt;p&gt;Initial version.&lt;/p&gt;</description>
+            <pubDate>Thu, 04 Feb 2021 00:00:00 +0000</pubDate>
+        </item>
+    </channel>
+</rss>
